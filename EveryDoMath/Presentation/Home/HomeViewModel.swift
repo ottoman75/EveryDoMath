@@ -44,6 +44,12 @@ final class HomeViewModel {
         return GameSession(grade: selectedGrade, problems: problems)
     }
 
+    /// 잠긴 학년의 무료 체험용 세션 생성 (5문제)
+    func createTrialSession() -> GameSession {
+        let problems = ProblemGenerator.generate(grade: selectedGrade, count: TrialManager.trialQuestionCount)
+        return GameSession(grade: selectedGrade, problems: problems)
+    }
+
     func updatePreferredGrade(_ grade: Grade) {
         selectedGrade = grade
         guard var p = profile else { return }

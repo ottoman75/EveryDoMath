@@ -184,6 +184,10 @@
 "result.level_label" = "Lv %d";
 "result.level_up" = "🎉 レベルアップ！Lv %d 達成！";
 
+/* Trial */
+"trial.label" = "体験";
+"trial.questions_count" = "(%d問 無料体験)";
+
 /* IAP */
 "iap.title" = "プレミアム解除";
 "iap.subtitle" = "より多くの学年を解除して\n算数力を伸ばしましょう！";
@@ -193,3 +197,11 @@
 "iap.error_title" = "購入エラー";
 "iap.load_failed" = "商品情報を読み込めません";
 "iap.retry" = "再試行";
+"iap.or_individual" = "または学年別購入";
+"iap.free_trial_badge" = "7日間無料体験";
+"iap.start_free_trial" = "無料で始める";
+"iap.start_subscription" = "始める";
+"iap.per_year" = "/年";
+"iap.per_month" = "/月";
+"iap.year_equivalent" = "(月約₩1,075相当)";
+"iap.active_subscription" = "利用中";

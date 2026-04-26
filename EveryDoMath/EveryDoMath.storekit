@@ -1,0 +1,170 @@
+{
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+
+    ]
+  },
+  "identifier" : "EveryDoMath",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "3900",
+      "familyShareable" : true,
+      "internalID" : "A1B2C3D1",
+      "localizations" : [
+        {
+          "description" : "3학년 수학 문제를 풀 수 있습니다.",
+          "displayName" : "3학년 잠금 해제",
+          "locale" : "ko_KR"
+        },
+        {
+          "description" : "Unlock grade 3 math problems.",
+          "displayName" : "Grade 3 Unlock",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.everydomath.grade3unlock",
+      "referenceName" : "Grade 3 Unlock",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3900",
+      "familyShareable" : true,
+      "internalID" : "A1B2C3D2",
+      "localizations" : [
+        {
+          "description" : "4학년 수학 문제를 풀 수 있습니다.",
+          "displayName" : "4학년 잠금 해제",
+          "locale" : "ko_KR"
+        },
+        {
+          "description" : "Unlock grade 4 math problems.",
+          "displayName" : "Grade 4 Unlock",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.everydomath.grade4unlock",
+      "referenceName" : "Grade 4 Unlock",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3900",
+      "familyShareable" : true,
+      "internalID" : "A1B2C3D3",
+      "localizations" : [
+        {
+          "description" : "5학년 수학 문제를 풀 수 있습니다.",
+          "displayName" : "5학년 잠금 해제",
+          "locale" : "ko_KR"
+        },
+        {
+          "description" : "Unlock grade 5 math problems.",
+          "displayName" : "Grade 5 Unlock",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.everydomath.grade5unlock",
+      "referenceName" : "Grade 5 Unlock",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3900",
+      "familyShareable" : true,
+      "internalID" : "A1B2C3D4",
+      "localizations" : [
+        {
+          "description" : "6학년 수학 문제를 풀 수 있습니다.",
+          "displayName" : "6학년 잠금 해제",
+          "locale" : "ko_KR"
+        },
+        {
+          "description" : "Unlock grade 6 math problems.",
+          "displayName" : "Grade 6 Unlock",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.everydomath.grade6unlock",
+      "referenceName" : "Grade 6 Unlock",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "9900",
+      "familyShareable" : true,
+      "internalID" : "A1B2C3D5",
+      "localizations" : [
+        {
+          "description" : "3~6학년 모든 수학 문제를 풀 수 있습니다.",
+          "displayName" : "전체 학년 잠금 해제",
+          "locale" : "ko_KR"
+        },
+        {
+          "description" : "Unlock all grades (3-6) math problems.",
+          "displayName" : "All Grades Unlock",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.everydomath.allgrades",
+      "referenceName" : "All Grades Unlock",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_askToBuyEnabled" : false,
+    "_billingGracePeriodEnabled" : false,
+    "_billingIssuesEnabled" : false,
+    "_disableDialogs" : false,
+    "_failTransactionsEnabled" : false,
+    "_locale" : "ko_KR",
+    "_renewalBillingIssuesEnabled" : false,
+    "_storefront" : "KOR",
+    "_storeKitErrors" : [
+      {
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ],
+    "_timeRate" : 0
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

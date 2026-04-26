@@ -184,6 +184,10 @@
 "result.level_label" = "Lv %d";
 "result.level_up" = "🎉 레벨 UP! Lv %d 달성!";
 
+/* Trial */
+"trial.label" = "체험";
+"trial.questions_count" = "(%d문제 무료 체험)";
+
 /* IAP */
 "iap.title" = "프리미엄 잠금 해제";
 "iap.subtitle" = "더 많은 학년을 열고\n수학 실력을 키워보세요!";
@@ -193,3 +197,11 @@
 "iap.error_title" = "구매 오류";
 "iap.load_failed" = "상품 정보를 불러올 수 없습니다";
 "iap.retry" = "다시 시도";
+"iap.or_individual" = "또는 개별 학년 구매";
+"iap.free_trial_badge" = "7일 무료 체험";
+"iap.start_free_trial" = "7일 무료로 시작";
+"iap.start_subscription" = "시작하기";
+"iap.per_year" = "/년";
+"iap.per_month" = "/월";
+"iap.year_equivalent" = "(월 ₩1,075 상당)";
+"iap.active_subscription" = "구독 중";

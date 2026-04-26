@@ -13,7 +13,12 @@ final class IAPManager {
         static let grade6 = "com.everydomath.grade6unlock"
         static let allGrades = "com.everydomath.allgrades"
 
-        static var all: [String] { [grade3, grade4, grade5, grade6, allGrades] }
+        // 구독 상품
+        static let subscriptionMonthly = "com.everydomath.subscription.monthly"
+        static let subscriptionYearly = "com.everydomath.subscription.yearly"
+
+        static var subscriptions: [String] { [subscriptionMonthly, subscriptionYearly] }
+        static var all: [String] { [grade3, grade4, grade5, grade6, allGrades, subscriptionMonthly, subscriptionYearly] }
 
         static func gradeId(for grade: Grade) -> String? {
             switch grade {
@@ -40,10 +45,18 @@ final class IAPManager {
 
     deinit { updateListenerTask?.cancel() }
 
+    // MARK: - 구독 상태
+
+    var hasActiveSubscription: Bool {
+        purchasedIds.contains(ProductID.subscriptionMonthly) ||
+        purchasedIds.contains(ProductID.subscriptionYearly)
+    }
+
     // MARK: - 학년 잠금 여부
 
     func isGradeUnlocked(_ grade: Grade) -> Bool {
         if grade.isFree { return true }
+        if hasActiveSubscription { return true }
         if purchasedIds.contains(ProductID.allGrades) { return true }
         if let id = ProductID.gradeId(for: grade) {
             return purchasedIds.contains(id)
@@ -55,12 +68,15 @@ final class IAPManager {
 
     func loadProducts() async {
         isLoading = true
+        print("🛍️ [IAP] 상품 로딩 시작: \(ProductID.all)")
         do {
             let loaded = try await Product.products(for: ProductID.all)
+            print("🛍️ [IAP] 로딩 완료: \(loaded.count)개, IDs: \(loaded.map(\.id))")
             products = loaded.sorted { $0.price < $1.price }
         } catch {
             errorMessage = error.localizedDescription
             print("❌ [IAP] 상품 로딩 실패: \(error)")
+            print("❌ [IAP] 에러 타입: \(type(of: error)), 코드: \((error as NSError).code)")
         }
         isLoading = false
     }

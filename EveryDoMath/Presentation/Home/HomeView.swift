@@ -181,8 +181,13 @@ struct HomeView: View {
 
     private var startButton: some View {
         Button {
-            if IAPManager.shared.isGradeUnlocked(viewModel.selectedGrade) {
+            let grade = viewModel.selectedGrade
+            if IAPManager.shared.isGradeUnlocked(grade) {
                 let session = viewModel.createNewSession()
+                appState.navigationPath.append(AppDestination.game(session))
+            } else if TrialManager.isTrialAvailable(for: grade) {
+                let session = viewModel.createTrialSession()
+                TrialManager.markTrialUsed(for: grade)
                 appState.navigationPath.append(AppDestination.game(session))
             } else {
                 showIAPStore = true

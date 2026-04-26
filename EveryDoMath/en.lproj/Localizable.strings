@@ -184,6 +184,10 @@
 "result.level_label" = "Lv %d";
 "result.level_up" = "🎉 Level UP! Lv %d!";
 
+/* Trial */
+"trial.label" = "Trial";
+"trial.questions_count" = "(%d questions free trial)";
+
 /* IAP */
 "iap.title" = "Unlock Premium";
 "iap.subtitle" = "Unlock more grades and\nlevel up your math skills!";
@@ -193,3 +197,11 @@
 "iap.error_title" = "Purchase Error";
 "iap.load_failed" = "Could not load products";
 "iap.retry" = "Try Again";
+"iap.or_individual" = "Or purchase by grade";
+"iap.free_trial_badge" = "7-Day Free Trial";
+"iap.start_free_trial" = "Start Free Trial";
+"iap.start_subscription" = "Subscribe";
+"iap.per_year" = "/year";
+"iap.per_month" = "/month";
+"iap.year_equivalent" = "(~₩1,075/mo)";
+"iap.active_subscription" = "Active";
