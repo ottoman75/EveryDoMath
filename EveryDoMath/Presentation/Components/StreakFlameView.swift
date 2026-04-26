@@ -22,7 +22,7 @@ struct StreakFlameView: View {
                     value: flicker
                 )
 
-            Text("\(streak)일 연속")
+            Text(verbatim: L("streak.label", streak))
                 .font(.system(size: 20, weight: .bold, design: .rounded))
                 .foregroundColor(.appText)
         }

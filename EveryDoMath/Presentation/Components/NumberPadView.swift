@@ -22,13 +22,12 @@ struct NumberPadView: View {
 
     var body: some View {
         VStack(spacing: 10) {
-            // 입력 모드 힌트
             if inputMode == .fraction {
-                Text("분자 / 분모 형식으로 입력 (예: 5/6)")
+                Text("numpad.fraction_hint")
                     .font(.system(size: 12, weight: .medium, design: .rounded))
                     .foregroundColor(.appSubtext)
             } else if inputMode == .decimal {
-                Text("소수점 포함 입력 (예: 3.8)")
+                Text("numpad.decimal_hint")
                     .font(.system(size: 12, weight: .medium, design: .rounded))
                     .foregroundColor(.appSubtext)
             }
@@ -45,9 +44,8 @@ struct NumberPadView: View {
                 }
             }
 
-            // 확인 버튼
             Button(action: onSubmit) {
-                Text("확인 ✓")
+                Text("numpad.confirm")
                     .font(.system(size: 20, weight: .bold, design: .rounded))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -77,7 +75,6 @@ struct NumberPadView: View {
             if input.count < maxLen { input += d }
 
         case .special(let s):
-            // "." 는 하나만 허용, "/" 는 하나만 허용
             if !input.contains(s) && !input.isEmpty {
                 input += s
             }
@@ -95,7 +92,7 @@ struct NumberPadView: View {
 
 private enum NumberPadButton: Identifiable {
     case digit(String)
-    case special(String)   // "." 또는 "/"
+    case special(String)
     case delete
     case empty
 

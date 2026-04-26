@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 @Observable
 final class ResultViewModel {
@@ -9,9 +10,17 @@ final class ResultViewModel {
     var totalTime: TimeInterval = 0
     var newAchievements: [Achievement] = []
     var isNewBestScore: Bool = false
+    var earnedXP: Int = 0
+    var didLevelUp: Bool = false
+    var levelBefore: Int = 1
+    var levelAfter: Int = 1
+    var currentTotalXP: Int = 0
 
     private let gameRepo = GameRepository()
     private let profileRepo = ProfileRepository()
+    private let challengeRepo = DailyChallengeRepository()
+    private let familyRepo = FamilyGroupRepository()
+    private let userIdentityRepo = UserIdentityRepository.shared
 
     init(session: GameSession) {
         self.session = session
@@ -35,6 +44,15 @@ final class ResultViewModel {
                 gameGrade: gameGrade
             )
             gameRepo.updateLeaderboard(with: entry)
+
+            // 서버 리더보드 업로드 (비동기, 실패해도 무관)
+            RemoteLeaderboardRepository.shared.uploadScore(
+                nickname: profile.nickname,
+                grade: session.grade,
+                score: finalScore,
+                gameGrade: gameGrade,
+                correctCount: session.correctCount
+            )
 
             // 프로필 업데이트
             var updatedProfile = profile
@@ -61,6 +79,56 @@ final class ResultViewModel {
                 profileRepo.saveAchievements(existingAchievements + newOnes)
                 newAchievements = newOnes
             }
+
+            // XP 계산 및 저장
+            let xp = XPSystem.xpEarned(
+                correctCount: session.correctCount,
+                maxCombo: session.maxCombo,
+                gameGrade: gameGrade
+            )
+            earnedXP = xp
+            levelBefore = XPSystem.level(for: updatedProfile.totalXP)
+            updatedProfile.totalXP += xp
+            levelAfter = XPSystem.level(for: updatedProfile.totalXP)
+            currentTotalXP = updatedProfile.totalXP
+            didLevelUp = levelAfter > levelBefore
+
+            // 스트릭 알림 업데이트
+            NotificationManager.shared.scheduleStreakReminder(streak: streak)
+
+            // 오늘의 도전 달성 체크
+            checkDailyChallenge()
+
+            // 가족 그룹 점수 업데이트 (비동기)
+            if let groupId = familyRepo.savedGroupId {
+                Task {
+                    try? await familyRepo.updateScore(
+                        groupId: groupId,
+                        uid: userIdentityRepo.userId,
+                        score: finalScore
+                    )
+                }
+            }
         }
+    }
+
+    private func checkDailyChallenge() {
+        let challenge = challengeRepo.loadChallenge()
+        guard !challenge.isCompleted else { return }
+        let records = profileRepo.loadDailyRecords()
+        let todaySessions = records.first(where: { $0.dateString == DailyRecord.todayString })?.sessionsPlayed ?? 0
+        if challenge.isAchieved(by: session, totalTodaySessions: todaySessions) {
+            challengeRepo.markCompleted()
+        }
+    }
+
+    @MainActor
+    func shareResult(nickname: String) {
+        let card = ShareCardView(session: session, grade: gameGrade, nickname: nickname)
+        let renderer = ImageRenderer(content: card)
+        renderer.scale = 3.0
+        guard let image = renderer.uiImage else { return }
+        let text = L("result.share_text", gameGrade.rawValue, finalScore)
+        presentShareSheet(items: [image, text])
     }
 }

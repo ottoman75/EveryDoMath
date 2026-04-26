@@ -9,30 +9,32 @@ struct FeedbackOverlayView: View {
 
     var body: some View {
         ZStack {
-            // 반투명 배경
             (isCorrect ? Color.appSuccess : Color.appDanger)
                 .opacity(0.25)
                 .ignoresSafeArea()
 
             VStack(spacing: 16) {
-                // 아이콘
                 Image(systemName: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
                     .font(.system(size: 80))
                     .foregroundColor(isCorrect ? .appSuccess : .appDanger)
 
-                // 텍스트
-                Text(isCorrect ? "정답!" : "오답!")
+                Text(isCorrect ? "feedback.correct" : "feedback.wrong")
                     .font(.system(size: 36, weight: .bold, design: .rounded))
                     .foregroundColor(.appText)
 
                 if isCorrect {
-                    Text("+\(earnedScore)점")
+                    Text(verbatim: L("feedback.score_earned", earnedScore))
                         .font(.system(size: 24, weight: .semibold, design: .rounded))
                         .foregroundColor(.appSuccess)
                 } else {
-                    Text("정답: \(correctAnswer)")
-                        .font(.system(size: 24, weight: .semibold, design: .rounded))
-                        .foregroundColor(.appSubtext)
+                    VStack(spacing: 6) {
+                        Text("feedback.correct_answer_label")
+                            .font(.system(size: 16, weight: .medium, design: .rounded))
+                            .foregroundColor(.appSubtext)
+                        Text(verbatim: correctAnswer)
+                            .font(.system(size: 48, weight: .black, design: .rounded))
+                            .foregroundColor(.appWarning)
+                    }
                 }
             }
             .scaleEffect(appear ? 1.0 : 0.5)

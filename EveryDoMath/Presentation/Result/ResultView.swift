@@ -15,7 +15,6 @@ struct ResultView: View {
 
     var body: some View {
         ZStack {
-            // 그라데이션 배경
             LinearGradient(
                 colors: [.appPrimaryStart, .appPrimaryEnd, .appBackground],
                 startPoint: .topLeading,
@@ -27,21 +26,18 @@ struct ResultView: View {
                 VStack(spacing: 28) {
                     Spacer().frame(height: 20)
 
-                    // 등급 배지
                     gradeBadge
 
-                    // 점수
                     scoreSection
 
-                    // 통계
                     statsSection
 
-                    // 신규 업적
+                    xpSection
+
                     if !viewModel.newAchievements.isEmpty {
                         newAchievementsSection
                     }
 
-                    // 버튼들
                     actionButtons
                 }
                 .padding(.horizontal, 20)
@@ -92,16 +88,16 @@ struct ResultView: View {
 
     private var scoreSection: some View {
         VStack(spacing: 8) {
-            Text("\(displayedScore)")
+            Text(verbatim: "\(displayedScore)")
                 .font(.system(size: 64, weight: .black, design: .rounded))
                 .foregroundColor(.white)
 
-            Text("점")
+            Text("result.points_unit")
                 .font(.system(size: 24, weight: .medium, design: .rounded))
                 .foregroundColor(.appSubtext)
 
             if viewModel.isNewBestScore {
-                Text("NEW BEST!")
+                Text("result.new_best")
                     .font(.system(size: 16, weight: .bold, design: .rounded))
                     .foregroundColor(.appWarning)
                     .padding(.horizontal, 12)
@@ -117,19 +113,19 @@ struct ResultView: View {
 
     private var statsSection: some View {
         HStack(spacing: 12) {
-            resultStatView(title: "정답", value: "\(viewModel.correctCount)/\(GameSession.problemCount)", color: .appSuccess)
-            resultStatView(title: "시간", value: String(format: "%.1f초", viewModel.totalTime), color: .appPrimaryStart)
-            resultStatView(title: "콤보", value: "\(session.score > 0 ? "x\(viewModel.correctCount)" : "-")", color: .appWarning)
+            resultStatView(title: L("result.stat_correct"), value: "\(viewModel.correctCount)/\(GameSession.problemCount)", color: .appSuccess)
+            resultStatView(title: L("result.stat_time"), value: String(format: "%.1fs", viewModel.totalTime), color: .appPrimaryStart)
+            resultStatView(title: L("result.stat_combo"), value: "\(session.score > 0 ? "x\(viewModel.correctCount)" : "-")", color: .appWarning)
         }
     }
 
     private func resultStatView(title: String, value: String, color: Color) -> some View {
         VStack(spacing: 6) {
-            Text(value)
+            Text(verbatim: value)
                 .font(.system(size: 20, weight: .bold, design: .rounded))
                 .foregroundColor(.appText)
 
-            Text(title)
+            Text(verbatim: title)
                 .font(.system(size: 13, weight: .medium, design: .rounded))
                 .foregroundColor(.appSubtext)
         }
@@ -141,11 +137,60 @@ struct ResultView: View {
         )
     }
 
+    // MARK: - XP Section
+
+    private var xpSection: some View {
+        VStack(spacing: 10) {
+            // 레벨업 배너
+            if viewModel.didLevelUp {
+                HStack(spacing: 8) {
+                    Text("🎉")
+                        .font(.system(size: 20))
+                    Text(verbatim: L("result.level_up", viewModel.levelAfter))
+                        .font(.system(size: 17, weight: .bold, design: .rounded))
+                        .foregroundColor(.appWarning)
+                }
+                .padding(.vertical, 6)
+            }
+
+            HStack {
+                Text(verbatim: L("result.xp_earned", viewModel.earnedXP))
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                    .foregroundColor(.appWarning)
+                Spacer()
+                Text(verbatim: L("result.level_label", viewModel.levelAfter))
+                    .font(.system(size: 15, weight: .semibold, design: .rounded))
+                    .foregroundColor(.appSubtext)
+            }
+
+            // XP 진행 바
+            let totalXP = viewModel.currentTotalXP
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 6)
+                        .fill(Color.appCardBorder)
+                        .frame(height: 10)
+                    RoundedRectangle(cornerRadius: 6)
+                        .fill(LinearGradient(
+                            colors: [.appPrimaryStart, .appWarning],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        ))
+                        .frame(width: geo.size.width * CGFloat(XPSystem.progress(for: totalXP)), height: 10)
+                        .animation(.easeOut(duration: 0.8), value: viewModel.earnedXP)
+                }
+            }
+            .frame(height: 10)
+        }
+        .padding(16)
+        .background(RoundedRectangle(cornerRadius: 16).fill(Color.appCard.opacity(0.8)))
+    }
+
     // MARK: - New Achievements
 
     private var newAchievementsSection: some View {
         VStack(spacing: 12) {
-            Text("새로운 업적!")
+            Text("result.new_achievements")
                 .font(.system(size: 18, weight: .bold, design: .rounded))
                 .foregroundColor(.appWarning)
 
@@ -172,13 +217,12 @@ struct ResultView: View {
 
     private var actionButtons: some View {
         VStack(spacing: 12) {
-            // 리더보드
             Button {
-                appState.navigationPath.append(AppDestination.leaderboard)
+                viewModel.shareResult(nickname: appState.profile?.nickname ?? L("profile.default_player"))
             } label: {
                 HStack(spacing: 8) {
-                    Image(systemName: "chart.bar.fill")
-                    Text("리더보드 보기")
+                    Image(systemName: "square.and.arrow.up")
+                    Text("result.share")
                 }
                 .font(.system(size: 17, weight: .semibold, design: .rounded))
                 .foregroundColor(.appText)
@@ -190,16 +234,31 @@ struct ResultView: View {
                 )
             }
 
-            // 다시 하기
             Button {
-                // 현재 result을 pop하고 새 게임 시작
+                appState.navigationPath.append(AppDestination.leaderboard)
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: "chart.bar.fill")
+                    Text("result.leaderboard")
+                }
+                .font(.system(size: 17, weight: .semibold, design: .rounded))
+                .foregroundColor(.appText)
+                .frame(maxWidth: .infinity)
+                .frame(height: 52)
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(Color.appCard)
+                )
+            }
+
+            Button {
                 appState.navigationPath.removeLast()
                 let newSession = GameSession.createNew(grade: session.grade)
                 appState.navigationPath.append(AppDestination.game(newSession))
             } label: {
                 HStack(spacing: 8) {
                     Image(systemName: "arrow.counterclockwise")
-                    Text("다시 하기")
+                    Text("result.play_again")
                 }
                 .font(.system(size: 17, weight: .bold, design: .rounded))
                 .foregroundColor(.white)
@@ -215,11 +274,10 @@ struct ResultView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 16))
             }
 
-            // 홈으로
             Button {
                 appState.navigationPath.removeLast(appState.navigationPath.count)
             } label: {
-                Text("홈으로")
+                Text("result.go_home")
                     .font(.system(size: 16, weight: .medium, design: .rounded))
                     .foregroundColor(.appSubtext)
             }

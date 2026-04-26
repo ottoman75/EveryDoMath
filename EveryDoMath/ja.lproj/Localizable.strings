@@ -1,0 +1,195 @@
+/* App */
+"app.tagline" = "毎日の算数チャレンジ";
+
+/* Grade */
+"grade.label" = "%d年生";
+
+/* Units */
+"unit.times_count" = "%d回";
+"unit.days" = "%d日";
+
+/* Home */
+"home.greeting" = "こんにちは、%@！";
+"home.grade_section" = "学年を選択";
+"home.today_play" = "今日のプレイ";
+"home.best_score" = "最高得点";
+"home.recent_achievements" = "最近の実績";
+"home.start_button" = "スタート";
+"home.parent_dashboard" = "保護者ダッシュボード";
+"home.leaderboard" = "リーダーボード";
+
+/* Profile Setup */
+"setup.nickname_label" = "ニックネーム";
+"setup.nickname_placeholder" = "名前を入力してください";
+"setup.grade_label" = "学年";
+"setup.start_button" = "はじめる →";
+
+/* Profile */
+"profile.title" = "プロフィール";
+"profile.nickname_placeholder" = "ニックネーム";
+"profile.default_player" = "プレイヤー";
+"profile.total_play" = "合計プレイ";
+"profile.best_score" = "最高得点";
+"profile.current_streak" = "現在のストリーク";
+"profile.achievements" = "実績";
+"profile.reset_button" = "データをリセット";
+"profile.reset_title" = "すべてのデータをリセット";
+"profile.reset_message" = "すべてのゲーム記録、実績、プロフィールが削除されます。この操作は取り消せません。";
+"profile.reset_cancel" = "キャンセル";
+"profile.reset_confirm" = "リセット";
+
+/* Game */
+"game.quit_button" = "諦める";
+"game.quit_title" = "ゲームを諦めますか？";
+"game.quit_continue" = "続ける";
+"game.quit_confirm" = "諦める";
+"game.quit_message" = "進行中の内容がすべて失われます。";
+"game.combo_format" = "%dコンボ";
+
+/* Result */
+"result.new_best" = "新記録！";
+"result.new_achievements" = "新しい実績！";
+"result.stat_correct" = "正解";
+"result.stat_time" = "タイム";
+"result.stat_combo" = "コンボ";
+"result.points_unit" = "点";
+"result.share" = "結果をシェア";
+"result.leaderboard" = "リーダーボードを見る";
+"result.play_again" = "もう一度";
+"result.go_home" = "ホームへ";
+"result.share_text" = "EveryDoMath %@評価・%d点達成！#算数王 #EveryDoMath";
+
+/* Share Card */
+"sharecard.correct_label" = "正解";
+"sharecard.time_label" = "タイム";
+"sharecard.grade_label" = "学年";
+"sharecard.hashtag" = "#算数王 #EveryDoMath";
+
+/* Feedback */
+"feedback.correct" = "正解！";
+"feedback.wrong" = "不正解！";
+"feedback.score_earned" = "+%d点";
+"feedback.correct_answer" = "答え: %@";
+"feedback.correct_answer_label" = "答え";
+
+/* Streak */
+"streak.label" = "%d日連続";
+
+/* Number Pad */
+"numpad.fraction_hint" = "分数で入力（例：5/6）";
+"numpad.decimal_hint" = "小数で入力（例：3.8）";
+"numpad.confirm" = "確認 ✓";
+
+/* Leaderboard */
+"leaderboard.title" = "リーダーボード";
+"leaderboard.filter_all" = "全て";
+"leaderboard.my_rank" = "自分の順位";
+"leaderboard.rank_format" = "%d位";
+"leaderboard.loading" = "グローバルランキング読込中...";
+"leaderboard.empty" = "まだ記録がありません";
+"leaderboard.empty_hint" = "ゲームをプレイすると表示されます";
+"leaderboard.local_fallback" = "ローカル記録を表示";
+"leaderboard.me_badge" = "自分";
+
+/* Parent Dashboard */
+"parent.title" = "保護者ダッシュボード";
+"parent.subtitle" = "お子さまの学習状況を確認";
+"parent.tab.stats" = "学習状況";
+"parent.tab.family" = "家族ボード";
+"parent.tab.goal" = "目標設定";
+"parent.card.total_games" = "合計ゲーム";
+"parent.card.best_score" = "最高得点";
+"parent.card.streak" = "ストリーク";
+"parent.chart.title" = "直近7日のプレイ";
+"parent.chart.today" = "今日";
+"parent.chart.days_ago" = "%d日前";
+"parent.accuracy.title" = "演算別正解率";
+
+/* Family Leaderboard */
+"family.invite_code" = "招待コード";
+"family.invite_hint" = "このコードを家族に教えてください";
+"family.leave_group" = "グループを退出";
+"family.join_prompt" = "家族と一緒に算数を解こう！";
+"family.code_placeholder" = "6桁のコード";
+"family.join_button" = "参加";
+"family.or" = "または";
+"family.create_group" = "新しいグループを作成";
+"family.score_format" = "%d点";
+"family.code_error" = "6桁のコードを入力してください。";
+"family.default_nickname" = "自分";
+
+/* Goal Settings */
+"goal.settings.daily_target" = "1日の目標ゲーム数";
+"goal.settings.daily_value" = "%d回";
+"goal.settings.grade_target" = "目標学年";
+"goal.settings.reminder" = "学習リマインダー";
+"goal.settings.reminder_time" = "通知時刻";
+"goal.settings.save" = "保存";
+
+/* Goal Progress */
+"goal.progress.label" = "今日の目標";
+"goal.progress.achieved" = "目標達成！すごい！";
+"goal.progress.remaining" = "あと%d回で達成！";
+
+/* Daily Challenge */
+"challenge.header" = "今日のチャレンジ";
+"challenge.completed" = "達成！";
+"challenge.progress_badge" = "%d/3回";
+
+/* Challenge Types */
+"challenge.speedRun.title" = "スピードラン";
+"challenge.speedRun.desc" = "1分以内に15問以上正解";
+"challenge.perfect.title" = "パーフェクト";
+"challenge.perfect.desc" = "20問全問正解";
+"challenge.comboMaster.title" = "コンボマスター";
+"challenge.comboMaster.desc" = "10問連続正解";
+"challenge.gradeHunter.title" = "S評価に挑戦";
+"challenge.gradeHunter.desc" = "S評価を達成";
+"challenge.consistency.title" = "コンスタント学習";
+"challenge.consistency.desc" = "今日3回プレイ";
+
+/* Achievement Types */
+"achievement.firstGame.title" = "初プレイ";
+"achievement.firstGame.desc" = "初めてのゲームを完了";
+"achievement.perfectScore.title" = "満点！";
+"achievement.perfectScore.desc" = "20問全問正解";
+"achievement.streak3.title" = "3日連続";
+"achievement.streak3.desc" = "3日連続でプレイ";
+"achievement.streak7.title" = "7日マスター";
+"achievement.streak7.desc" = "7日連続でプレイ";
+"achievement.streak30.title" = "30日レジェンド";
+"achievement.streak30.desc" = "30日連続でプレイ";
+"achievement.speedDemon.title" = "スピードキング";
+"achievement.speedDemon.desc" = "全問60秒以内で解答";
+"achievement.gradeS.title" = "S評価達成";
+"achievement.gradeS.desc" = "S評価を達成";
+"achievement.played10.title" = "10回達成";
+"achievement.played10.desc" = "累計10回プレイ";
+"achievement.played50.title" = "50回達成";
+"achievement.played50.desc" = "累計50回プレイ";
+"achievement.played100.title" = "100回達成";
+"achievement.played100.desc" = "累計100回プレイ";
+
+/* Notifications */
+"notif.streak.title_active" = "🔥 %d日連続挑戦中！";
+"notif.streak.body_active" = "今日も算数を解いてストリークを続けよう！";
+"notif.streak.title_new" = "今日は算数を解いてみよう！📚";
+"notif.streak.body_new" = "毎日少しずつ、算数力がアップ！";
+"notif.goal.title" = "📖 算数の学習時間です！";
+"notif.goal.body" = "今日の目標を達成しましょう！";
+
+/* XP & Level */
+"home.level_badge" = "Lv %d";
+"result.xp_earned" = "⭐ +%d XP";
+"result.level_label" = "Lv %d";
+"result.level_up" = "🎉 レベルアップ！Lv %d 達成！";
+
+/* IAP */
+"iap.title" = "プレミアム解除";
+"iap.subtitle" = "より多くの学年を解除して\n算数力を伸ばしましょう！";
+"iap.best_value" = "お得";
+"iap.restore" = "購入を復元";
+"iap.legal_notice" = "支払いはApple IDアカウントに請求されます。サブスクリプションは更新日の24時間前に自動更新されます。";
+"iap.error_title" = "購入エラー";
+"iap.load_failed" = "商品情報を読み込めません";
+"iap.retry" = "再試行";

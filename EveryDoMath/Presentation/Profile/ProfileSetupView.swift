@@ -13,7 +13,6 @@ struct ProfileSetupView: View {
             VStack(spacing: 40) {
                 Spacer()
 
-                // 앱 로고
                 VStack(spacing: 12) {
                     ZStack {
                         Circle()
@@ -42,18 +41,17 @@ struct ProfileSetupView: View {
                             )
                         )
 
-                    Text("매일 수학 챌린지")
+                    Text("app.tagline")
                         .font(.system(size: 16, weight: .medium, design: .rounded))
                         .foregroundColor(.appSubtext)
                 }
 
-                // 닉네임 입력
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("닉네임")
+                    Text("setup.nickname_label")
                         .font(.system(size: 14, weight: .semibold, design: .rounded))
                         .foregroundColor(.appSubtext)
 
-                    TextField("이름을 입력하세요", text: $nickname)
+                    TextField("setup.nickname_placeholder", text: $nickname)
                         .font(.system(size: 18, weight: .medium, design: .rounded))
                         .foregroundColor(.appText)
                         .padding(.horizontal, 16)
@@ -72,9 +70,8 @@ struct ProfileSetupView: View {
                 }
                 .padding(.horizontal, 24)
 
-                // 학년 선택
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("학년")
+                    Text("setup.grade_label")
                         .font(.system(size: 14, weight: .semibold, design: .rounded))
                         .foregroundColor(.appSubtext)
                         .padding(.horizontal, 24)
@@ -84,11 +81,10 @@ struct ProfileSetupView: View {
 
                 Spacer()
 
-                // 시작 버튼
                 Button {
                     saveAndStart()
                 } label: {
-                    Text("시작하기 →")
+                    Text("setup.start_button")
                         .font(.system(size: 20, weight: .bold, design: .rounded))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -127,7 +123,6 @@ struct ProfileSetupView: View {
         profileRepo.saveProfile(profile)
 
         appState.profile = profile
-        // isFirstLaunch이 false가 되어 ContentView가 HomeView로 전환됨
     }
 }
 

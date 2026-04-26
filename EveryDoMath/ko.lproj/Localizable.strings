@@ -1,0 +1,195 @@
+/* App */
+"app.tagline" = "매일 수학 챌린지";
+
+/* Grade */
+"grade.label" = "%d학년";
+
+/* Units */
+"unit.times_count" = "%d회";
+"unit.days" = "%d일";
+
+/* Home */
+"home.greeting" = "안녕, %@!";
+"home.grade_section" = "학년 선택";
+"home.today_play" = "오늘 플레이";
+"home.best_score" = "최고 점수";
+"home.recent_achievements" = "최근 업적";
+"home.start_button" = "시작하기";
+"home.parent_dashboard" = "부모 대시보드";
+"home.leaderboard" = "리더보드";
+
+/* Profile Setup */
+"setup.nickname_label" = "닉네임";
+"setup.nickname_placeholder" = "이름을 입력하세요";
+"setup.grade_label" = "학년";
+"setup.start_button" = "시작하기 →";
+
+/* Profile */
+"profile.title" = "프로필";
+"profile.nickname_placeholder" = "닉네임";
+"profile.default_player" = "플레이어";
+"profile.total_play" = "총 플레이";
+"profile.best_score" = "최고 점수";
+"profile.current_streak" = "현재 스트릭";
+"profile.achievements" = "업적";
+"profile.reset_button" = "데이터 초기화";
+"profile.reset_title" = "모든 데이터 초기화";
+"profile.reset_message" = "모든 게임 기록, 업적, 프로필이 삭제됩니다. 이 작업은 취소할 수 없습니다.";
+"profile.reset_cancel" = "취소";
+"profile.reset_confirm" = "초기화";
+
+/* Game */
+"game.quit_button" = "포기";
+"game.quit_title" = "게임을 포기하시겠습니까?";
+"game.quit_continue" = "계속하기";
+"game.quit_confirm" = "포기";
+"game.quit_message" = "현재 진행 상황이 모두 사라집니다.";
+"game.combo_format" = "%d 콤보";
+
+/* Result */
+"result.new_best" = "NEW BEST!";
+"result.new_achievements" = "새로운 업적!";
+"result.stat_correct" = "정답";
+"result.stat_time" = "시간";
+"result.stat_combo" = "콤보";
+"result.points_unit" = "점";
+"result.share" = "결과 공유하기";
+"result.leaderboard" = "리더보드 보기";
+"result.play_again" = "다시 하기";
+"result.go_home" = "홈으로";
+"result.share_text" = "EveryDoMath %@등급 · %d점 달성! #수학왕 #EveryDoMath";
+
+/* Share Card */
+"sharecard.correct_label" = "정답";
+"sharecard.time_label" = "시간";
+"sharecard.grade_label" = "학년";
+"sharecard.hashtag" = "#수학왕 #EveryDoMath";
+
+/* Feedback */
+"feedback.correct" = "정답!";
+"feedback.wrong" = "오답!";
+"feedback.score_earned" = "+%d점";
+"feedback.correct_answer" = "정답: %@";
+"feedback.correct_answer_label" = "정답";
+
+/* Streak */
+"streak.label" = "%d일 연속";
+
+/* Number Pad */
+"numpad.fraction_hint" = "분자 / 분모 형식으로 입력 (예: 5/6)";
+"numpad.decimal_hint" = "소수점 포함 입력 (예: 3.8)";
+"numpad.confirm" = "확인 ✓";
+
+/* Leaderboard */
+"leaderboard.title" = "리더보드";
+"leaderboard.filter_all" = "전체";
+"leaderboard.my_rank" = "내 순위";
+"leaderboard.rank_format" = "%d위";
+"leaderboard.loading" = "글로벌 순위 불러오는 중...";
+"leaderboard.empty" = "아직 기록이 없습니다";
+"leaderboard.empty_hint" = "게임을 플레이하면 여기에 표시됩니다";
+"leaderboard.local_fallback" = "로컬 기록 표시 중";
+"leaderboard.me_badge" = "나";
+
+/* Parent Dashboard */
+"parent.title" = "부모 대시보드";
+"parent.subtitle" = "자녀의 학습 현황을 확인하세요";
+"parent.tab.stats" = "학습 현황";
+"parent.tab.family" = "가족 리더보드";
+"parent.tab.goal" = "목표 설정";
+"parent.card.total_games" = "총 게임";
+"parent.card.best_score" = "최고 점수";
+"parent.card.streak" = "스트릭";
+"parent.chart.title" = "최근 7일 플레이";
+"parent.chart.today" = "오늘";
+"parent.chart.days_ago" = "%d일전";
+"parent.accuracy.title" = "연산별 정확도";
+
+/* Family Leaderboard */
+"family.invite_code" = "초대 코드";
+"family.invite_hint" = "가족에게 이 코드를 알려주세요";
+"family.leave_group" = "그룹 나가기";
+"family.join_prompt" = "가족과 함께 수학을 풀어보세요!";
+"family.code_placeholder" = "초대 코드 6자리";
+"family.join_button" = "참여";
+"family.or" = "또는";
+"family.create_group" = "새 그룹 만들기";
+"family.score_format" = "%d점";
+"family.code_error" = "6자리 코드를 입력해주세요.";
+"family.default_nickname" = "나";
+
+/* Goal Settings */
+"goal.settings.daily_target" = "하루 목표 게임 횟수";
+"goal.settings.daily_value" = "%d판";
+"goal.settings.grade_target" = "목표 학년";
+"goal.settings.reminder" = "학습 알림";
+"goal.settings.reminder_time" = "알림 시간";
+"goal.settings.save" = "저장하기";
+
+/* Goal Progress */
+"goal.progress.label" = "오늘의 목표";
+"goal.progress.achieved" = "목표 달성! 대단해요!";
+"goal.progress.remaining" = "%d판 더 하면 달성!";
+
+/* Daily Challenge */
+"challenge.header" = "오늘의 도전";
+"challenge.completed" = "완료!";
+"challenge.progress_badge" = "%d/3판";
+
+/* Challenge Types */
+"challenge.speedRun.title" = "스피드 런";
+"challenge.speedRun.desc" = "1분 안에 15개 이상 맞히기";
+"challenge.perfect.title" = "완벽한 도전";
+"challenge.perfect.desc" = "20문제를 모두 맞히기";
+"challenge.comboMaster.title" = "콤보 마스터";
+"challenge.comboMaster.desc" = "10개 연속으로 맞히기";
+"challenge.gradeHunter.title" = "S등급 도전";
+"challenge.gradeHunter.desc" = "S등급 달성하기";
+"challenge.consistency.title" = "꾸준한 학습";
+"challenge.consistency.desc" = "오늘 3판 플레이하기";
+
+/* Achievement Types */
+"achievement.firstGame.title" = "첫 게임";
+"achievement.firstGame.desc" = "첫 번째 게임을 완료했습니다";
+"achievement.perfectScore.title" = "만점!";
+"achievement.perfectScore.desc" = "20문제를 모두 맞혔습니다";
+"achievement.streak3.title" = "3일 연속";
+"achievement.streak3.desc" = "3일 연속으로 플레이했습니다";
+"achievement.streak7.title" = "7일 마스터";
+"achievement.streak7.desc" = "7일 연속으로 플레이했습니다";
+"achievement.streak30.title" = "30일 레전드";
+"achievement.streak30.desc" = "30일 연속으로 플레이했습니다";
+"achievement.speedDemon.title" = "스피드킹";
+"achievement.speedDemon.desc" = "전체 풀이 시간이 60초 이내입니다";
+"achievement.gradeS.title" = "S등급 달성";
+"achievement.gradeS.desc" = "S등급을 달성했습니다";
+"achievement.played10.title" = "10회 달성";
+"achievement.played10.desc" = "누적 10회 플레이했습니다";
+"achievement.played50.title" = "50회 달성";
+"achievement.played50.desc" = "누적 50회 플레이했습니다";
+"achievement.played100.title" = "100회 달성";
+"achievement.played100.desc" = "누적 100회 플레이했습니다";
+
+/* Notifications */
+"notif.streak.title_active" = "🔥 %d일 연속 도전 중!";
+"notif.streak.body_active" = "오늘도 수학 문제 풀고 스트릭을 이어가요!";
+"notif.streak.title_new" = "오늘 수학 문제 풀어볼까요? 📚";
+"notif.streak.body_new" = "매일 조금씩, 수학 실력이 쑥쑥!";
+"notif.goal.title" = "📖 수학 학습 시간이에요!";
+"notif.goal.body" = "오늘 목표를 달성해 볼까요?";
+
+/* XP & Level */
+"home.level_badge" = "Lv %d";
+"result.xp_earned" = "⭐ +%d XP";
+"result.level_label" = "Lv %d";
+"result.level_up" = "🎉 레벨 UP! Lv %d 달성!";
+
+/* IAP */
+"iap.title" = "프리미엄 잠금 해제";
+"iap.subtitle" = "더 많은 학년을 열고\n수학 실력을 키워보세요!";
+"iap.best_value" = "인기";
+"iap.restore" = "구매 복원";
+"iap.legal_notice" = "구매는 Apple ID 계정으로 청구됩니다. 구독은 갱신일 24시간 전 자동으로 갱신됩니다.";
+"iap.error_title" = "구매 오류";
+"iap.load_failed" = "상품 정보를 불러올 수 없습니다";
+"iap.retry" = "다시 시도";

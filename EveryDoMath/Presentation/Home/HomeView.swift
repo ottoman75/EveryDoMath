@@ -3,6 +3,7 @@ import SwiftUI
 struct HomeView: View {
     @Environment(AppState.self) private var appState
     @State private var viewModel = HomeViewModel()
+    @State private var showIAPStore = false
 
     var body: some View {
         ZStack {
@@ -10,37 +11,50 @@ struct HomeView: View {
 
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 24) {
-                    // 상단: 앱 타이틀 + 프로필 버튼
                     headerSection
 
-                    // 스트릭 섹션
                     if viewModel.currentStreak > 0 {
                         StreakFlameView(streak: viewModel.currentStreak)
                     }
 
-                    // 학년 선택
+                    DailyChallengeCardView(
+                        challenge: viewModel.dailyChallenge,
+                        todaySessionCount: viewModel.todaySessionCount
+                    )
+                    .padding(.horizontal, 20)
+
+                    if let progress = viewModel.goalProgress, progress.goal.dailySessionTarget > 0 {
+                        GoalProgressView(progress: progress)
+                    }
+
                     gradeSection
 
-                    // 오늘 기록
                     todayRecordSection
 
-                    // 최근 업적
                     if !viewModel.recentAchievements.isEmpty {
                         recentAchievementsSection
                     }
 
-                    // 시작하기 버튼
                     startButton
 
-                    // 리더보드 버튼
+                    parentDashboardButton
+
                     leaderboardButton
                 }
                 .padding(.vertical, 16)
             }
         }
         .navigationBarHidden(true)
+        .sheet(isPresented: $showIAPStore) {
+            IAPStoreView()
+        }
         .onAppear {
             viewModel.loadData()
+        }
+        .onChange(of: appState.navigationPath.count) { _, count in
+            if count == 0 {
+                viewModel.loadData()
+            }
         }
     }
 
@@ -60,9 +74,26 @@ struct HomeView: View {
                     )
 
                 if let profile = viewModel.profile {
-                    Text("안녕, \(profile.nickname)!")
-                        .font(.system(size: 16, weight: .medium, design: .rounded))
-                        .foregroundColor(.appSubtext)
+                    HStack(spacing: 8) {
+                        Text(verbatim: L("home.greeting", profile.nickname))
+                            .font(.system(size: 16, weight: .medium, design: .rounded))
+                            .foregroundColor(.appSubtext)
+
+                        Text(verbatim: L("home.level_badge", XPSystem.level(for: profile.totalXP)))
+                            .font(.system(size: 12, weight: .bold, design: .rounded))
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(
+                                Capsule().fill(
+                                    LinearGradient(
+                                        colors: [.appPrimaryStart, .appPrimaryEnd],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                            )
+                    }
                 }
             }
 
@@ -89,12 +120,14 @@ struct HomeView: View {
 
     private var gradeSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("학년 선택")
+            Text("home.grade_section")
                 .font(.system(size: 18, weight: .bold, design: .rounded))
                 .foregroundColor(.appText)
                 .padding(.horizontal, 20)
 
-            GradeSelectorView(selectedGrade: Bindable(viewModel).selectedGrade)
+            GradeSelectorView(selectedGrade: Bindable(viewModel).selectedGrade) {
+                showIAPStore = true
+            }
         }
     }
 
@@ -103,14 +136,14 @@ struct HomeView: View {
     private var todayRecordSection: some View {
         HStack(spacing: 16) {
             StatCardView(
-                title: "오늘 플레이",
-                value: "\(viewModel.todaySessionCount)회",
+                title: L("home.today_play"),
+                value: L("unit.times_count", viewModel.todaySessionCount),
                 iconName: "gamecontroller.fill",
                 color: .appPrimaryStart
             )
 
             StatCardView(
-                title: "최고 점수",
+                title: L("home.best_score"),
                 value: "\(viewModel.profile?.bestScore ?? 0)",
                 iconName: "trophy.fill",
                 color: .appWarning
@@ -123,7 +156,7 @@ struct HomeView: View {
 
     private var recentAchievementsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("최근 업적")
+            Text("home.recent_achievements")
                 .font(.system(size: 18, weight: .bold, design: .rounded))
                 .foregroundColor(.appText)
                 .padding(.horizontal, 20)
@@ -148,13 +181,17 @@ struct HomeView: View {
 
     private var startButton: some View {
         Button {
-            let session = viewModel.createNewSession()
-            appState.navigationPath.append(AppDestination.game(session))
+            if IAPManager.shared.isGradeUnlocked(viewModel.selectedGrade) {
+                let session = viewModel.createNewSession()
+                appState.navigationPath.append(AppDestination.game(session))
+            } else {
+                showIAPStore = true
+            }
         } label: {
             HStack(spacing: 12) {
                 Image(systemName: "play.fill")
                     .font(.system(size: 22))
-                Text("시작하기")
+                Text("home.start_button")
                     .font(.system(size: 22, weight: .bold, design: .rounded))
             }
             .foregroundColor(.white)
@@ -173,6 +210,29 @@ struct HomeView: View {
         .padding(.horizontal, 20)
     }
 
+    // MARK: - Parent Dashboard Button
+
+    private var parentDashboardButton: some View {
+        Button {
+            appState.navigationPath.append(AppDestination.parentDashboard)
+        } label: {
+            HStack(spacing: 8) {
+                Image(systemName: "chart.xyaxis.line")
+                    .font(.system(size: 18))
+                Text("home.parent_dashboard")
+                    .font(.system(size: 18, weight: .semibold, design: .rounded))
+            }
+            .foregroundColor(.appSubtext)
+            .frame(maxWidth: .infinity)
+            .frame(height: 50)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(Color.appCardBorder, lineWidth: 1)
+            )
+        }
+        .padding(.horizontal, 20)
+    }
+
     // MARK: - Leaderboard Button
 
     private var leaderboardButton: some View {
@@ -182,7 +242,7 @@ struct HomeView: View {
             HStack(spacing: 8) {
                 Image(systemName: "chart.bar.fill")
                     .font(.system(size: 18))
-                Text("리더보드")
+                Text("home.leaderboard")
                     .font(.system(size: 18, weight: .semibold, design: .rounded))
             }
             .foregroundColor(.appSubtext)
@@ -211,11 +271,11 @@ private struct StatCardView: View {
                 .font(.system(size: 24))
                 .foregroundColor(color)
 
-            Text(value)
+            Text(verbatim: value)
                 .font(.system(size: 24, weight: .bold, design: .rounded))
                 .foregroundColor(.appText)
 
-            Text(title)
+            Text(verbatim: title)
                 .font(.system(size: 13, weight: .medium, design: .rounded))
                 .foregroundColor(.appSubtext)
         }

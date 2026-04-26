@@ -1,6 +1,5 @@
 import Foundation
 
-// 업적 구조체
 struct Achievement: Codable, Identifiable {
     let id: UUID
     let type: AchievementType
@@ -13,7 +12,6 @@ struct Achievement: Codable, Identifiable {
     }
 }
 
-// 업적 타입 열거형
 enum AchievementType: String, Codable, CaseIterable {
     case firstGame
     case perfectScore
@@ -28,46 +26,46 @@ enum AchievementType: String, Codable, CaseIterable {
 
     var title: String {
         switch self {
-        case .firstGame: return "첫 게임"
-        case .perfectScore: return "만점!"
-        case .streak3: return "3일 연속"
-        case .streak7: return "7일 마스터"
-        case .streak30: return "30일 레전드"
-        case .speedDemon: return "스피드킹"
-        case .gradeS: return "S등급 달성"
-        case .played10: return "10회 달성"
-        case .played50: return "50회 달성"
-        case .played100: return "100회 달성"
+        case .firstGame:    return L("achievement.firstGame.title")
+        case .perfectScore: return L("achievement.perfectScore.title")
+        case .streak3:      return L("achievement.streak3.title")
+        case .streak7:      return L("achievement.streak7.title")
+        case .streak30:     return L("achievement.streak30.title")
+        case .speedDemon:   return L("achievement.speedDemon.title")
+        case .gradeS:       return L("achievement.gradeS.title")
+        case .played10:     return L("achievement.played10.title")
+        case .played50:     return L("achievement.played50.title")
+        case .played100:    return L("achievement.played100.title")
         }
     }
 
     var description: String {
         switch self {
-        case .firstGame: return "첫 번째 게임을 완료했습니다"
-        case .perfectScore: return "20문제를 모두 맞혔습니다"
-        case .streak3: return "3일 연속으로 플레이했습니다"
-        case .streak7: return "7일 연속으로 플레이했습니다"
-        case .streak30: return "30일 연속으로 플레이했습니다"
-        case .speedDemon: return "전체 풀이 시간이 60초 이내입니다"
-        case .gradeS: return "S등급을 달성했습니다"
-        case .played10: return "누적 10회 플레이했습니다"
-        case .played50: return "누적 50회 플레이했습니다"
-        case .played100: return "누적 100회 플레이했습니다"
+        case .firstGame:    return L("achievement.firstGame.desc")
+        case .perfectScore: return L("achievement.perfectScore.desc")
+        case .streak3:      return L("achievement.streak3.desc")
+        case .streak7:      return L("achievement.streak7.desc")
+        case .streak30:     return L("achievement.streak30.desc")
+        case .speedDemon:   return L("achievement.speedDemon.desc")
+        case .gradeS:       return L("achievement.gradeS.desc")
+        case .played10:     return L("achievement.played10.desc")
+        case .played50:     return L("achievement.played50.desc")
+        case .played100:    return L("achievement.played100.desc")
         }
     }
 
     var iconName: String {
         switch self {
-        case .firstGame: return "star.fill"
+        case .firstGame:    return "star.fill"
         case .perfectScore: return "crown.fill"
-        case .streak3: return "flame.fill"
-        case .streak7: return "flame.fill"
-        case .streak30: return "trophy.fill"
-        case .speedDemon: return "bolt.fill"
-        case .gradeS: return "star.circle.fill"
-        case .played10: return "10.circle.fill"
-        case .played50: return "50.circle.fill"
-        case .played100: return "100.circle.fill"
+        case .streak3:      return "flame.fill"
+        case .streak7:      return "flame.fill"
+        case .streak30:     return "trophy.fill"
+        case .speedDemon:   return "bolt.fill"
+        case .gradeS:       return "star.circle.fill"
+        case .played10:     return "10.circle.fill"
+        case .played50:     return "50.circle.fill"
+        case .played100:    return "100.circle.fill"
         }
     }
 }

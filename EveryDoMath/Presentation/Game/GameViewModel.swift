@@ -123,7 +123,9 @@ final class GameViewModel {
         showFeedback = true
         currentInput = ""
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+        // 오답/타임아웃은 정답을 읽을 수 있도록 1.5초, 정답은 0.8초
+        let delay = isCorrect ? 0.8 : 1.5
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
             self?.advanceToNext()
         }
     }
@@ -141,7 +143,7 @@ final class GameViewModel {
         showFeedback = true
         currentInput = ""
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
             self?.advanceToNext()
         }
     }
@@ -158,6 +160,7 @@ final class GameViewModel {
 
     private func finishGame() {
         session.timeTaken = totalElapsed
+        session.maxCombo = maxCombo
         let finalScore = ScoreCalculator.calculate(session: session, maxCombo: maxCombo)
         session.score = finalScore
         session.gameGrade = GameGrade.from(score: finalScore)

@@ -11,6 +11,7 @@ final class GameSession: Identifiable, Codable, Hashable {
     var perProblemTimes: [TimeInterval]
     var score: Int
     var gameGrade: GameGrade
+    var maxCombo: Int
 
     static let problemCount = 20
 
@@ -43,6 +44,22 @@ final class GameSession: Identifiable, Codable, Hashable {
         self.perProblemTimes = Array(repeating: 0, count: problems.count)
         self.score = 0
         self.gameGrade = .D
+        self.maxCombo = 0
+    }
+
+    // 기존 저장 데이터(maxCombo 없음) 호환
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(UUID.self, forKey: .id)
+        problems = try c.decode([MathProblem].self, forKey: .problems)
+        grade = try c.decode(Grade.self, forKey: .grade)
+        date = try c.decode(Date.self, forKey: .date)
+        userAnswers = try c.decode([String?].self, forKey: .userAnswers)
+        timeTaken = try c.decode(TimeInterval.self, forKey: .timeTaken)
+        perProblemTimes = try c.decode([TimeInterval].self, forKey: .perProblemTimes)
+        score = try c.decode(Int.self, forKey: .score)
+        gameGrade = try c.decode(GameGrade.self, forKey: .gameGrade)
+        maxCombo = try c.decodeIfPresent(Int.self, forKey: .maxCombo) ?? 0
     }
 
     /// 편의 팩토리: 학년에 맞는 새 세션 생성

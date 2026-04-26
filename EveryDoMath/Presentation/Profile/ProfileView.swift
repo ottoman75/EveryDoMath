@@ -11,33 +11,26 @@ struct ProfileView: View {
 
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 24) {
-                    // 프로필 헤더
                     profileHeader
-
-                    // 통계 카드
                     statsSection
-
-                    // 업적 섹션
                     achievementsSection
-
-                    // 초기화 버튼
                     resetButton
                 }
                 .padding(.vertical, 16)
             }
         }
-        .navigationTitle("프로필")
+        .navigationTitle("profile.title")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarColorScheme(.dark, for: .navigationBar)
         .onAppear { viewModel.loadData() }
-        .alert("모든 데이터 초기화", isPresented: $showResetAlert) {
-            Button("취소", role: .cancel) { }
-            Button("초기화", role: .destructive) {
+        .alert("profile.reset_title", isPresented: $showResetAlert) {
+            Button("profile.reset_cancel", role: .cancel) { }
+            Button("profile.reset_confirm", role: .destructive) {
                 viewModel.resetAllData()
                 appState.navigationPath.removeLast(appState.navigationPath.count)
             }
         } message: {
-            Text("모든 게임 기록, 업적, 프로필이 삭제됩니다. 이 작업은 취소할 수 없습니다.")
+            Text("profile.reset_message")
         }
     }
 
@@ -45,7 +38,6 @@ struct ProfileView: View {
 
     private var profileHeader: some View {
         VStack(spacing: 16) {
-            // 아바타
             ZStack {
                 Circle()
                     .fill(
@@ -57,15 +49,14 @@ struct ProfileView: View {
                     )
                     .frame(width: 80, height: 80)
 
-                Text(String(viewModel.profile?.nickname.prefix(1).uppercased() ?? "?"))
+                Text(verbatim: String(viewModel.profile?.nickname.prefix(1).uppercased() ?? "?"))
                     .font(.system(size: 36, weight: .bold, design: .rounded))
                     .foregroundColor(.white)
             }
 
-            // 닉네임
             if viewModel.isEditingNickname {
                 HStack(spacing: 8) {
-                    TextField("닉네임", text: $viewModel.nicknameInput)
+                    TextField("profile.nickname_placeholder", text: $viewModel.nicknameInput)
                         .font(.system(size: 22, weight: .bold, design: .rounded))
                         .foregroundColor(.appText)
                         .multilineTextAlignment(.center)
@@ -83,7 +74,7 @@ struct ProfileView: View {
                 .padding(.horizontal, 40)
             } else {
                 HStack(spacing: 8) {
-                    Text(viewModel.profile?.nickname ?? "플레이어")
+                    Text(verbatim: viewModel.profile?.nickname ?? L("profile.default_player"))
                         .font(.system(size: 22, weight: .bold, design: .rounded))
                         .foregroundColor(.appText)
 
@@ -97,9 +88,8 @@ struct ProfileView: View {
                 }
             }
 
-            // 학년 표시
             if let grade = viewModel.profile?.preferredGrade {
-                Text(grade.label)
+                Text(verbatim: grade.label)
                     .font(.system(size: 14, weight: .medium, design: .rounded))
                     .foregroundColor(.white)
                     .padding(.horizontal, 12)
@@ -118,20 +108,20 @@ struct ProfileView: View {
     private var statsSection: some View {
         HStack(spacing: 12) {
             profileStatCard(
-                title: "총 플레이",
-                value: "\(viewModel.profile?.totalGamesPlayed ?? 0)회",
+                title: L("profile.total_play"),
+                value: L("unit.times_count", viewModel.profile?.totalGamesPlayed ?? 0),
                 icon: "gamecontroller.fill",
                 color: .appPrimaryStart
             )
             profileStatCard(
-                title: "최고 점수",
+                title: L("profile.best_score"),
                 value: "\(viewModel.profile?.bestScore ?? 0)",
                 icon: "trophy.fill",
                 color: .appWarning
             )
             profileStatCard(
-                title: "현재 스트릭",
-                value: "\(viewModel.currentStreak)일",
+                title: L("profile.current_streak"),
+                value: L("unit.days", viewModel.currentStreak),
                 icon: "flame.fill",
                 color: .appDanger
             )
@@ -144,10 +134,10 @@ struct ProfileView: View {
             Image(systemName: icon)
                 .font(.system(size: 20))
                 .foregroundColor(color)
-            Text(value)
+            Text(verbatim: value)
                 .font(.system(size: 18, weight: .bold, design: .rounded))
                 .foregroundColor(.appText)
-            Text(title)
+            Text(verbatim: title)
                 .font(.system(size: 11, weight: .medium, design: .rounded))
                 .foregroundColor(.appSubtext)
         }
@@ -164,7 +154,7 @@ struct ProfileView: View {
 
     private var achievementsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("업적")
+            Text("profile.achievements")
                 .font(.system(size: 20, weight: .bold, design: .rounded))
                 .foregroundColor(.appText)
                 .padding(.horizontal, 16)
@@ -191,7 +181,7 @@ struct ProfileView: View {
         Button {
             showResetAlert = true
         } label: {
-            Text("데이터 초기화")
+            Text("profile.reset_button")
                 .font(.system(size: 14, weight: .medium, design: .rounded))
                 .foregroundColor(.appDanger.opacity(0.7))
         }

@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 글로벌 리더보드: 누구나 읽기 가능, 쓰기는 문서 ID와 userId 필드가 일치할 때만
+    match /leaderboard/{userId} {
+      allow read: if true;
+      allow write: if request.resource.data.userId == userId;
+    }
+
+    // 가족 리더보드 그룹: 읽기/쓰기 모두 허용 (초대 코드로 접근 제어)
+    match /familyGroups/{groupId} {
+      allow read, write: if true;
+    }
+  }
+}

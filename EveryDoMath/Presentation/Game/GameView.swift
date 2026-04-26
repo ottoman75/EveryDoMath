@@ -17,17 +17,14 @@ struct GameView: View {
             Color.appBackground.ignoresSafeArea()
 
             VStack(spacing: 16) {
-                // 상단: 문제 번호 + 콤보
                 topBar
 
-                // 타이머
                 TimerRingView(
                     totalTime: 30.0,
                     remaining: viewModel.remainingTime
                 )
                 .frame(width: 100, height: 100)
 
-                // 문제 카드
                 if viewModel.currentProblemIndex < viewModel.session.problems.count {
                     let problem = viewModel.session.problems[viewModel.currentProblemIndex]
                     ProblemCardView(problemText: problem.displayString)
@@ -36,12 +33,10 @@ struct GameView: View {
                         .padding(.horizontal, 20)
                 }
 
-                // 입력값 표시
                 inputDisplay
 
                 Spacer()
 
-                // 숫자 패드
                 NumberPadView(
                     input: Bindable(viewModel).currentInput,
                     inputMode: viewModel.currentInputMode,
@@ -50,10 +45,9 @@ struct GameView: View {
                 .padding(.bottom, 8)
             }
 
-            // 피드백 오버레이
             if viewModel.showFeedback {
                 let correctAnswer: String = {
-                    let idx = max(0, viewModel.currentProblemIndex - 1)
+                    let idx = viewModel.currentProblemIndex  // feedback 중 인덱스는 아직 미진행
                     if idx < viewModel.session.problems.count {
                         return viewModel.session.problems[idx].answerDisplayString
                     }
@@ -71,20 +65,20 @@ struct GameView: View {
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button("포기") {
+                Button("game.quit_button") {
                     showQuitAlert = true
                 }
                 .font(.system(size: 14, weight: .medium))
                 .foregroundColor(.appSubtext)
             }
         }
-        .alert("게임을 포기하시겠습니까?", isPresented: $showQuitAlert) {
-            Button("계속하기", role: .cancel) { }
-            Button("포기", role: .destructive) {
+        .alert("game.quit_title", isPresented: $showQuitAlert) {
+            Button("game.quit_continue", role: .cancel) { }
+            Button("game.quit_confirm", role: .destructive) {
                 appState.navigationPath.removeLast(appState.navigationPath.count)
             }
         } message: {
-            Text("현재 진행 상황이 모두 사라집니다.")
+            Text("game.quit_message")
         }
         .onChange(of: viewModel.isGameFinished) { _, finished in
             if finished {
@@ -100,19 +94,17 @@ struct GameView: View {
 
     private var topBar: some View {
         HStack {
-            // 문제 번호
-            Text("\(viewModel.currentProblemIndex + 1) / \(GameSession.problemCount)")
+            Text(verbatim: "\(viewModel.currentProblemIndex + 1) / \(GameSession.problemCount)")
                 .font(.system(size: 16, weight: .semibold, design: .rounded))
                 .foregroundColor(.appSubtext)
 
             Spacer()
 
-            // 콤보
             if viewModel.comboCount > 1 {
                 HStack(spacing: 4) {
                     Image(systemName: "bolt.fill")
                         .foregroundColor(.appWarning)
-                    Text("\(viewModel.comboCount) combo")
+                    Text(verbatim: L("game.combo_format", viewModel.comboCount))
                         .font(.system(size: 16, weight: .bold, design: .rounded))
                         .foregroundColor(.appWarning)
                 }

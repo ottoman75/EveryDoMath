@@ -1,0 +1,195 @@
+/* App */
+"app.tagline" = "Daily Math Challenge";
+
+/* Grade */
+"grade.label" = "Grade %d";
+
+/* Units */
+"unit.times_count" = "%d times";
+"unit.days" = "%d days";
+
+/* Home */
+"home.greeting" = "Hello, %@!";
+"home.grade_section" = "Select Grade";
+"home.today_play" = "Today's Play";
+"home.best_score" = "Best Score";
+"home.recent_achievements" = "Recent Achievements";
+"home.start_button" = "Start";
+"home.parent_dashboard" = "Parent Dashboard";
+"home.leaderboard" = "Leaderboard";
+
+/* Profile Setup */
+"setup.nickname_label" = "Nickname";
+"setup.nickname_placeholder" = "Enter your name";
+"setup.grade_label" = "Grade";
+"setup.start_button" = "Get Started →";
+
+/* Profile */
+"profile.title" = "Profile";
+"profile.nickname_placeholder" = "Nickname";
+"profile.default_player" = "Player";
+"profile.total_play" = "Total Play";
+"profile.best_score" = "Best Score";
+"profile.current_streak" = "Current Streak";
+"profile.achievements" = "Achievements";
+"profile.reset_button" = "Reset Data";
+"profile.reset_title" = "Reset All Data";
+"profile.reset_message" = "All game records, achievements, and profile will be deleted. This cannot be undone.";
+"profile.reset_cancel" = "Cancel";
+"profile.reset_confirm" = "Reset";
+
+/* Game */
+"game.quit_button" = "Quit";
+"game.quit_title" = "Give Up?";
+"game.quit_continue" = "Continue";
+"game.quit_confirm" = "Quit";
+"game.quit_message" = "All progress will be lost.";
+"game.combo_format" = "%d combo";
+
+/* Result */
+"result.new_best" = "NEW BEST!";
+"result.new_achievements" = "New Achievements!";
+"result.stat_correct" = "Correct";
+"result.stat_time" = "Time";
+"result.stat_combo" = "Combo";
+"result.points_unit" = "pts";
+"result.share" = "Share Result";
+"result.leaderboard" = "View Leaderboard";
+"result.play_again" = "Play Again";
+"result.go_home" = "Home";
+"result.share_text" = "EveryDoMath Grade %@ · %d pts! #MathKing #EveryDoMath";
+
+/* Share Card */
+"sharecard.correct_label" = "Correct";
+"sharecard.time_label" = "Time";
+"sharecard.grade_label" = "Grade";
+"sharecard.hashtag" = "#MathKing #EveryDoMath";
+
+/* Feedback */
+"feedback.correct" = "Correct!";
+"feedback.wrong" = "Wrong!";
+"feedback.score_earned" = "+%d pts";
+"feedback.correct_answer" = "Answer: %@";
+"feedback.correct_answer_label" = "Answer";
+
+/* Streak */
+"streak.label" = "%d-day streak";
+
+/* Number Pad */
+"numpad.fraction_hint" = "Enter as fraction (e.g. 5/6)";
+"numpad.decimal_hint" = "Enter with decimal (e.g. 3.8)";
+"numpad.confirm" = "OK ✓";
+
+/* Leaderboard */
+"leaderboard.title" = "Leaderboard";
+"leaderboard.filter_all" = "All";
+"leaderboard.my_rank" = "My Rank";
+"leaderboard.rank_format" = "#%d";
+"leaderboard.loading" = "Loading global rankings...";
+"leaderboard.empty" = "No records yet";
+"leaderboard.empty_hint" = "Play a game to appear here";
+"leaderboard.local_fallback" = "Showing local records";
+"leaderboard.me_badge" = "Me";
+
+/* Parent Dashboard */
+"parent.title" = "Parent Dashboard";
+"parent.subtitle" = "Check your child's learning progress";
+"parent.tab.stats" = "Learning Stats";
+"parent.tab.family" = "Family Board";
+"parent.tab.goal" = "Goal Settings";
+"parent.card.total_games" = "Total Games";
+"parent.card.best_score" = "Best Score";
+"parent.card.streak" = "Streak";
+"parent.chart.title" = "Last 7 Days";
+"parent.chart.today" = "Today";
+"parent.chart.days_ago" = "%dd ago";
+"parent.accuracy.title" = "Accuracy by Operation";
+
+/* Family Leaderboard */
+"family.invite_code" = "Invite Code";
+"family.invite_hint" = "Share this code with your family";
+"family.leave_group" = "Leave Group";
+"family.join_prompt" = "Solve math together with your family!";
+"family.code_placeholder" = "6-digit code";
+"family.join_button" = "Join";
+"family.or" = "or";
+"family.create_group" = "Create New Group";
+"family.score_format" = "%d pts";
+"family.code_error" = "Please enter a 6-digit code.";
+"family.default_nickname" = "Me";
+
+/* Goal Settings */
+"goal.settings.daily_target" = "Daily Game Target";
+"goal.settings.daily_value" = "%d rounds";
+"goal.settings.grade_target" = "Target Grade";
+"goal.settings.reminder" = "Study Reminder";
+"goal.settings.reminder_time" = "Reminder Time";
+"goal.settings.save" = "Save";
+
+/* Goal Progress */
+"goal.progress.label" = "Today's Goal";
+"goal.progress.achieved" = "Goal achieved! Amazing!";
+"goal.progress.remaining" = "%d more to go!";
+
+/* Daily Challenge */
+"challenge.header" = "Daily Challenge";
+"challenge.completed" = "Done!";
+"challenge.progress_badge" = "%d/3";
+
+/* Challenge Types */
+"challenge.speedRun.title" = "Speed Run";
+"challenge.speedRun.desc" = "Answer 15+ in 1 minute";
+"challenge.perfect.title" = "Perfect Run";
+"challenge.perfect.desc" = "Answer all 20 problems";
+"challenge.comboMaster.title" = "Combo Master";
+"challenge.comboMaster.desc" = "Get 10 in a row";
+"challenge.gradeHunter.title" = "S-Grade Hunt";
+"challenge.gradeHunter.desc" = "Achieve S grade";
+"challenge.consistency.title" = "Consistent Study";
+"challenge.consistency.desc" = "Play 3 rounds today";
+
+/* Achievement Types */
+"achievement.firstGame.title" = "First Game";
+"achievement.firstGame.desc" = "Completed your first game";
+"achievement.perfectScore.title" = "Perfect Score!";
+"achievement.perfectScore.desc" = "Answered all 20 correctly";
+"achievement.streak3.title" = "3-Day Streak";
+"achievement.streak3.desc" = "Played 3 days in a row";
+"achievement.streak7.title" = "7-Day Master";
+"achievement.streak7.desc" = "Played 7 days in a row";
+"achievement.streak30.title" = "30-Day Legend";
+"achievement.streak30.desc" = "Played 30 days in a row";
+"achievement.speedDemon.title" = "Speed King";
+"achievement.speedDemon.desc" = "Solved all in under 60 seconds";
+"achievement.gradeS.title" = "S Grade";
+"achievement.gradeS.desc" = "Achieved S grade";
+"achievement.played10.title" = "10 Games";
+"achievement.played10.desc" = "Played a total of 10 times";
+"achievement.played50.title" = "50 Games";
+"achievement.played50.desc" = "Played a total of 50 times";
+"achievement.played100.title" = "100 Games";
+"achievement.played100.desc" = "Played a total of 100 times";
+
+/* Notifications */
+"notif.streak.title_active" = "🔥 %d-day streak!";
+"notif.streak.body_active" = "Keep your streak going with today's math!";
+"notif.streak.title_new" = "Time for math! 📚";
+"notif.streak.body_new" = "A little every day goes a long way!";
+"notif.goal.title" = "📖 Time to study math!";
+"notif.goal.body" = "Let's reach today's goal!";
+
+/* XP & Level */
+"home.level_badge" = "Lv %d";
+"result.xp_earned" = "⭐ +%d XP";
+"result.level_label" = "Lv %d";
+"result.level_up" = "🎉 Level UP! Lv %d!";
+
+/* IAP */
+"iap.title" = "Unlock Premium";
+"iap.subtitle" = "Unlock more grades and\nlevel up your math skills!";
+"iap.best_value" = "Best Value";
+"iap.restore" = "Restore Purchases";
+"iap.legal_notice" = "Payment will be charged to your Apple ID account. Subscriptions automatically renew 24 hours before the renewal date.";
+"iap.error_title" = "Purchase Error";
+"iap.load_failed" = "Could not load products";
+"iap.retry" = "Try Again";

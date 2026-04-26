@@ -8,9 +8,13 @@ final class HomeViewModel {
     var todaySessionCount: Int = 0
     var todayBestScore: Int = 0
     var recentAchievements: [Achievement] = []
+    var dailyChallenge: DailyChallenge = DailyChallenge.today()
+    var goalProgress: GoalProgress?
 
     private let gameRepo = GameRepository()
     private let profileRepo = ProfileRepository()
+    private let challengeRepo = DailyChallengeRepository()
+    private let goalRepo = LearningGoalRepository()
 
     func loadData() {
         profile = profileRepo.loadProfile()
@@ -30,6 +34,9 @@ final class HomeViewModel {
 
         let achievements = profileRepo.loadAchievements()
         recentAchievements = Array(achievements.sorted { $0.unlockedAt > $1.unlockedAt }.prefix(5))
+
+        dailyChallenge = challengeRepo.loadChallenge()
+        goalProgress = goalRepo.todayProgress(sessions: todaySessionCount)
     }
 
     func createNewSession() -> GameSession {

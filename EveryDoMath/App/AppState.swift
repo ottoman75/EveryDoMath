@@ -29,4 +29,5 @@ enum AppDestination: Hashable {
     case leaderboard
     case profile
     case profileSetup
+    case parentDashboard
 }
