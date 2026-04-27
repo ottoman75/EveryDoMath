@@ -31,7 +31,7 @@ struct ProfileSetupView: View {
                             .foregroundColor(.white)
                     }
 
-                    Text("EveryDoMath")
+                    Text("app.title")
                         .font(.system(size: 32, weight: .black, design: .rounded))
                         .foregroundStyle(
                             LinearGradient(
@@ -76,7 +76,7 @@ struct ProfileSetupView: View {
                         .foregroundColor(.appSubtext)
                         .padding(.horizontal, 24)
 
-                    GradeSelectorView(selectedGrade: $selectedGrade)
+                    GradeSelectorView(selectedGrade: $selectedGrade, allowLockedSelection: true)
                 }
 
                 Spacer()

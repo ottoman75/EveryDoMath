@@ -3,6 +3,7 @@ import SwiftUI
 struct GradeSelectorView: View {
     @Binding var selectedGrade: Grade
     var onLockedTapped: (() -> Void)? = nil
+    var allowLockedSelection: Bool = false
 
     @State private var iap = IAPManager.shared
 
@@ -14,7 +15,7 @@ struct GradeSelectorView: View {
                     let isSelected = selectedGrade == grade
 
                     Button {
-                        if isUnlocked || TrialManager.isTrialAvailable(for: grade) {
+                        if isUnlocked || TrialManager.isTrialAvailable(for: grade) || allowLockedSelection {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                                 selectedGrade = grade
                             }

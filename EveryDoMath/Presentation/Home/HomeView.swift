@@ -63,7 +63,7 @@ struct HomeView: View {
     private var headerSection: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text("EveryDoMath")
+                Text("app.title")
                     .font(.system(size: 28, weight: .bold, design: .rounded))
                     .foregroundStyle(
                         LinearGradient(

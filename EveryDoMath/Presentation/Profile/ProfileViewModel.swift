@@ -24,9 +24,10 @@ final class ProfileViewModel {
     }
 
     func saveNickname() {
-        guard !nicknameInput.trimmingCharacters(in: .whitespaces).isEmpty else { return }
-        guard var p = profile else { return }
-        p.nickname = nicknameInput.trimmingCharacters(in: .whitespaces)
+        let trimmed = nicknameInput.trimmingCharacters(in: .whitespaces)
+        guard !trimmed.isEmpty else { return }
+        var p = profile ?? PlayerProfile(nickname: trimmed)
+        p.nickname = trimmed
         profileRepo.saveProfile(p)
         profile = p
         isEditingNickname = false
@@ -42,5 +43,8 @@ final class ProfileViewModel {
         UserDefaults.standard.removeObject(forKey: "daily_records")
         UserDefaults.standard.removeObject(forKey: "achievements")
         UserDefaults.standard.removeObject(forKey: "leaderboard")
+        for grade in Grade.allCases where !grade.isFree {
+            UserDefaults.standard.removeObject(forKey: "trial_used_grade_\(grade.rawValue)")
+        }
     }
 }
