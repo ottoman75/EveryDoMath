@@ -132,6 +132,7 @@ final class GameViewModel {
 
     private func processTimeout() {
         stopTimer()
+        guard currentProblemIndex < session.userAnswers.count else { return }
 
         session.userAnswers[currentProblemIndex] = nil
         session.perProblemTimes[currentProblemIndex] = totalTime
@@ -150,7 +151,7 @@ final class GameViewModel {
 
     private func advanceToNext() {
         showFeedback = false
-        if currentProblemIndex + 1 >= GameSession.problemCount {
+        if currentProblemIndex + 1 >= session.problems.count {
             finishGame()
         } else {
             currentProblemIndex += 1

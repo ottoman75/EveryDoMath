@@ -94,7 +94,7 @@ struct GameView: View {
 
     private var topBar: some View {
         HStack {
-            Text(verbatim: "\(viewModel.currentProblemIndex + 1) / \(GameSession.problemCount)")
+            Text(verbatim: "\(viewModel.currentProblemIndex + 1) / \(viewModel.session.problems.count)")
                 .font(.system(size: 16, weight: .semibold, design: .rounded))
                 .foregroundColor(.appSubtext)
 
