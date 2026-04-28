@@ -31,8 +31,7 @@ struct FeedbackOverlayView: View {
                         Text("feedback.correct_answer_label")
                             .font(.system(size: 16, weight: .medium, design: .rounded))
                             .foregroundColor(.appSubtext)
-                        Text(verbatim: correctAnswer)
-                            .font(.system(size: 48, weight: .black, design: .rounded))
+                        MathExpressionView(correctAnswer, fontSize: 44)
                             .foregroundColor(.appWarning)
                     }
                 }

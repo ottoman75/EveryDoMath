@@ -4,13 +4,9 @@ struct ProblemCardView: View {
     let problemText: String
 
     var body: some View {
-        Text(problemText)
-            .font(.system(size: 52, weight: .bold, design: .rounded))
-            .minimumScaleFactor(0.4)
-            .lineLimit(1)
-            .foregroundColor(.appText)
+        MathExpressionView(problemText, fontSize: 32)
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 40)
+            .padding(.vertical, 36)
             .padding(.horizontal, 24)
             .background(
                 RoundedRectangle(cornerRadius: 24)
@@ -35,7 +31,11 @@ struct ProblemCardView: View {
 }
 
 #Preview {
-    ProblemCardView(problemText: "12 + 34 = ?")
-        .padding()
-        .background(Color.appBackground)
+    VStack(spacing: 16) {
+        ProblemCardView(problemText: "2/9 − 1/3 = ?")
+        ProblemCardView(problemText: "3/4 × 2/5 = ?")
+        ProblemCardView(problemText: "12 + 34 = ?")
+    }
+    .padding()
+    .background(Color.appBackground)
 }
