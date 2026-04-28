@@ -159,16 +159,16 @@ struct ProblemGenerator {
             let num1 = Int.random(in: 1...(den1 - 1))
             var num2 = Int.random(in: 1...(den2 - 1))
 
-            // 뺄셈: a/b > c/d 보장 (결과 양수)
+            // 뺄셈: num1/den1 > num2/den2 보장 (결과 양수)
+            // 조건: num2 < num1*den2/den1 → maxNum2 = (num1*den2 - 1) / den1 (정수 나눗셈)
             if operation == .subtraction {
-                let val1 = num1 * den2
-                let val2 = num2 * den1
-                if val1 <= val2 {
-                    // 분자 교체 또는 재시도
-                    num2 = max(1, Int(Double(num1 * den2) / Double(den1)) - 1)
-                    guard num2 >= 1 else {
-                        return generateFractionProblem(operation: operation, grade: grade)
-                    }
+                let maxNum2 = (num1 * den2 - 1) / den1
+                if maxNum2 < 1 {
+                    // 이 분모 조합으로는 양수 결과를 만들 수 없으므로 재시도
+                    return generateFractionProblem(operation: operation, grade: grade)
+                }
+                if num2 * den1 >= num1 * den2 {
+                    num2 = Int.random(in: 1...maxNum2)
                 }
             }
             return MathProblem(num1: num1, den1: den1, num2: num2, den2: den2, operation: operation, grade: grade)
