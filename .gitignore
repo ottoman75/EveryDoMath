@@ -1,0 +1,18 @@
+# Xcode 사용자별 설정 — 공유 대상 아님
+xcuserdata/
+*.xcuserstate
+
+# macOS
+.DS_Store
+
+# 빌드 산출물
+build/
+DerivedData/
+
+# Firebase 설정 — 저장소가 공개라 커밋하지 않는다.
+# 클론 후 Firebase 콘솔(프로젝트 everydomath)에서 받아 EveryDoMath/ 아래에 두면 된다.
+EveryDoMath/GoogleService-Info.plist
+
+# 하네스 중간 산출물 / 에이전트 설정
+_workspace/
+.claude/

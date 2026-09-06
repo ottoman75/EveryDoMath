@@ -63,15 +63,7 @@ struct GameView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button("game.quit_button") {
-                    showQuitAlert = true
-                }
-                .font(.system(size: 14, weight: .medium))
-                .foregroundColor(.appSubtext)
-            }
-        }
+        .navigationBarHidden(true)
         .alert("game.quit_title", isPresented: $showQuitAlert) {
             Button("game.quit_continue", role: .cancel) { }
             Button("game.quit_confirm", role: .destructive) {
@@ -93,7 +85,24 @@ struct GameView: View {
     // MARK: - Top Bar
 
     private var topBar: some View {
-        HStack {
+        HStack(spacing: 0) {
+            Button {
+                showQuitAlert = true
+            } label: {
+                Text("game.quit_button")
+                    .font(.system(size: 14, weight: .medium, design: .rounded))
+                    .foregroundColor(.appSubtext)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 7)
+                    .background(
+                        Capsule()
+                            .fill(Color.appCard)
+                            .overlay(Capsule().stroke(Color.appCardBorder, lineWidth: 1))
+                    )
+            }
+
+            Spacer()
+
             Text(verbatim: "\(viewModel.currentProblemIndex + 1) / \(viewModel.session.problems.count)")
                 .font(.system(size: 16, weight: .semibold, design: .rounded))
                 .foregroundColor(.appSubtext)
@@ -109,6 +118,8 @@ struct GameView: View {
                         .foregroundColor(.appWarning)
                 }
                 .transition(.scale.combined(with: .opacity))
+            } else {
+                Color.clear.frame(width: 60, height: 1)
             }
         }
         .padding(.horizontal, 20)

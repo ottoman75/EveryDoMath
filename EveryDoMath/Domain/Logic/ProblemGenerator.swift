@@ -228,9 +228,9 @@ struct ProblemGenerator {
                 let dividend = Double(divisor * quotient * 10) / 10.0
                 return MathProblem(decimal1: dividend, decimal2: Double(divisor), operation: .division, grade: grade)
             } else {
-                // 소수 ÷ 소수: 3.6 ÷ 1.2 (6학년, 결과 정수)
-                let result = Int.random(in: 2...9)
-                let b = Double(Int.random(in: 11...30)) / 10.0
+                // 소수 ÷ 소수: 3.6 ÷ 1.2 (6학년, 결과 정수) — 나눗수 1.2~2.0, 몫 2~5로 제한
+                let result = Int.random(in: 2...5)
+                let b = Double(Int.random(in: 12...20)) / 10.0
                 let a = (b * Double(result) * 10).rounded() / 10.0
                 return MathProblem(decimal1: a, decimal2: b, operation: .division, grade: grade)
             }
