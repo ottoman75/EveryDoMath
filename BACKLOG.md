@@ -6,13 +6,15 @@
 
 ## 진행 중 / 대기
 
-- [ ] (P0) 미커밋 2건 커밋 — 소수 나눗셈 난이도 조정(`ProblemGenerator`: 나눗수 1.2~2.0, 몫 2~5)과
-      게임 화면 나가기 버튼 재배치(`GameView`: 툴바 → 상단바 캡슐 버튼)
-- [ ] (P0) `GoogleService-Info.plist`가 미추적 상태 — `.gitignore` 등록 여부 결정 (키 노출 주의)
-- [ ] (P1) `_workspace/`, `.claude/` 미추적 디렉터리 `.gitignore` 정리
+- [ ] (P0) (HOLD) Firebase 보안 규칙 점검 — 결정·확인 필요
+      저장소가 **공개**라 plist는 .gitignore로 제외했지만, 앱 번들에는 그대로 들어가므로
+      키는 어차피 추출 가능하다. Firebase iOS 키는 원래 비밀이 아니고 실제 방어선은
+      Firestore 보안 규칙과 App Check이다. 리더보드·가족그룹이 Firestore를 쓰므로
+      규칙이 인증된 사용자만 자기 문서를 쓰도록 돼 있는지 콘솔에서 확인할 것
 - [ ] (P1) 소수 나눗셈 난이도 조정 결과 실기 검증 — 문제 표본이 실제로 6학년 범위인지
 - [ ] (P2) 상단바 레이아웃의 `Color.clear.frame(width: 60)` 스페이서를 매직넘버 없이 재작성
 
 ## 완료
 
-_(아직 없음 — 이 세션은 대화 기록이 없어 코드 상태에서만 도출했습니다)_
+- [x] 미커밋 2건 커밋 (670b685) — 소수 나눗셈 난이도 완화 + 게임 화면 나가기 버튼 재배치. 빌드 통과
+- [x] `.gitignore` 추가 — GoogleService-Info.plist(공개 저장소), `_workspace/`, `.claude/`, Xcode 사용자 설정 제외
