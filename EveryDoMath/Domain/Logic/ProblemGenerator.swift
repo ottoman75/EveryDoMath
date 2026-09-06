@@ -222,15 +222,21 @@ struct ProblemGenerator {
 
         case .division:
             if grade == .grade5 {
-                // 소수 ÷ 자연수: 4.8 ÷ 4
+                // 소수 ÷ 자연수: 4.8 ÷ 4 = 1.2 (5학년, 몫이 소수)
+                // `* 10` 뒤에 `/ 10.0` 을 하면 서로 상쇄돼 피제수가 정수가 된다.
+                // 몫을 1/10 단위로 뽑아 피제수가 소수 한 자리를 갖도록 한다.
+                // 몫의 소수부를 1...9 로 뽑아 X.0 을 배제한다. 그렇지 않으면
+                // 몫이 2.0/3.0/4.0 일 때 피제수도 정수가 돼 정수 나눗셈이 나온다.
                 let divisor = Int.random(in: 2...8)
-                let quotient = Int.random(in: 1...9)
-                let dividend = Double(divisor * quotient * 10) / 10.0
+                let quotientTenths = Int.random(in: 1...4) * 10 + Int.random(in: 1...9)  // 1.1 ~ 4.9
+                let dividend = Double(divisor * quotientTenths) / 10.0
                 return MathProblem(decimal1: dividend, decimal2: Double(divisor), operation: .division, grade: grade)
             } else {
-                // 소수 ÷ 소수: 3.6 ÷ 1.2 (6학년, 결과 정수) — 나눗수 1.2~2.0, 몫 2~5로 제한
+                // 소수 ÷ 소수: 3.6 ÷ 1.2 (6학년, 결과 정수) — 나눗수 1.2~1.9, 몫 2~5로 제한
+                // 2.0 을 빼는 이유는 제수가 정수가 되면 '소수 ÷ 소수' 가 아니게 되기 때문이다
+                // (2.0 이면 피제수도 정수가 돼 10 ÷ 2 같은 문제가 나온다).
                 let result = Int.random(in: 2...5)
-                let b = Double(Int.random(in: 12...20)) / 10.0
+                let b = Double(Int.random(in: 12...19)) / 10.0
                 let a = (b * Double(result) * 10).rounded() / 10.0
                 return MathProblem(decimal1: a, decimal2: b, operation: .division, grade: grade)
             }
