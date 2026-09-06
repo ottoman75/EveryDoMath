@@ -85,46 +85,54 @@ struct GameView: View {
     // MARK: - Top Bar
 
     private var topBar: some View {
-        HStack(spacing: 0) {
-            Button {
-                showQuitAlert = true
-            } label: {
-                Text("game.quit_button")
-                    .font(.system(size: 14, weight: .medium, design: .rounded))
-                    .foregroundColor(.appSubtext)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 7)
-                    .background(
-                        Capsule()
-                            .fill(Color.appCard)
-                            .overlay(Capsule().stroke(Color.appCardBorder, lineWidth: 1))
-                    )
-            }
-
-            Spacer()
-
+        // 진행 표시(3 / 20)를 화면 정중앙에 두기 위해 ZStack 으로 겹친다.
+        // Spacer 로 밀면 좌우 요소의 폭이 달라 중앙이 어긋나고, 한쪽에 고정 폭
+        // 플레이스홀더를 두면 폰트 크기나 번역 길이가 바뀔 때마다 다시 틀어진다.
+        ZStack {
             Text(verbatim: "\(viewModel.currentProblemIndex + 1) / \(viewModel.session.problems.count)")
                 .font(.system(size: 16, weight: .semibold, design: .rounded))
                 .foregroundColor(.appSubtext)
 
-            Spacer()
-
-            if viewModel.comboCount > 1 {
-                HStack(spacing: 4) {
-                    Image(systemName: "bolt.fill")
-                        .foregroundColor(.appWarning)
-                    Text(verbatim: L("game.combo_format", viewModel.comboCount))
-                        .font(.system(size: 16, weight: .bold, design: .rounded))
-                        .foregroundColor(.appWarning)
-                }
-                .transition(.scale.combined(with: .opacity))
-            } else {
-                Color.clear.frame(width: 60, height: 1)
+            HStack(spacing: 0) {
+                quitButton
+                Spacer(minLength: 0)
+                comboIndicator
             }
         }
         .padding(.horizontal, 20)
         .padding(.top, 8)
         .animation(.spring(response: 0.3, dampingFraction: 0.6), value: viewModel.comboCount)
+    }
+
+    private var quitButton: some View {
+        Button {
+            showQuitAlert = true
+        } label: {
+            Text("game.quit_button")
+                .font(.system(size: 14, weight: .medium, design: .rounded))
+                .foregroundColor(.appSubtext)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 7)
+                .background(
+                    Capsule()
+                        .fill(Color.appCard)
+                        .overlay(Capsule().stroke(Color.appCardBorder, lineWidth: 1))
+                )
+        }
+    }
+
+    @ViewBuilder
+    private var comboIndicator: some View {
+        if viewModel.comboCount > 1 {
+            HStack(spacing: 4) {
+                Image(systemName: "bolt.fill")
+                    .foregroundColor(.appWarning)
+                Text(verbatim: L("game.combo_format", viewModel.comboCount))
+                    .font(.system(size: 16, weight: .bold, design: .rounded))
+                    .foregroundColor(.appWarning)
+            }
+            .transition(.scale.combined(with: .opacity))
+        }
     }
 
     // MARK: - Input Display
