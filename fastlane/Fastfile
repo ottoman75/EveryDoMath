@@ -1,0 +1,67 @@
+# EveryDoMath 배포 자동화
+#
+# 인증은 App Store Connect API 키(.p8)로만 한다. Apple ID 비밀번호를
+# 파일이나 환경변수에 두지 않는다. 키는 저장소 밖에 두고 경로만 넘긴다.
+#
+# 필요한 환경변수 (fastlane/.env.default 또는 셸에서):
+#   ASC_KEY_ID      App Store Connect > 사용자 및 액세스 > 통합 에서 발급한 키 ID
+#   ASC_ISSUER_ID   같은 화면 상단의 Issuer ID
+#   ASC_KEY_PATH    내려받은 AuthKey_XXXX.p8 의 절대 경로
+
+default_platform(:ios)
+
+APP_IDENTIFIER = "kr.co.ottocraft.EveryDoMath"
+SCHEME = "EveryDoMath"
+
+platform :ios do
+
+  before_all do
+    app_store_connect_api_key(
+      key_id: ENV.fetch("ASC_KEY_ID"),
+      issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+      key_filepath: ENV.fetch("ASC_KEY_PATH"),
+      in_house: false
+    )
+  end
+
+  desc "Developer 포털 App ID 와 App Store Connect 앱 레코드를 만든다 (최초 1회)"
+  lane :create_app do
+    produce(
+      app_identifier: APP_IDENTIFIER,
+      app_name: "매일매일 수학",
+      language: "ko",
+      sku: "EVERYDOMATH001",
+      # 로컬 알림과 Firestore 는 App ID 서비스가 필요 없다.
+      # 인앱결제는 제거했으므로 켜지 않는다.
+      enable_services: {},
+      skip_itc: false,
+      skip_devcenter: false
+    )
+  end
+
+  desc "아카이브해서 TestFlight 에 올린다"
+  lane :upload do
+    # 빌드 번호는 프로젝트 파일을 건드리지 않고 빌드 시점에만 덮어쓴다.
+    build_number = Time.now.utc.strftime("%Y%m%d%H%M")
+
+    build_app(
+      scheme: SCHEME,
+      export_method: "app-store",
+      xcargs: "CURRENT_PROJECT_VERSION=#{build_number}",
+      output_directory: "build",
+      clean: true
+    )
+
+    upload_to_testflight(
+      app_identifier: APP_IDENTIFIER,
+      # 처리 완료까지 기다리지 않는다. 결과는 App Store Connect 에서 본다.
+      skip_waiting_for_build_processing: true
+    )
+  end
+
+  desc "create_app 과 upload 를 이어서 실행한다"
+  lane :release do
+    create_app
+    upload
+  end
+end

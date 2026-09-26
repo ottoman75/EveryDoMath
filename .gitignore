@@ -16,3 +16,16 @@ EveryDoMath/GoogleService-Info.plist
 # 하네스 중간 산출물 / 에이전트 설정
 _workspace/
 .claude/
+
+# fastlane / bundler
+vendor/
+.bundle/
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/
+fastlane/test_output/
+build/
+
+# App Store Connect API 키 — 절대 커밋하지 않는다
+*.p8
+fastlane/.env*
