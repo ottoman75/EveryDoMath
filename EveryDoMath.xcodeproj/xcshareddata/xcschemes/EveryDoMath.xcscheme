@@ -40,6 +40,16 @@
                ReferencedContainer = "container:EveryDoMath.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "27085AF02F866B850001C6EF"
+               BuildableName = "EveryDoMathUITests.xctest"
+               BlueprintName = "EveryDoMathUITests"
+               ReferencedContainer = "container:EveryDoMath.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

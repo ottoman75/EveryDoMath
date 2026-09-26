@@ -37,6 +37,18 @@ platform :ios do
   # App ID(Developer 포털) 쪽은 이미 등록돼 있다. Xcode 가 app-store
   # export 시 자동 생성했다: GS7MKDFWW3.kr.co.ottocraft.EveryDoMath
 
+  desc "단위 테스트를 돌린다 (UI 테스트 제외)"
+  lane :test do
+    # EveryDoMathUITests 는 제외한다.
+    #   - ScreenshotTests 는 App Store 스크린샷 촬영용 도구다
+    #   - UploadPathTests 는 운영 Firestore 에 문서를 실제로 쓴다
+    # 둘 다 회귀 테스트가 아니라 수동 실행 도구이므로 기본 실행에서 뺀다.
+    run_tests(
+      scheme: SCHEME,
+      skip_testing: ["EveryDoMathUITests"]
+    )
+  end
+
   desc "앱 레코드가 App Store Connect 에 있는지 확인한다"
   lane :check_app do
     require 'spaceship'
