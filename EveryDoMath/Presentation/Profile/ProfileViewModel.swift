@@ -10,6 +10,7 @@ final class ProfileViewModel {
     var longestStreak: Int = 0
     var isEditingNickname: Bool = false
     var nicknameInput: String = ""
+    var nicknameError: String?
 
     private let profileRepo = ProfileRepository()
     private let gameRepo = GameRepository()
@@ -24,8 +25,15 @@ final class ProfileViewModel {
     }
 
     func saveNickname() {
-        let trimmed = nicknameInput.trimmingCharacters(in: .whitespaces)
-        guard !trimmed.isEmpty else { return }
+        let trimmed: String
+        switch NicknameValidator.validate(nicknameInput) {
+        case .success(let valid):
+            trimmed = valid
+        case .failure(let failure):
+            nicknameError = failure.messageKey
+            return
+        }
+        nicknameError = nil
         var p = profile ?? PlayerProfile(nickname: trimmed)
         p.nickname = trimmed
         profileRepo.saveProfile(p)

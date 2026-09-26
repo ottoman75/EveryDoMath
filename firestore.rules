@@ -128,6 +128,33 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // ────────────────────────────────────────────────────────────
+    // 신고 — 부적절한 별명 (심사 가이드라인 1.2)
+    // ────────────────────────────────────────────────────────────
+    match /reports/{reportId} {
+
+      // 신고 내용은 운영자만 Firebase 콘솔에서 본다.
+      // 앱에서 남의 신고를 읽을 이유가 없다.
+      allow read: if false;
+
+      allow create: if isSignedIn()
+        && request.resource.data.keys().hasOnly(
+             ['reporterId', 'reportedUserId', 'reportedNickname', 'reason', 'createdAt'])
+        && request.resource.data.keys().hasAll(
+             ['reporterId', 'reportedUserId', 'reportedNickname', 'reason', 'createdAt'])
+        // 신고자를 사칭할 수 없다
+        && request.resource.data.reporterId == request.auth.uid
+        // 자기 자신은 신고할 수 없다
+        && request.resource.data.reportedUserId is string
+        && request.resource.data.reportedUserId != request.auth.uid
+        && isSaneNickname(request.resource.data.reportedNickname)
+        && request.resource.data.reason in ['inappropriate_name', 'other']
+        && request.resource.data.createdAt == request.time;
+
+      // 한번 남긴 신고는 고치거나 지울 수 없다.
+      allow update, delete: if false;
+    }
+
     // 명시하지 않은 경로는 전부 차단한다.
     match /{document=**} {
       allow read, write: if false;

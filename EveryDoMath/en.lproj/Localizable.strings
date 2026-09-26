@@ -22,7 +22,7 @@
 
 /* Profile Setup */
 "setup.nickname_label" = "Nickname";
-"setup.nickname_placeholder" = "Enter your name";
+"setup.nickname_placeholder" = "Make up a nickname";
 "setup.grade_label" = "Grade";
 "setup.start_button" = "Get Started →";
 
@@ -189,4 +189,19 @@
 "result.level_label" = "Lv %d";
 "result.level_up" = "🎉 Level UP! Lv %d!";
 
-
+/* Nickname & Moderation */
+"common.cancel" = "Cancel";
+"common.confirm" = "OK";
+"nickname.hint" = "Don't use your real name, school, or phone number";
+"nickname.error_too_short" = "Nicknames need at least 2 characters";
+"nickname.error_too_long" = "Nicknames can be up to 12 characters";
+"nickname.error_personal_info" = "Nicknames can't contain long number sequences";
+"nickname.error_banned_word" = "That nickname contains words you can't use";
+"moderation.report" = "Report";
+"moderation.block" = "Hide this player";
+"moderation.report_title" = "Report this nickname?";
+"moderation.report_message" = "Inappropriate nicknames are reviewed. This player will be hidden from you right away.";
+"moderation.report_confirm" = "Report";
+"moderation.notice_title" = "Notice";
+"moderation.report_done" = "Thanks — your report was submitted.";
+"moderation.block_done" = "This player is now hidden.";

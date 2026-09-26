@@ -4,6 +4,7 @@ struct ProfileSetupView: View {
     @Environment(AppState.self) private var appState
     @State private var nickname: String = ""
     @State private var selectedGrade: Grade = .grade3
+    @State private var validationError: String?
     @FocusState private var isFocused: Bool
 
     var body: some View {
@@ -67,6 +68,12 @@ struct ProfileSetupView: View {
                         .focused($isFocused)
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.never)
+                        .onChange(of: nickname) { _, _ in validationError = nil }
+
+                    // 별명은 다른 사용자에게 공개된다. 실명을 적지 않도록 안내한다.
+                    Text(validationError.map { LocalizedStringKey($0) } ?? "nickname.hint")
+                        .font(.system(size: 12, weight: .medium, design: .rounded))
+                        .foregroundColor(validationError == nil ? .appSubtext : .appDanger)
                 }
                 .padding(.horizontal, 24)
 
@@ -115,8 +122,14 @@ struct ProfileSetupView: View {
     }
 
     private func saveAndStart() {
-        let name = nickname.trimmingCharacters(in: .whitespaces)
-        guard !name.isEmpty else { return }
+        let name: String
+        switch NicknameValidator.validate(nickname) {
+        case .success(let valid):
+            name = valid
+        case .failure(let failure):
+            validationError = failure.messageKey
+            return
+        }
 
         let profile = PlayerProfile(nickname: name, preferredGrade: selectedGrade)
         let profileRepo = ProfileRepository()

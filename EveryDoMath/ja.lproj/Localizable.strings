@@ -22,7 +22,7 @@
 
 /* Profile Setup */
 "setup.nickname_label" = "ニックネーム";
-"setup.nickname_placeholder" = "名前を入力してください";
+"setup.nickname_placeholder" = "ニックネームを考えてね";
 "setup.grade_label" = "学年";
 "setup.start_button" = "はじめる →";
 
@@ -189,4 +189,19 @@
 "result.level_label" = "Lv %d";
 "result.level_up" = "🎉 レベルアップ！Lv %d 達成！";
 
-
+/* Nickname & Moderation */
+"common.cancel" = "キャンセル";
+"common.confirm" = "OK";
+"nickname.hint" = "本名・学校名・電話番号は書かないでください";
+"nickname.error_too_short" = "ニックネームは2文字以上にしてください";
+"nickname.error_too_long" = "ニックネームは12文字までです";
+"nickname.error_personal_info" = "数字が長く続くニックネームは使えません";
+"nickname.error_banned_word" = "使えない言葉が含まれています";
+"moderation.report" = "報告する";
+"moderation.block" = "表示しない";
+"moderation.report_title" = "このニックネームを報告しますか？";
+"moderation.report_message" = "不適切なニックネームは確認のうえ対応します。報告した相手はすぐに表示されなくなります。";
+"moderation.report_confirm" = "報告";
+"moderation.notice_title" = "お知らせ";
+"moderation.report_done" = "報告を受け付けました。";
+"moderation.block_done" = "このユーザーは表示されなくなりました。";

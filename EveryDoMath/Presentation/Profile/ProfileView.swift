@@ -55,21 +55,31 @@ struct ProfileView: View {
             }
 
             if viewModel.isEditingNickname {
-                HStack(spacing: 8) {
-                    TextField("profile.nickname_placeholder", text: $viewModel.nicknameInput)
-                        .font(.system(size: 22, weight: .bold, design: .rounded))
-                        .foregroundColor(.appText)
-                        .multilineTextAlignment(.center)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
+                VStack(spacing: 6) {
+                    HStack(spacing: 8) {
+                        TextField("profile.nickname_placeholder", text: $viewModel.nicknameInput)
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
+                            .foregroundColor(.appText)
+                            .multilineTextAlignment(.center)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                            .onChange(of: viewModel.nicknameInput) { _, _ in
+                                viewModel.nicknameError = nil
+                            }
 
-                    Button {
-                        viewModel.saveNickname()
-                    } label: {
-                        Image(systemName: "checkmark.circle.fill")
-                            .font(.system(size: 24))
-                            .foregroundColor(.appSuccess)
+                        Button {
+                            viewModel.saveNickname()
+                        } label: {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.system(size: 24))
+                                .foregroundColor(.appSuccess)
+                        }
                     }
+
+                    Text(viewModel.nicknameError.map { LocalizedStringKey($0) } ?? "nickname.hint")
+                        .font(.system(size: 12, weight: .medium, design: .rounded))
+                        .foregroundColor(viewModel.nicknameError == nil ? .appSubtext : .appDanger)
+                        .multilineTextAlignment(.center)
                 }
                 .padding(.horizontal, 40)
             } else {

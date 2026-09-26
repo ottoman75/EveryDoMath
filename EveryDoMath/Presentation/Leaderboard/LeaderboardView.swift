@@ -2,6 +2,7 @@ import SwiftUI
 
 struct LeaderboardView: View {
     @State private var viewModel = LeaderboardViewModel()
+    @State private var reportTarget: RemoteLeaderboardEntry?
 
     var body: some View {
         ZStack {
@@ -57,6 +58,29 @@ struct LeaderboardView: View {
         }
         .onAppear {
             viewModel.loadEntries()
+        }
+        .alert(
+            "moderation.report_title",
+            isPresented: Binding(get: { reportTarget != nil }, set: { if !$0 { reportTarget = nil } }),
+            presenting: reportTarget
+        ) { entry in
+            Button("common.cancel", role: .cancel) { reportTarget = nil }
+            Button("moderation.report_confirm", role: .destructive) {
+                let target = entry
+                reportTarget = nil
+                Task { await viewModel.report(target) }
+            }
+        } message: { _ in
+            Text("moderation.report_message")
+        }
+        .alert(
+            "moderation.notice_title",
+            isPresented: Binding(get: { viewModel.toastMessage != nil },
+                                 set: { if !$0 { viewModel.toastMessage = nil } })
+        ) {
+            Button("common.confirm", role: .cancel) { viewModel.toastMessage = nil }
+        } message: {
+            Text(verbatim: viewModel.toastMessage ?? "")
         }
     }
 
@@ -180,6 +204,22 @@ struct LeaderboardView: View {
             LazyVStack(spacing: 8) {
                 ForEach(viewModel.remoteEntries) { entry in
                     remoteLeaderboardRow(entry: entry)
+                        // 심사 가이드라인 1.2: 신고와 차단 수단을 제공해야 한다.
+                        // 내 기록에는 붙이지 않는다.
+                        .contextMenu {
+                            if !entry.isMe {
+                                Button(role: .destructive) {
+                                    reportTarget = entry
+                                } label: {
+                                    Label("moderation.report", systemImage: "exclamationmark.bubble")
+                                }
+                                Button {
+                                    viewModel.block(entry)
+                                } label: {
+                                    Label("moderation.block", systemImage: "eye.slash")
+                                }
+                            }
+                        }
                 }
             }
             .padding(.horizontal, 16)

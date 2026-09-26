@@ -21,14 +21,14 @@
 "home.leaderboard" = "리더보드";
 
 /* Profile Setup */
-"setup.nickname_label" = "닉네임";
-"setup.nickname_placeholder" = "이름을 입력하세요";
+"setup.nickname_label" = "별명";
+"setup.nickname_placeholder" = "별명을 지어주세요";
 "setup.grade_label" = "학년";
 "setup.start_button" = "시작하기 →";
 
 /* Profile */
 "profile.title" = "프로필";
-"profile.nickname_placeholder" = "닉네임";
+"profile.nickname_placeholder" = "별명";
 "profile.default_player" = "플레이어";
 "profile.total_play" = "총 플레이";
 "profile.best_score" = "최고 점수";
@@ -189,4 +189,19 @@
 "result.level_label" = "Lv %d";
 "result.level_up" = "🎉 레벨 UP! Lv %d 달성!";
 
-
+/* Nickname & Moderation */
+"common.cancel" = "취소";
+"common.confirm" = "확인";
+"nickname.hint" = "실명·학교·전화번호는 쓰지 마세요";
+"nickname.error_too_short" = "별명은 2자 이상이어야 해요";
+"nickname.error_too_long" = "별명은 12자까지 쓸 수 있어요";
+"nickname.error_personal_info" = "숫자가 길게 들어간 별명은 쓸 수 없어요";
+"nickname.error_banned_word" = "쓸 수 없는 말이 들어 있어요";
+"moderation.report" = "신고하기";
+"moderation.block" = "안 보이게 하기";
+"moderation.report_title" = "이 별명을 신고할까요?";
+"moderation.report_message" = "부적절한 별명은 검토 후 처리됩니다. 신고한 사용자는 바로 보이지 않게 됩니다.";
+"moderation.report_confirm" = "신고";
+"moderation.notice_title" = "알림";
+"moderation.report_done" = "신고가 접수됐어요.";
+"moderation.block_done" = "이제 이 사용자가 보이지 않아요.";
