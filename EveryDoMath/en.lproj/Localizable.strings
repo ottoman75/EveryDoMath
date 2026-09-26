@@ -4,6 +4,7 @@
 
 /* Grade */
 "grade.label" = "Grade %d";
+"grade.unit" = "Grade";
 
 /* Units */
 "unit.times_count" = "%d times";
@@ -118,6 +119,8 @@
 "family.score_format" = "%d pts";
 "family.code_error" = "Please enter a 6-digit code.";
 "family.default_nickname" = "Me";
+"family.error_not_found" = "Group not found.";
+"family.error_decode_failed" = "Failed to load data.";
 
 /* Goal Settings */
 "goal.settings.daily_target" = "Daily Game Target";

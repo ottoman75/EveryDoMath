@@ -17,7 +17,7 @@ struct GradeSelectorView: View {
                         VStack(spacing: 4) {
                             Text("\(grade.rawValue)")
                                 .font(.system(size: 24, weight: .bold, design: .rounded))
-                            Text("학년")
+                            Text("grade.unit")
                                 .font(.system(size: 12, weight: .medium, design: .rounded))
                         }
                         .foregroundColor(isSelected ? .white : .appSubtext)

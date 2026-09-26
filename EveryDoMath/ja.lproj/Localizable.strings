@@ -4,6 +4,7 @@
 
 /* Grade */
 "grade.label" = "%d年生";
+"grade.unit" = "年生";
 
 /* Units */
 "unit.times_count" = "%d回";
@@ -118,6 +119,8 @@
 "family.score_format" = "%d点";
 "family.code_error" = "6桁のコードを入力してください。";
 "family.default_nickname" = "自分";
+"family.error_not_found" = "グループが見つかりません。";
+"family.error_decode_failed" = "データの読み込みに失敗しました。";
 
 /* Goal Settings */
 "goal.settings.daily_target" = "1日の目標ゲーム数";

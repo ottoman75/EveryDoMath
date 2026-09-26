@@ -121,8 +121,8 @@ final class FamilyGroupRepository {
         case notFound, decodeFailed
         var errorDescription: String? {
             switch self {
-            case .notFound: return "그룹을 찾을 수 없습니다."
-            case .decodeFailed: return "데이터를 불러오는 데 실패했습니다."
+            case .notFound: return L("family.error_not_found")
+            case .decodeFailed: return L("family.error_decode_failed")
             }
         }
     }
