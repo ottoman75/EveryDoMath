@@ -43,8 +43,5 @@ final class ProfileViewModel {
         UserDefaults.standard.removeObject(forKey: "daily_records")
         UserDefaults.standard.removeObject(forKey: "achievements")
         UserDefaults.standard.removeObject(forKey: "leaderboard")
-        for grade in Grade.allCases where !grade.isFree {
-            UserDefaults.standard.removeObject(forKey: "trial_used_grade_\(grade.rawValue)")
-        }
     }
 }

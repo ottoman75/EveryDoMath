@@ -5,7 +5,6 @@ enum Grade: Int, Codable, CaseIterable, Identifiable, Hashable {
 
     var id: Int { rawValue }
     var label: String { L("grade.label", rawValue) }
-    var isFree: Bool { self == .grade1 || self == .grade2 }
 
     var allowedOperations: [MathOperation] {
         switch self {

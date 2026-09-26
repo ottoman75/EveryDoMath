@@ -3,7 +3,6 @@ import SwiftUI
 struct HomeView: View {
     @Environment(AppState.self) private var appState
     @State private var viewModel = HomeViewModel()
-    @State private var showIAPStore = false
 
     var body: some View {
         ZStack {
@@ -45,9 +44,6 @@ struct HomeView: View {
             }
         }
         .navigationBarHidden(true)
-        .sheet(isPresented: $showIAPStore) {
-            IAPStoreView()
-        }
         .onAppear {
             viewModel.loadData()
         }
@@ -125,9 +121,7 @@ struct HomeView: View {
                 .foregroundColor(.appText)
                 .padding(.horizontal, 20)
 
-            GradeSelectorView(selectedGrade: Bindable(viewModel).selectedGrade) {
-                showIAPStore = true
-            }
+            GradeSelectorView(selectedGrade: Bindable(viewModel).selectedGrade)
         }
     }
 
@@ -181,17 +175,8 @@ struct HomeView: View {
 
     private var startButton: some View {
         Button {
-            let grade = viewModel.selectedGrade
-            if IAPManager.shared.isGradeUnlocked(grade) {
-                let session = viewModel.createNewSession()
-                appState.navigationPath.append(AppDestination.game(session))
-            } else if TrialManager.isTrialAvailable(for: grade) {
-                let session = viewModel.createTrialSession()
-                TrialManager.markTrialUsed(for: grade)
-                appState.navigationPath.append(AppDestination.game(session))
-            } else {
-                showIAPStore = true
-            }
+            let session = viewModel.createNewSession()
+            appState.navigationPath.append(AppDestination.game(session))
         } label: {
             HStack(spacing: 12) {
                 Image(systemName: "play.fill")

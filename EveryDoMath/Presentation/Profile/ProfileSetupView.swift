@@ -76,7 +76,7 @@ struct ProfileSetupView: View {
                         .foregroundColor(.appSubtext)
                         .padding(.horizontal, 24)
 
-                    GradeSelectorView(selectedGrade: $selectedGrade, allowLockedSelection: true)
+                    GradeSelectorView(selectedGrade: $selectedGrade)
                 }
 
                 Spacer()
