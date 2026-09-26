@@ -1,16 +1,133 @@
 rules_version = '2';
+
+// EveryDoMath Firestore 보안 규칙
+//
+// 전제: 이 앱에는 로그인이 없다. 사용자 식별자는 UserIdentityRepository 가
+// 기기마다 생성해 UserDefaults 에 보관하는 UUID 이고, Firebase Auth 를 쓰지
+// 않으므로 request.auth 는 항상 null 이다.
+//
+// 따라서 규칙으로 검증할 수 있는 것은 "누가 보냈는가" 가 아니라
+// "어떤 모양의 데이터인가" 뿐이다. 신원 위조를 막으려면 익명 인증을 붙이고
+// request.auth.uid 를 문서 키로 써야 한다. 아래 규칙은 그 전까지
+// 공격 표면을 줄이는 것이 목적이다.
+
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // 글로벌 리더보드: 누구나 읽기 가능, 쓰기는 문서 ID와 userId 필드가 일치할 때만
-    match /leaderboard/{userId} {
-      allow read: if true;
-      allow write: if request.resource.data.userId == userId;
+    // UUID().uuidString 형식 (16진수 + 하이픈, 36자)
+    function isDeviceUuid(s) {
+      return s is string
+        && s.size() == 36
+        && s.matches('^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$');
     }
 
-    // 가족 리더보드 그룹: 읽기/쓰기 모두 허용 (초대 코드로 접근 제어)
+    // 닉네임은 어린이가 직접 입력한다. 앱에 길이 제한이 없어 여기서 막는다.
+    function isSaneNickname(s) {
+      return s is string && s.size() >= 1 && s.size() <= 20;
+    }
+
+    // ────────────────────────────────────────────────────────────
+    // 글로벌 리더보드 — 유저당 문서 1개, 문서 ID = userId
+    // ────────────────────────────────────────────────────────────
+    match /leaderboard/{userId} {
+
+      function isValidEntry(uid) {
+        let d = request.resource.data;
+        let fields = ['userId', 'nickname', 'grade', 'score', 'gameGrade', 'correctCount', 'updatedAt'];
+        return isDeviceUuid(uid)
+          && d.userId == uid
+          && d.keys().hasOnly(fields)
+          && d.keys().hasAll(fields)
+          && isSaneNickname(d.nickname)
+          && d.grade is int && d.grade >= 1 && d.grade <= 6
+          // ScoreCalculator 상한: base 500 + time 300 + combo 200
+          && d.score is int && d.score >= 0 && d.score <= 1000
+          && d.gameGrade in ['S', 'A', 'B', 'C', 'D']
+          // GameSession.problemCount
+          && d.correctCount is int && d.correctCount >= 0 && d.correctCount <= 20
+          // FieldValue.serverTimestamp() 로 보낸 값만 통과시킨다
+          && d.updatedAt == request.time;
+      }
+
+      // 공개 랭킹이므로 읽기는 열어 둔다.
+      //   - fetchMyRank 의 순위 집계 쿼리에 limit 이 없어 list 를 제한할 수 없다
+      //   - 무엇보다 닉네임이 공개되는 것은 이 기능의 설계 자체다.
+      //     어린이 이름이 노출되는 문제는 규칙이 아니라 업로드하는 값을
+      //     바꿔서 풀어야 한다 (P0 별건).
+      allow read: if true;
+
+      allow create: if isValidEntry(userId);
+
+      // 앱은 최고 점수만 유지한다(RemoteLeaderboardRepository 의 트랜잭션).
+      // 점수를 깎는 쓰기는 정상 경로에 없으므로 막는다.
+      allow update: if isValidEntry(userId)
+                    && request.resource.data.score > resource.data.score;
+
+      // 앱에 삭제 경로가 없다. 콘솔에서만 지운다.
+      allow delete: if false;
+    }
+
+    // ────────────────────────────────────────────────────────────
+    // 가족 그룹 — 초대 코드로 참여
+    // ────────────────────────────────────────────────────────────
     match /familyGroups/{groupId} {
-      allow read, write: if true;
+
+      function groupFields() {
+        return ['id', 'groupCode', 'memberIds', 'memberNames', 'scores', 'createdAt', 'createdBy'];
+      }
+
+      function isValidNewGroup() {
+        let d = request.resource.data;
+        return d.keys().hasOnly(groupFields())
+          && d.keys().hasAll(groupFields())
+          && d.id == groupId
+          // FamilyGroup.generateCode(): 혼동 문자(I, O, 0, 1) 제외 6자리
+          && d.groupCode is string
+          && d.groupCode.matches('^[A-HJ-NP-Z2-9]{6}$')
+          && d.createdAt is timestamp
+          && isDeviceUuid(d.createdBy)
+          // 생성 시점에는 만든 사람 혼자다
+          && d.memberIds is list && d.memberIds.size() == 1
+          && d.memberIds[0] == d.createdBy
+          && d.memberNames is map && d.memberNames.size() == 1
+          && d.scores is map && d.scores.size() == 1;
+      }
+
+      function isValidGroupUpdate() {
+        let d = request.resource.data;
+        let p = resource.data;
+        // 참여/점수갱신/탈퇴는 멤버 관련 필드만 건드린다. 나머지는 불변이다.
+        // 마지막 멤버가 탈퇴하면 맵이 비거나 사라질 수 있어 get(기본값) 으로 읽는다.
+        return d.keys().hasOnly(groupFields())
+          && d.id == p.id
+          && d.groupCode == p.groupCode
+          && d.createdAt == p.createdAt
+          && d.createdBy == p.createdBy
+          // 가족 단위를 넘어서는 팽창을 막는다
+          && d.get('memberIds', []).size() <= 20
+          && d.get('memberNames', {}).size() <= 20
+          && d.get('scores', {}).size() <= 20;
+      }
+
+      // 문서 ID 는 Firestore 자동 생성(20자)이라 추측할 수 없다.
+      // fetchLeaderboard(groupId:) 가 쓰는 단건 조회만 허용한다.
+      allow get: if true;
+
+      // 앱이 날리는 목록 쿼리는 joinGroup 의
+      // whereField("groupCode", ==).limit(to: 1) 하나뿐이다.
+      // limit 을 1로 묶어 컬렉션 전체 나열(덤프)을 막는다.
+      allow list: if request.query.limit <= 1;
+
+      allow create: if isValidNewGroup();
+      allow update: if isValidGroupUpdate();
+
+      // 탈퇴는 memberIds 에서 제거하는 방식이다. 문서 삭제 경로는 없다.
+      allow delete: if false;
+    }
+
+    // 명시하지 않은 경로는 전부 차단한다.
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }
