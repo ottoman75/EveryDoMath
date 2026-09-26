@@ -24,19 +24,28 @@ platform :ios do
     )
   end
 
-  desc "Developer 포털 App ID 와 App Store Connect 앱 레코드를 만든다 (최초 1회)"
-  lane :create_app do
-    produce(
-      app_identifier: APP_IDENTIFIER,
-      app_name: "매일매일 수학",
-      language: "ko",
-      sku: "EVERYDOMATH001",
-      # 로컬 알림과 Firestore 는 App ID 서비스가 필요 없다.
-      # 인앱결제는 제거했으므로 켜지 않는다.
-      enable_services: {},
-      skip_itc: false,
-      skip_devcenter: false
-    )
+  # 앱 레코드 생성 lane 은 두지 않는다.
+  #
+  # App Store Connect API 는 앱 레코드 생성을 지원하지 않는다. 실제 응답:
+  #   The resource 'apps' does not allow 'CREATE'.
+  #   Allowed operations are: GET_COLLECTION, GET_INSTANCE, UPDATE
+  #
+  # fastlane produce 는 API 키가 아니라 Apple ID 웹 세션으로 이 제약을
+  # 우회하므로 username/password 가 필요하다. 그래서 여기서는 쓰지 않는다.
+  # 앱 레코드는 App Store Connect 웹에서 한 번만 만들면 된다.
+  #
+  # App ID(Developer 포털) 쪽은 이미 등록돼 있다. Xcode 가 app-store
+  # export 시 자동 생성했다: GS7MKDFWW3.kr.co.ottocraft.EveryDoMath
+
+  desc "앱 레코드가 App Store Connect 에 있는지 확인한다"
+  lane :check_app do
+    require 'spaceship'
+    app = Spaceship::ConnectAPI::App.find(APP_IDENTIFIER)
+    if app
+      UI.success("앱 레코드 있음 — #{app.name} (Apple ID: #{app.id})")
+    else
+      UI.user_error!("앱 레코드가 없다. App Store Connect 웹에서 먼저 생성할 것: #{APP_IDENTIFIER}")
+    end
   end
 
   desc "아카이브해서 TestFlight 에 올린다"
@@ -59,9 +68,9 @@ platform :ios do
     )
   end
 
-  desc "create_app 과 upload 를 이어서 실행한다"
+  desc "앱 레코드를 확인하고 업로드한다"
   lane :release do
-    create_app
+    check_app
     upload
   end
 end
