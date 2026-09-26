@@ -15,7 +15,10 @@ final class RemoteLeaderboardRepository {
 
     /// 현재 점수가 Firestore에 저장된 최고 점수보다 높을 때만 업데이트
     func uploadScore(nickname: String, grade: Grade, score: Int, gameGrade: GameGrade, correctCount: Int) {
-        let userId = UserIdentityRepository.shared.userId
+        guard let userId = UserIdentityRepository.shared.userId else {
+            print("ℹ️ [RemoteLeaderboard] 로그인 전이라 업로드를 건너뛴다")
+            return
+        }
         let docRef = db.collection(collection).document(userId)
 
         db.runTransaction({ transaction, errorPointer -> Any? in
@@ -83,7 +86,7 @@ final class RemoteLeaderboardRepository {
 
     /// 내 순위 조회 (내 최고 점수보다 높은 유저 수 + 1)
     func fetchMyRank(grade: Grade? = nil) async -> Int? {
-        let userId = UserIdentityRepository.shared.userId
+        guard let userId = UserIdentityRepository.shared.userId else { return nil }
         let docRef = db.collection(collection).document(userId)
 
         do {
@@ -122,7 +125,8 @@ struct RemoteLeaderboardEntry: Identifiable {
     let date: Date
 
     var isMe: Bool {
-        userId == UserIdentityRepository.shared.userId
+        guard let myId = UserIdentityRepository.shared.userId else { return false }
+        return userId == myId
     }
 
     init?(rank: Int, docId: String, data: [String: Any]) {

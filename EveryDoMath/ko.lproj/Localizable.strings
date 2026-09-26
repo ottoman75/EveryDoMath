@@ -121,6 +121,7 @@
 "family.default_nickname" = "나";
 "family.error_not_found" = "그룹을 찾을 수 없습니다.";
 "family.error_decode_failed" = "데이터를 불러오는 데 실패했습니다.";
+"family.error_no_identity" = "사용자 인증이 준비되지 않았습니다. 잠시 후 다시 시도해주세요.";
 
 /* Goal Settings */
 "goal.settings.daily_target" = "하루 목표 게임 횟수";

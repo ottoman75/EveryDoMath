@@ -100,11 +100,12 @@ final class ResultViewModel {
             checkDailyChallenge()
 
             // 가족 그룹 점수 업데이트 (비동기)
-            if let groupId = familyRepo.savedGroupId {
+            if let groupId = familyRepo.savedGroupId,
+               let uid = userIdentityRepo.userId {
                 Task {
                     try? await familyRepo.updateScore(
                         groupId: groupId,
-                        uid: userIdentityRepo.userId,
+                        uid: uid,
                         score: finalScore
                     )
                 }

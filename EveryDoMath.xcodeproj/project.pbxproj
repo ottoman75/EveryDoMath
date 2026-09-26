@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		27FBCR012F9A0001 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 27FBCR032F9A0001 /* FirebaseCore */; };
 		27FBFS022F9A0001 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 27FBFS042F9A0001 /* FirebaseFirestore */; };
+		27FBAU052F9A0001 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 27FBAU062F9A0001 /* FirebaseAuth */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 			files = (
 				27FBCR012F9A0001 /* FirebaseCore in Frameworks */,
 				27FBFS022F9A0001 /* FirebaseFirestore in Frameworks */,
+				27FBAU052F9A0001 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,6 +123,7 @@
 			packageProductDependencies = (
 				27FBCR032F9A0001 /* FirebaseCore */,
 				27FBFS042F9A0001 /* FirebaseFirestore */,
+				27FBAU062F9A0001 /* FirebaseAuth */,
 			);
 			productName = EveryDoMath;
 			productReference = 27085ADA2F866B820001C6EF /* EveryDoMath.app */;
@@ -614,6 +617,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 27085B5F2F8881190001C6EF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		27FBAU062F9A0001 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27085B5F2F8881190001C6EF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

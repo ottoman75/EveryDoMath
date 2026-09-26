@@ -121,6 +121,7 @@
 "family.default_nickname" = "Me";
 "family.error_not_found" = "Group not found.";
 "family.error_decode_failed" = "Failed to load data.";
+"family.error_no_identity" = "Sign-in isn't ready yet. Please try again in a moment.";
 
 /* Goal Settings */
 "goal.settings.daily_target" = "Daily Game Target";

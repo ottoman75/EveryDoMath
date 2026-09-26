@@ -121,6 +121,7 @@
 "family.default_nickname" = "自分";
 "family.error_not_found" = "グループが見つかりません。";
 "family.error_decode_failed" = "データの読み込みに失敗しました。";
+"family.error_no_identity" = "認証の準備ができていません。しばらくしてからもう一度お試しください。";
 
 /* Goal Settings */
 "goal.settings.daily_target" = "1日の目標ゲーム数";

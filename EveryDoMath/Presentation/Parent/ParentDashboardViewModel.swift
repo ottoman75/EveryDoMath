@@ -110,7 +110,7 @@ final class ParentDashboardViewModel {
         isLoading = true
         errorMessage = nil
         do {
-            let uid = userIdentityRepo.userId
+            let uid = try requireUserId()
             let nickname = profileRepo.loadProfile()?.nickname ?? L("family.default_nickname")
             familyGroup = try await familyRepo.createGroup(uid: uid, nickname: nickname)
             isInGroup = true
@@ -130,7 +130,7 @@ final class ParentDashboardViewModel {
         isLoading = true
         errorMessage = nil
         do {
-            let uid = userIdentityRepo.userId
+            let uid = try requireUserId()
             let nickname = profileRepo.loadProfile()?.nickname ?? L("family.default_nickname")
             familyGroup = try await familyRepo.joinGroup(code: code, uid: uid, nickname: nickname)
             isInGroup = true
@@ -145,7 +145,7 @@ final class ParentDashboardViewModel {
         guard let groupId = familyRepo.savedGroupId else { return }
         isLoading = true
         do {
-            let uid = userIdentityRepo.userId
+            let uid = try requireUserId()
             try await familyRepo.leaveGroup(groupId: groupId, uid: uid)
             familyGroup = nil
             isInGroup = false
@@ -153,6 +153,19 @@ final class ParentDashboardViewModel {
             errorMessage = error.localizedDescription
         }
         isLoading = false
+    }
+
+    // MARK: - 신원
+
+    /// 익명 로그인이 아직 끝나지 않았을 수 있다. 그 경우 사용자에게 알린다.
+    private func requireUserId() throws -> String {
+        guard let uid = userIdentityRepo.userId else { throw IdentityError.notReady }
+        return uid
+    }
+
+    enum IdentityError: LocalizedError {
+        case notReady
+        var errorDescription: String? { L("family.error_no_identity") }
     }
 
     // MARK: - 학습 목표
