@@ -1,0 +1,5 @@
+/* 홈 화면 아이콘 아래 표시되는 이름.
+   빌드 설정(INFOPLIST_KEY_CFBundleDisplayName)에 넣으면 전 기기 동일하게
+   박히므로, 기기 언어별로 다르게 하려면 .lproj 마다 이 파일이 필요하다.
+   아이콘 아래 폭이 좁아 12자 내외가 안전하다. */
+"CFBundleDisplayName" = "매일매일 수학";
