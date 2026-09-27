@@ -15,6 +15,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
+### ios test
+
+```sh
+[bundle exec] fastlane ios test
+```
+
+단위 테스트를 돌린다 (UI 테스트 제외)
+
 ### ios check_app
 
 ```sh
