@@ -9,5 +9,12 @@
   "support_url": "https://ottoman75.github.io/everydomath-privacy/support.html",
   "screenshot_device": "iPhone 17 Pro Max",
   "screenshot_test": "EveryDoMathUITests/ScreenshotTests",
-  "screenshot_order": ["02_홈", "03_게임", "04_게임_진행중", "06_부모대시보드", "01_프로필설정"]
+  "screenshot_order": [
+    "02_홈",
+    "03_게임",
+    "04_게임_진행중",
+    "06_부모대시보드",
+    "01_프로필설정",
+    "05_리더보드"
+  ]
 }
