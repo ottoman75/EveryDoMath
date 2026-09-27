@@ -23,6 +23,7 @@ _workspace/
 # (인증은 fastlane/.env* 와 저장소 밖의 .p8 이 담당한다).
 !.claude/appstore.json
 !.claude/metadata/
+!.claude/asc-answers.md
 
 # fastlane / bundler
 vendor/
