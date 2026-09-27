@@ -36,6 +36,8 @@ private struct AppRootView: View {
                                 ProfileSetupView()
                             case .parentDashboard:
                                 ParentDashboardView()
+                            case .familyLeaderboard:
+                                FamilyLeaderboardScreen()
                             }
                         }
                 }

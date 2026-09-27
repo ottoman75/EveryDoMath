@@ -205,3 +205,15 @@
 "moderation.notice_title" = "Notice";
 "moderation.report_done" = "Thanks — your report was submitted.";
 "moderation.block_done" = "This player is now hidden.";
+
+/* Parent Gate & Family Screen */
+"home.family_leaderboard" = "Family Leaderboard";
+"family.screen_title" = "Family Leaderboard";
+"gate.title" = "Parent Check";
+"gate.subtitle" = "This section is for parents.
+Please solve the problem below.";
+"gate.placeholder" = "Answer";
+"gate.hint" = "Enter digits only";
+"gate.wrong" = "That's not correct. Try the new problem.";
+"gate.confirm" = "Continue";
+"gate.cancel" = "Go Back";

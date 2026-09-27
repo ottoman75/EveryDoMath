@@ -30,4 +30,5 @@ enum AppDestination: Hashable {
     case profile
     case profileSetup
     case parentDashboard
+    case familyLeaderboard
 }

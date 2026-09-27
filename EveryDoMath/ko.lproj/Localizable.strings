@@ -205,3 +205,15 @@
 "moderation.notice_title" = "알림";
 "moderation.report_done" = "신고가 접수됐어요.";
 "moderation.block_done" = "이제 이 사용자가 보이지 않아요.";
+
+/* Parent Gate & Family Screen */
+"home.family_leaderboard" = "가족 리더보드";
+"family.screen_title" = "가족 리더보드";
+"gate.title" = "보호자 확인";
+"gate.subtitle" = "이 화면은 보호자용입니다.
+아래 문제를 풀어주세요.";
+"gate.placeholder" = "정답";
+"gate.hint" = "숫자로 입력하세요";
+"gate.wrong" = "답이 맞지 않습니다. 새 문제로 다시 시도하세요.";
+"gate.confirm" = "확인";
+"gate.cancel" = "돌아가기";

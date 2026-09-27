@@ -14,12 +14,13 @@ struct ParentDashboardView: View {
                 tabPicker
                     .padding(.vertical, 12)
 
+                // 가족 리더보드는 부모 기능이 아니라 아이가 형제·부모와 겨루는
+                // 기능이라 별도 화면(FamilyLeaderboardScreen)으로 옮겼다.
                 TabView(selection: $viewModel.selectedTab) {
                     learningStatsTab.tag(0)
-                    FamilyLeaderboardView(viewModel: viewModel).tag(1)
                     GoalSettingsView(goal: Bindable(viewModel).goal) { newGoal in
                         viewModel.saveGoal(newGoal)
-                    }.tag(2)
+                    }.tag(1)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
             }
@@ -61,8 +62,7 @@ struct ParentDashboardView: View {
     private var tabPicker: some View {
         let tabs: [(String, Int)] = [
             (L("parent.tab.stats"), 0),
-            (L("parent.tab.family"), 1),
-            (L("parent.tab.goal"), 2)
+            (L("parent.tab.goal"), 1)
         ]
         return HStack(spacing: 0) {
             ForEach(tabs, id: \.1) { title, tag in

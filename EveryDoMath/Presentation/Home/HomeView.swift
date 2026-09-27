@@ -3,13 +3,16 @@ import SwiftUI
 struct HomeView: View {
     @Environment(AppState.self) private var appState
     @State private var viewModel = HomeViewModel()
+    @State private var showParentGate = false
 
     var body: some View {
         ZStack {
             Color.appBackground.ignoresSafeArea()
 
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 24) {
+                // 간격 18 — 24 로 두면 콘텐츠가 한 화면을 넘어 하단
+                // 리더보드 버튼이 잘린다(6.9" 기준).
+                VStack(spacing: 18) {
                     headerSection
 
                     if viewModel.currentStreak > 0 {
@@ -38,12 +41,17 @@ struct HomeView: View {
 
                     parentDashboardButton
 
-                    leaderboardButton
+                    leaderboardRow
                 }
-                .padding(.vertical, 16)
+                .padding(.vertical, 12)
             }
         }
         .navigationBarHidden(true)
+        .fullScreenCover(isPresented: $showParentGate) {
+            ParentGateView {
+                appState.navigationPath.append(AppDestination.parentDashboard)
+            }
+        }
         .onAppear {
             viewModel.loadData()
         }
@@ -204,7 +212,9 @@ struct HomeView: View {
 
     private var parentDashboardButton: some View {
         Button {
-            appState.navigationPath.append(AppDestination.parentDashboard)
+            // 부모 게이트를 통과해야 들어간다. 아이가 학습 목표와 알림을
+            // 마음대로 끄는 것을 막는다.
+            showParentGate = true
         } label: {
             HStack(spacing: 8) {
                 Image(systemName: "chart.xyaxis.line")
@@ -225,26 +235,43 @@ struct HomeView: View {
 
     // MARK: - Leaderboard Button
 
-    private var leaderboardButton: some View {
-        Button {
-            appState.navigationPath.append(AppDestination.leaderboard)
-        } label: {
-            HStack(spacing: 8) {
-                Image(systemName: "chart.bar.fill")
-                    .font(.system(size: 18))
-                Text("home.leaderboard")
-                    .font(.system(size: 18, weight: .semibold, design: .rounded))
+    /// 리더보드 두 종류는 성격이 같으므로 한 줄에 나란히 둔다.
+    /// 세로로 쌓으면 홈 하단 버튼이 4개가 되어 빽빽해진다.
+    private var leaderboardRow: some View {
+        HStack(spacing: 12) {
+            secondaryButton(titleKey: "home.leaderboard", icon: "chart.bar.fill") {
+                appState.navigationPath.append(AppDestination.leaderboard)
             }
-            .foregroundColor(.appSubtext)
-            .frame(maxWidth: .infinity)
-            .frame(height: 50)
-            .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color.appCardBorder, lineWidth: 1)
-            )
+            secondaryButton(titleKey: "home.family_leaderboard", icon: "person.3.fill") {
+                appState.navigationPath.append(AppDestination.familyLeaderboard)
+            }
         }
         .padding(.horizontal, 20)
     }
+
+    private func secondaryButton(titleKey: LocalizedStringKey, icon: String,
+                                 action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            VStack(spacing: 6) {
+                Image(systemName: icon)
+                    .font(.system(size: 18))
+                Text(titleKey)
+                    .font(.system(size: 15, weight: .semibold, design: .rounded))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+            }
+            .foregroundColor(.appSubtext)
+            .frame(maxWidth: .infinity)
+            .frame(height: 68)
+            .background(
+                RoundedRectangle(cornerRadius: 18)
+                    .fill(Color.appCard)
+                    .overlay(RoundedRectangle(cornerRadius: 18)
+                        .stroke(Color.appCardBorder, lineWidth: 1))
+            )
+        }
+    }
+
 }
 
 // MARK: - StatCardView
@@ -256,7 +283,7 @@ private struct StatCardView: View {
     let color: Color
 
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 6) {
             Image(systemName: iconName)
                 .font(.system(size: 24))
                 .foregroundColor(color)

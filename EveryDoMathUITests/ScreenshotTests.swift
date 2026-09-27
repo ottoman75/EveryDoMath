@@ -16,7 +16,8 @@ final class ScreenshotTests: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
         app = XCUIApplication()
-        app.launchArguments += ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
+        app.launchArguments += ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR",
+                                "-UITestSeedData"]   // 통계·기록 표본 주입
         app.launch()
     }
 
@@ -50,12 +51,21 @@ final class ScreenshotTests: XCTestCase {
 
             let startSetup = app.buttons["시작하기 →"]
             if waitFor(startSetup, 5) { startSetup.tap() }
+
+            // 프로필 설정이 통계 0 인 새 프로필을 만들어 시드를 덮어쓴다.
+            // 재시작하면 시드가 기존 프로필의 통계만 갱신한다.
+            _ = app.buttons["시작하기"].waitForExistence(timeout: 20)
+            app.terminate()
+            app.launch()
         }
 
         // ── 2. 홈 ──────────────────────────────────────────────
         let startButton = app.buttons["시작하기"]
         XCTAssertTrue(waitFor(startButton, 15), "홈 화면 진입 실패")
         sleep(1)
+        // 스크롤하면 콘텐츠가 상태바와 겹친다. 한 화면에 들어가야 한다.
+        XCTAssertTrue(app.buttons["가족 리더보드"].isHittable,
+                      "하단 버튼이 잘렸다 — 홈 레이아웃이 한 화면을 넘는다")
         snap("02_홈")
 
         // ── 3. 게임 ────────────────────────────────────────────
@@ -78,7 +88,10 @@ final class ScreenshotTests: XCTestCase {
         }
         snap("04_게임_진행중")
 
-        // ── 4. 게임을 끝내지 않고 홈으로 돌아가 나머지 화면 캡처 ──
+        // ── 4. 게임을 빠져나와 나머지 화면 캡처 ────────────────
+        // 20문제를 실제로 풀지 않는다. TimerRingView 가 0.1초마다 갱신되어
+        // XCUITest 가 앱을 idle 로 보지 못하고 질의마다 정체가 쌓여
+        // 타임아웃이 난다(실측 794초 후 실패). 통계는 -UITestSeedData 로 넣는다.
         let quit = app.buttons["포기"]
         if waitFor(quit, 5) {
             quit.tap()
@@ -98,12 +111,42 @@ final class ScreenshotTests: XCTestCase {
             }
         }
 
-        // ── 6. 부모 대시보드 ───────────────────────────────────
+        // ── 6. 부모 대시보드 (부모 게이트 통과 필요) ────────────
         let parent = app.buttons["부모 대시보드"]
         if waitFor(parent, 10) {
             parent.tap()
+            XCTAssertTrue(passParentGate(), "부모 게이트를 통과하지 못했다")
             sleep(3)
+            // 게이트 화면이 아니라 대시보드가 찍혔는지 확인한다.
+            // 확인하지 않으면 게이트 화면이 스토어 스크린샷으로 올라간다.
+            XCTAssertFalse(app.staticTexts["보호자 확인"].exists,
+                           "게이트 화면이 남아 있다 — 대시보드에 도달하지 못했다")
             snap("06_부모대시보드")
         }
+    }
+
+
+    /// 부모 게이트의 "십사 곱하기 십칠" 형식을 읽어 정답을 넣는다.
+    /// 화면 문구가 바뀌면 여기도 같이 고쳐야 한다.
+    @discardableResult
+    private func passParentGate() -> Bool {
+        guard app.staticTexts["보호자 확인"].waitForExistence(timeout: 10) else {
+            return true   // 게이트가 없는 빌드
+        }
+        let words = ["십": 10, "십일": 11, "십이": 12, "십삼": 13, "십사": 14,
+                     "십오": 15, "십육": 16, "십칠": 17, "십팔": 18, "십구": 19]
+        for text in app.staticTexts.allElementsBoundByIndex where text.exists {
+            let parts = text.label.components(separatedBy: " 곱하기 ")
+            guard parts.count == 2,
+                  let a = words[parts[0].trimmingCharacters(in: .whitespaces)],
+                  let b = words[parts[1].trimmingCharacters(in: .whitespaces)] else { continue }
+            let field = app.textFields.firstMatch
+            guard field.waitForExistence(timeout: 5) else { return false }
+            field.tap()
+            field.typeText(String(a * b))
+            app.buttons["확인"].tap()
+            return !app.staticTexts["보호자 확인"].waitForExistence(timeout: 3)
+        }
+        return false
     }
 }

@@ -205,3 +205,15 @@
 "moderation.notice_title" = "お知らせ";
 "moderation.report_done" = "報告を受け付けました。";
 "moderation.block_done" = "このユーザーは表示されなくなりました。";
+
+/* Parent Gate & Family Screen */
+"home.family_leaderboard" = "家族リーダーボード";
+"family.screen_title" = "家族リーダーボード";
+"gate.title" = "保護者の確認";
+"gate.subtitle" = "この画面は保護者向けです。
+下の問題を解いてください。";
+"gate.placeholder" = "答え";
+"gate.hint" = "数字で入力してください";
+"gate.wrong" = "正しくありません。新しい問題で再度お試しください。";
+"gate.confirm" = "確認";
+"gate.cancel" = "戻る";
