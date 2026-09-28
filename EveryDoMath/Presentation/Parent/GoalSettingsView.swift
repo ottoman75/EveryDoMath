@@ -88,6 +88,17 @@ struct GoalSettingsView: View {
                             Toggle("", isOn: $draft.isReminderEnabled)
                                 .labelsHidden()
                                 .tint(.appPrimaryStart)
+                                .onChange(of: draft.isReminderEnabled) { _, isOn in
+                                    // 알림 권한은 여기서만 요청한다. 부모가 켜겠다고
+                                    // 한 순간이 요청할 자격이 생기는 유일한 시점이다.
+                                    guard isOn else { return }
+                                    Task {
+                                        let granted = await NotificationManager.shared.requestPermission()
+                                        // 거부당했는데 토글이 켜진 채로 남으면 화면이
+                                        // 오지 않을 알림을 온다고 말하게 된다.
+                                        if !granted { draft.isReminderEnabled = false }
+                                    }
+                                }
                         }
 
                         if draft.isReminderEnabled {

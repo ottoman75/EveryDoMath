@@ -17,7 +17,11 @@ final class NotificationManager {
 
     // MARK: - 스트릭 리마인더
 
-    func scheduleStreakReminder(streak: Int) {
+    /// 스트릭 리마인더를 예약한다.
+    ///
+    /// 시각은 부모가 목표 설정에서 고른 값을 그대로 쓴다. 예전에는 19시가 박혀 있어,
+    /// 아침 8시로 맞춘 부모에게 고른 적 없는 19시 알림이 매일 따로 갔다.
+    func scheduleStreakReminder(streak: Int, hour: Int, minute: Int = 0) {
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: ["streak-reminder"])
 
@@ -32,8 +36,8 @@ final class NotificationManager {
         content.sound = .default
 
         var dateComponents = DateComponents()
-        dateComponents.hour = 19
-        dateComponents.minute = 0
+        dateComponents.hour = hour
+        dateComponents.minute = minute
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         center.add(UNNotificationRequest(identifier: "streak-reminder", content: content, trigger: trigger))
     }

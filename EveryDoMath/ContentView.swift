@@ -42,6 +42,7 @@ private struct AppRootView: View {
                         }
                 }
                 .environment(appState)
+                .task { UITestSeed.pushResultIfRequested(appState) }
             }
         }
     }

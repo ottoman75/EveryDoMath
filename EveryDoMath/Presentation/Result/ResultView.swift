@@ -115,7 +115,10 @@ struct ResultView: View {
         HStack(spacing: 12) {
             resultStatView(title: L("result.stat_correct"), value: "\(viewModel.correctCount)/\(GameSession.problemCount)", color: .appSuccess)
             resultStatView(title: L("result.stat_time"), value: String(format: "%.1fs", viewModel.totalTime), color: .appPrimaryStart)
-            resultStatView(title: L("result.stat_combo"), value: "\(session.score > 0 ? "x\(viewModel.correctCount)" : "-")", color: .appWarning)
+            // 정답 개수가 아니라 최대 콤보다. 점수의 콤보 보너스가 session.maxCombo 로
+            // 계산되므로, 여기서 correctCount 를 보여주면 같은 화면에서 점수와 콤보가
+            // 서로 다른 값을 말하게 된다(18문제 정답 · 최대 콤보 11 → "x18" 로 표시됐다).
+            resultStatView(title: L("result.stat_combo"), value: session.maxCombo > 0 ? "x\(session.maxCombo)" : "-", color: .appWarning)
         }
     }
 

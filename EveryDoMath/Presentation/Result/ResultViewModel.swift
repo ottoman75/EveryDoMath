@@ -21,6 +21,7 @@ final class ResultViewModel {
     private let challengeRepo = DailyChallengeRepository()
     private let familyRepo = FamilyGroupRepository()
     private let userIdentityRepo = UserIdentityRepository.shared
+    private let goalRepo = LearningGoalRepository()
 
     init(session: GameSession) {
         self.session = session
@@ -93,8 +94,19 @@ final class ResultViewModel {
             currentTotalXP = updatedProfile.totalXP
             didLevelUp = levelAfter > levelBefore
 
-            // 스트릭 알림 업데이트
-            NotificationManager.shared.scheduleStreakReminder(streak: streak)
+            // 스트릭 알림 업데이트.
+            //
+            // 설정을 확인하고 예약한다. 예전에는 게임이 끝날 때마다 조건 없이
+            // 예약해서, 부모가 알림을 켠 적이 없어도 매일 19시 알림이 등록됐다.
+            // isReminderEnabled 는 목표 알림 한 곳만 감싸고 있었고 이쪽은 비어 있었다.
+            let goal = goalRepo.load()
+            if goal.isReminderEnabled {
+                NotificationManager.shared.scheduleStreakReminder(
+                    streak: streak, hour: goal.reminderHour, minute: goal.reminderMinute)
+            } else {
+                // 켰다가 껐다면 이미 등록된 예약을 거둬들인다.
+                NotificationManager.shared.cancelStreakReminder()
+            }
 
             // 오늘의 도전 달성 체크
             checkDailyChallenge()

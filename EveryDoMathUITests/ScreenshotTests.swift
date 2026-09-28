@@ -21,6 +21,34 @@ final class ScreenshotTests: XCTestCase {
         app.launch()
     }
 
+    /// iOS 시스템 권한 팝업이 떠 있으면 닫는다.
+    ///
+    /// XCUITest 에서 시스템 알림은 앱이 아니라 springboard 소속이다.
+    /// 버튼을 라벨로 찾지 않는다 — 팝업은 앱이 아니라 *시뮬레이터 시스템* 언어를 따르므로
+    /// 한국어 스크린샷을 찍는 중에도 일본어로 뜰 수 있다 (실제로 그렇게 찍혔다).
+    /// 알림 권한 팝업의 첫 버튼은 거부("허용 안 함")이고, 그쪽이 우리가 원하는 선택이다.
+    private func dismissSystemAlertIfPresent() {
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        let alert = springboard.alerts.firstMatch
+        guard alert.waitForExistence(timeout: 5) else { return }
+        let deny = alert.buttons.element(boundBy: 0)
+        guard deny.exists else { return }
+        deny.tap()
+        sleep(1)
+    }
+
+    /// 키보드를 내린다. 키보드가 올라와 있으면 화면 하단이 통째로 가려진다.
+    private func dismissKeyboard() {
+        if app.keyboards.element.exists {
+            app.buttons["Return"].firstMatch.tap()
+        }
+        if app.keyboards.element.exists {
+            // Return 이 없는 키패드는 바깥을 눌러 내린다
+            app.staticTexts.firstMatch.tap()
+        }
+        sleep(1)
+    }
+
     private func snap(_ name: String) {
         let shot = XCTAttachment(screenshot: app.screenshot())
         shot.name = name
@@ -41,13 +69,23 @@ final class ScreenshotTests: XCTestCase {
         // ── 1. 최초 실행: 프로필 설정 ───────────────────────────
         let nicknameField = app.textFields.firstMatch
         if waitFor(nicknameField, 8) {
-            snap("01_프로필설정")
+            // 알림 권한 팝업이 화면을 가린다. 게다가 "앱이 권한을 요구하는 장면"은
+            // "묻지 않고 바로 시작" 메시지와 정면으로 모순된다. 먼저 닫는다.
+            dismissSystemAlertIfPresent()
+
+            // 채우고 나서 찍는다. 빈 입력칸과 회색 시작하기 버튼은 "별명만 정하면
+            // 된다"가 아니라 "앱이 뭔가 요구한다"로 읽힌다.
             nicknameField.tap()
             nicknameField.typeText("수학왕")
 
-            // 3학년 선택 (학년 칩은 숫자 텍스트로 노출된다)
-            let grade3 = app.buttons.containing(.staticText, identifier: "3").firstMatch
-            if grade3.exists { grade3.tap() }
+            // 4학년 — 시드의 preferredGrade 와 맞춘다. 여기만 3학년이면
+            // 프로필 설정 스크린샷과 홈 스크린샷이 서로 다른 학년을 보여준다.
+            let grade4 = app.buttons.containing(.staticText, identifier: "4").firstMatch
+            if grade4.exists { grade4.tap() }
+
+            // 키보드가 화면 절반을 가린 채로 찍히면 안 된다
+            dismissKeyboard()
+            snap("01_프로필설정")
 
             let startSetup = app.buttons["시작하기 →"]
             if waitFor(startSetup, 5) { startSetup.tap() }
@@ -74,6 +112,16 @@ final class ScreenshotTests: XCTestCase {
         let key7 = app.buttons["7"]
         XCTAssertTrue(waitFor(key7, 15), "게임 화면 진입 실패")
         sleep(1)
+
+        // 첫 문제가 한 자리 수끼리면 다시 뽑는다.
+        //
+        // 이 화면이 스토어 5장 중 첫 장이다. 그런데 문제는 매판 난수라
+        // 4학년인데 `9 ÷ 3` 이 나온 적이 있다 — 앱을 대표하지 못한다.
+        // 버리는 것은 뽑기 결과뿐이고, 남는 것도 앱이 그 학년에 실제로 내는 문제다.
+        for _ in 0..<8 {
+            if problemLooksRepresentative() { break }
+            rerollProblem()
+        }
         snap("03_게임")
 
         // 몇 문제 풀어 콤보/피드백이 있는 화면을 만든다
@@ -123,8 +171,52 @@ final class ScreenshotTests: XCTestCase {
                            "게이트 화면이 남아 있다 — 대시보드에 도달하지 못했다")
             snap("06_부모대시보드")
         }
+
+        // ── 7. 결과 ────────────────────────────────────────────
+        // 20문제를 실제로 풀지 않는다(위 4번 참조). 시드가 만들어 둔 결과 세션을
+        // 네비게이션에 직접 올리도록 인자를 바꿔 재실행한다.
+        // 그 세션은 난수를 쓰지 않으므로 점수·등급이 촬영할 때마다 같다.
+        app.terminate()
+        app.launchArguments += ["-UITestShowResult"]
+        app.launch()
+
+        let playAgain = app.buttons["다시 하기"]
+        XCTAssertTrue(waitFor(playAgain, 15), "결과 화면 진입 실패")
+        // 점수 카운트업 애니메이션이 끝나야 최종 점수가 찍힌다
+        sleep(3)
+        snap("07_결과")
     }
 
+
+    /// 화면에 떠 있는 문제가 스토어에 쓸 만한가.
+    /// 판단 기준은 하나 — 피연산자 중 적어도 하나가 두 자리 이상인가.
+    private func problemLooksRepresentative() -> Bool {
+        guard let label = problemLabel() else { return true }   // 못 읽으면 통과시킨다
+        return label.contains { $0.isNumber } &&
+            label.split(whereSeparator: { !$0.isNumber })
+                 .contains { $0.count >= 2 }
+    }
+
+    /// `9 ÷ 3 = ?` 형태의 문제 문구를 찾는다.
+    private func problemLabel() -> String? {
+        app.staticTexts.allElementsBoundByIndex
+            .map(\.label)
+            .first { $0.hasSuffix("= ?") }
+    }
+
+    /// 포기하고 다시 시작해 새 문제를 뽑는다.
+    private func rerollProblem() {
+        let quit = app.buttons["포기"]
+        guard waitFor(quit, 5) else { return }
+        quit.tap()
+        let confirm = app.alerts.buttons["포기"]
+        if waitFor(confirm, 5) { confirm.tap() }
+        let start = app.buttons["시작하기"]
+        guard waitFor(start, 10) else { return }
+        start.tap()
+        _ = waitFor(app.buttons["7"], 15)
+        sleep(1)
+    }
 
     /// 부모 게이트의 "십사 곱하기 십칠" 형식을 읽어 정답을 넣는다.
     /// 화면 문구가 바뀌면 여기도 같이 고쳐야 한다.

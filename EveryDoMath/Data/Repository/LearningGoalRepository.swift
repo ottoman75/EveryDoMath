@@ -19,11 +19,14 @@ final class LearningGoalRepository {
         if let data = try? encoder.encode(goal) {
             defaults.set(data, forKey: key)
         }
-        // 알림 업데이트
+        // 알림 업데이트.
+        // 스트릭 알림도 같이 다룬다. 이걸 빼면 부모가 알림을 끈 뒤에도 이미 등록된
+        // 스트릭 알림이 다음 게임이 끝날 때까지 살아남는다.
         if goal.isReminderEnabled {
             NotificationManager.shared.scheduleGoalReminder(hour: goal.reminderHour, minute: goal.reminderMinute)
         } else {
             NotificationManager.shared.cancelGoalReminder()
+            NotificationManager.shared.cancelStreakReminder()
         }
     }
 
