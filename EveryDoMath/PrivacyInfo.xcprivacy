@@ -36,6 +36,22 @@
 				<string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
 			</array>
 		</dict>
+		<!-- 점수, 학년, 등급, 정답 수. 최고 점수를 갱신했을 때 리더보드로 전송되고
+		     앱 이용자 전체에게 공개된다. 처리방침 1-나 의 표와 같은 항목이다.
+		     별명(OtherUserContent)만 선언하고 이쪽을 빠뜨리면, 처리방침이 공개한다고
+		     적은 것을 매니페스트는 수집하지 않는다고 말하게 된다. -->
+		<dict>
+			<key>NSPrivacyCollectedDataType</key>
+			<string>NSPrivacyCollectedDataTypeGameplayContent</string>
+			<key>NSPrivacyCollectedDataTypeLinked</key>
+			<true/>
+			<key>NSPrivacyCollectedDataTypeTracking</key>
+			<false/>
+			<key>NSPrivacyCollectedDataTypePurposes</key>
+			<array>
+				<string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
+			</array>
+		</dict>
 	</array>
 
 	<key>NSPrivacyAccessedAPITypes</key>
