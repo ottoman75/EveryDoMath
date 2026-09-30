@@ -5,11 +5,27 @@ App Store Connect for future submissions.
 --------------------------------------------------------------------------
 1. SCREEN RECORDING
 --------------------------------------------------------------------------
-A screen recording captured on a physical iPhone running the latest iOS is
-attached. It starts with launching the app and follows the typical user flow:
-nickname entry, grade selection, a full 20-problem session, the result screen,
-the leaderboard including the report and block controls, and the parent area
-behind the parent gate.
+A screen recording captured on a physical iPhone 16 Pro running iOS 27.0 is
+attached to App Review Information. It starts with launching the app from the
+Home screen and follows the typical user flow, with no cuts.
+
+Timestamps, so the moderation controls are easy to find:
+  0:00  App launched from the iOS Home screen
+  0:05  Nickname entry and grade selection (no login, no registration)
+  0:20  Home screen
+  0:25  A full 20-problem session, played to completion (correct and
+        incorrect answers both occur)
+  2:55  Result screen: score, grade, max combo
+  3:05  Leaderboard
+  3:16  LONG-PRESS on another user's row opens the moderation menu, showing
+        신고하기 (Report) and 안 보이게 하기 (Hide / block)
+  3:37  Block confirmed; that user disappears from the leaderboard
+  4:05  Profile: achievements, streak, 데이터 초기화 (Reset Data)
+  4:20  Parent gate solved, then the Parent Dashboard (both tabs)
+  4:55  Family Leaderboard
+  5:07  REPORT FLOW: long-press, 신고하기, the confirmation dialog, and the
+        "report received" acknowledgement. The reported user is also hidden
+        immediately, which is why the row disappears.
 
 Please note which of the listed items do NOT exist in this app, so they do not
 appear in the recording:
