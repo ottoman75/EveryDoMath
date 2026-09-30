@@ -1,92 +1,149 @@
-EveryDoMath (매일매일 수학) 1.0 — App Review Notes
+Thank you for the review. Answers to each of the six items are below, and the
+same information has been added to the Notes field of App Review Information in
+App Store Connect for future submissions.
 
-[1] WHAT THE APP DOES AND WHO IT IS FOR
-A mental-arithmetic drill app for elementary school children (grades 1-6) and
-their parents. One session is 20 problems generated on the device, scoped to the
-child's grade:
-  Grade 1  + and - within 20
-  Grade 2  + and - within 100
-  Grade 3  + , - , x (1-9 times tables)
-  Grade 4  + , - , x (2-digit x 1-digit), division without remainder
-  Grade 5  fraction + and -, decimal + and - (mixed)
-  Grade 6  fraction x and division, decimal x and division
-Problem it solves: daily arithmetic practice is repetitive, and parents cannot
-see where a child is actually weak. A session takes about two minutes, the child
-gets immediate feedback and a score, and a parent can open the Parent Dashboard
-to see accuracy per operation and the current streak. All six grades are free.
-There is no advertising, no in-app purchase, and no subscription.
+--------------------------------------------------------------------------
+1. SCREEN RECORDING
+--------------------------------------------------------------------------
+A screen recording captured on a physical iPhone running the latest iOS is
+attached. It starts with launching the app and follows the typical user flow:
+nickname entry, grade selection, a full 20-problem session, the result screen,
+the leaderboard including the report and block controls, and the parent area
+behind the parent gate.
 
-[2] NO ACCOUNT, NO LOGIN, NO CREDENTIALS NEEDED
-Nothing is registered and no demo account is required to review any part of the
-app. On first launch the app signs in to Firebase Anonymous Authentication in
-the background. The child only types a nickname (2-12 characters) and picks a
-grade. Because there is no account creation, there is no account deletion flow.
-Profile > "데이터 초기화" (Reset Data) erases all local records and also deletes
-the user's public leaderboard entry and family-group membership on the server.
+Please note which of the listed items do NOT exist in this app, so they do not
+appear in the recording:
+  - There is no account registration, login, or sign-in of any kind, so there
+    is no account deletion flow. See item 3 below.
+  - There is no paid content and no in-app purchase, so there is nothing to
+    unlock.
+User-generated content DOES exist (nicknames on the leaderboard), and the
+recording shows the report and block mechanisms for it.
 
-[3] HOW TO REACH EACH FEATURE
-Home      tap the large start button to play. The Daily Challenge card and the
-          daily goal progress bar are on the same screen.
-Game      20 problems, on-screen number pad, per-problem timer ring.
-Result    score, grade (S/A/B/C/D), max combo, and a shareable result card.
-Leaderboard  Home > 랭킹. Global top 50, filterable by grade.
-          To report or hide an entry, LONG-PRESS any row that is not your own.
-          A context menu appears with 신고 (report) and 차단 (hide).
-Profile   Home > 프로필. Achievements, streak, and 데이터 초기화 (Reset Data).
-Parent    Home > 부모 대시보드, behind a parent gate (below). Tabs: dashboard
-          (accuracy per operation), 목표 설정 (daily goal and study reminder),
-          가족 랭킹 (family group joined by a 6-character invite code).
+--------------------------------------------------------------------------
+2. PURPOSE AND TARGET AUDIENCE
+--------------------------------------------------------------------------
+EveryDoMath is a mental-arithmetic drill app for elementary school children in
+grades 1 through 6, and for the parents who practice with them.
 
-[PARENT GATE — PLEASE READ BEFORE TESTING]
-The Parent Dashboard is behind a gate that shows a two-digit multiplication
-written in Korean words, for example "십사 곱하기 십칠". Both numbers are
-between 11 and 19. Korean number words: 십일=11, 십이=12, 십삼=13, 십사=14,
-십오=15, 십육=16, 십칠=17, 십팔=18, 십구=19.
-So "십사 곱하기 십칠" = 14 x 17 = 238. Type the product and tap 확인.
-A wrong answer generates a new question.
+One session is 20 problems, generated on the device, scoped to the child's
+grade:
+  Grade 1  addition and subtraction within 20
+  Grade 2  addition and subtraction within 100
+  Grade 3  addition, subtraction, multiplication (1-9 times tables)
+  Grade 4  the four operations; 2-digit x 1-digit, division without remainder
+  Grade 5  fraction addition and subtraction, decimal addition and subtraction
+  Grade 6  fraction multiplication and division, decimal multiplication and
+           division
 
-[4] EXTERNAL SERVICES USED
-Only two, both from Firebase (Google):
-  - Firebase Anonymous Authentication: issues an anonymous user id so the server
-    can verify who is writing a leaderboard record. No email, phone number or
-    social login is involved.
-  - Cloud Firestore: stores the global leaderboard entry (nickname, grade,
-    score, correct count), family-group membership, and nickname reports.
-Linked Firebase libraries are exactly FirebaseCore, FirebaseAuth and
+The problem it solves: daily arithmetic practice is repetitive for the child and
+invisible to the parent, who cannot tell which operation the child is actually
+weak at. The value it provides: a session takes about two minutes, the child
+gets immediate per-problem feedback plus a score and grade, and the parent can
+open the Parent Dashboard to see accuracy broken down by operation along with
+the current practice streak. All six grades are free. There is no advertising,
+no in-app purchase and no subscription.
+
+--------------------------------------------------------------------------
+3. SETUP AND ACCESS INSTRUCTIONS
+--------------------------------------------------------------------------
+No login credentials or sample files are required. There is nothing to register
+and no demo account, because the app has no account system. On first launch it
+signs in to Firebase Anonymous Authentication in the background; the child only
+types a nickname (2-12 characters) and picks a grade. Since no account can be
+created, there is no account deletion flow to demonstrate.
+
+Data removal is still available: Profile > "데이터 초기화" (Reset Data) erases
+all local records and also deletes the user's public leaderboard entry and
+family-group membership on the server.
+
+How to reach each feature:
+  Home         The large start button begins a session. The Daily Challenge
+               card and the daily goal progress bar are on the same screen.
+  Game         20 problems, on-screen number pad, per-problem timer ring.
+  Result       Score, grade (S/A/B/C/D), max combo, and a shareable card.
+  Leaderboard  Home > 랭킹. Global top 50, filterable by grade.
+               To report or hide an entry, LONG-PRESS any row that is not your
+               own. A context menu appears with 신고 (report) and 차단 (hide).
+  Profile      Home > 프로필. Achievements, streak, and Reset Data.
+  Parent area  Home > 부모 대시보드, behind a parent gate (see below). Tabs:
+               dashboard (accuracy per operation), 목표 설정 (daily goal and
+               study reminder), 가족 랭킹 (family group joined by a
+               6-character invite code).
+
+PARENT GATE — please read before testing:
+The Parent Dashboard is behind a gate showing a two-digit multiplication written
+in Korean words, for example "십사 곱하기 십칠". Both numbers are between 11 and
+19. The Korean number words are: 십일=11, 십이=12, 십삼=13, 십사=14, 십오=15,
+십육=16, 십칠=17, 십팔=18, 십구=19.
+So "십사 곱하기 십칠" means 14 x 17 = 238. Type the product and tap 확인. A
+wrong answer simply generates a new question. The gate is deliberately harder
+than the app's own content, and written in words rather than digits, so that a
+child using the app cannot pass it by doing the arithmetic.
+
+--------------------------------------------------------------------------
+4. EXTERNAL SERVICES, TOOLS AND PLATFORMS
+--------------------------------------------------------------------------
+Exactly two services, both from Firebase (Google):
+
+  - Firebase Anonymous Authentication
+    Issues an anonymous user id so the server can verify who is writing a
+    leaderboard record. No email address, phone number, or social login is
+    involved, and no personal identifier is requested from the user.
+
+  - Cloud Firestore
+    Stores the public leaderboard entry (nickname, grade, score, correct
+    count), family-group membership, and nickname reports.
+
+The linked Firebase libraries are exactly FirebaseCore, FirebaseAuth and
 FirebaseFirestore. There is no analytics SDK, no crash reporter, no advertising
-SDK, no payment processor, no AI or machine-learning service, and no third-party
-data provider. All math problems are generated by on-device code
-(ProblemGenerator), so solving problems works fully offline. Only the
-leaderboard and the family group need a network connection.
+SDK, no payment processor, no AI or machine-learning service, and no
+third-party data provider of any kind.
 
-[5] REGIONAL DIFFERENCES
-None. The app behaves identically in every region: the same six grades, the same
-problem generator, the same features, and one shared global leaderboard. The
-interface is localized into Korean, English and Japanese and follows the device
-language; the arithmetic content itself is language-independent. No feature,
-price or content is gated by country.
+All math problems are produced by on-device code, so solving problems works
+fully offline. Only the leaderboard and the family group require a network
+connection.
 
-[6] REGULATED INDUSTRY OR THIRD-PARTY MATERIAL
-Neither applies. This is not a regulated industry, and the app contains no
-licensed or protected third-party material. Every math problem is produced
-algorithmically at runtime, not taken from a textbook or question bank. The
-illustrations, icon and copy are original work by the developer. No trademarks,
-curricula or content owned by a school, publisher or institution are used.
+--------------------------------------------------------------------------
+5. REGIONAL DIFFERENCES
+--------------------------------------------------------------------------
+The app functions consistently across all regions. There are no regional
+differences in features or content: the same six grades, the same problem
+generator, the same feature set, and a single shared global leaderboard
+everywhere. The interface is localized into Korean, English and Japanese and
+follows the device language, but the arithmetic content itself is
+language-independent. No feature, price or content is gated by country.
 
-[USER-GENERATED CONTENT — GUIDELINE 1.2]
-The leaderboard shows nicknames chosen by users. Safeguards:
-  - Nickname validation blocks banned words and strings that look like personal
-    information (4+ consecutive digits). A notice on the nickname screen tells
-    users not to enter real names, school names or phone numbers.
-  - Any leaderboard entry can be reported (신고) or hidden (차단) by
-    long-pressing the entry, as described in section 3.
-  - Firestore security rules prevent a user from reporting themselves,
-    impersonating another reporter, or reading the reports collection.
+--------------------------------------------------------------------------
+6. REGULATED INDUSTRY OR PROTECTED THIRD-PARTY MATERIAL
+--------------------------------------------------------------------------
+Neither applies, so no documentation or credentials are needed.
 
-[NOTIFICATIONS]
-The app does not ask for notification permission on first launch. Permission is
-requested only when a parent turns on 학습 알림 in Parent Dashboard > 목표 설정.
+The app does not operate in a regulated industry. It contains no licensed or
+protected third-party material: every math problem is generated algorithmically
+at runtime rather than taken from a textbook, question bank or any other
+source. The illustrations, app icon and all copy are original work by the
+developer. No trademarks, curricula or content owned by a school, publisher or
+institution are used.
+
+--------------------------------------------------------------------------
+ADDITIONAL CONTEXT — USER-GENERATED CONTENT (GUIDELINE 1.2)
+--------------------------------------------------------------------------
+Nicknames chosen by users appear on the public leaderboard, so the app includes:
+  - Filtering: nickname validation blocks banned words and strings that look
+    like personal information (4 or more consecutive digits). The nickname
+    screen warns users not to enter real names, school names or phone numbers.
+  - Reporting: any leaderboard entry can be reported (신고) as described in
+    item 3.
+  - Blocking: any leaderboard entry can be hidden (차단) from the same menu,
+    which takes effect immediately.
+  - Server-side rules prevent a user from reporting themselves, impersonating
+    another reporter, or reading the reports collection.
+
+NOTIFICATIONS
+The app does not request notification permission on first launch. Permission is
+requested only when a parent enables 학습 알림 in Parent Dashboard > 목표 설정.
 If permission is denied, the toggle returns to off.
 
-[SCOPE]
-iPhone only; iPad layout is not supported in 1.0.
+SCOPE
+iPhone only; an iPad layout is not supported in version 1.0.
