@@ -65,8 +65,11 @@ service cloud.firestore {
       allow update: if isValidEntry(userId)
                     && request.resource.data.score > resource.data.score;
 
-      // 앱에 삭제 경로가 없다. 콘솔에서만 지운다.
-      allow delete: if false;
+      // 「데이터 초기화」(ProfileViewModel.resetAllData) 가 본인 기록을 지운다.
+      // 초기화가 로컬만 지우면 별명과 점수가 공개 리더보드에 남아, 화면이
+      // 약속한 "모든 기록이 삭제됩니다" 가 거짓이 된다.
+      // 남의 문서는 isSelf 가 막는다.
+      allow delete: if isSelf(userId);
     }
 
     // ────────────────────────────────────────────────────────────

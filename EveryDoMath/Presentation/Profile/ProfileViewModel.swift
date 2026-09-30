@@ -14,6 +14,7 @@ final class ProfileViewModel {
 
     private let profileRepo = ProfileRepository()
     private let gameRepo = GameRepository()
+    private let familyRepo = FamilyGroupRepository()
 
     func loadData() {
         profile = profileRepo.loadProfile()
@@ -46,6 +47,20 @@ final class ProfileViewModel {
     }
 
     func resetAllData() {
+        // 공개된 것부터 지운다.
+        //
+        // 로컬만 지우면 "모든 게임 기록, 업적, 프로필이 삭제됩니다" 가 거짓이
+        // 된다. 별명과 점수는 글로벌 리더보드와(참여했다면) 가족 그룹 문서에
+        // 올라가 다른 사람에게 계속 보이기 때문이다.
+        RemoteLeaderboardRepository.shared.deleteMyEntry()
+
+        if let groupId = familyRepo.savedGroupId,
+           let uid = UserIdentityRepository.shared.userId {
+            // 로컬 키를 먼저 끊으면 실패했을 때 탈퇴할 방법이 사라진다.
+            // 성공한 뒤에 savedGroupId 를 비우는 것은 leaveGroup 이 한다.
+            Task { try? await familyRepo.leaveGroup(groupId: groupId, uid: uid) }
+        }
+
         UserDefaults.standard.removeObject(forKey: "player_profile")
         UserDefaults.standard.removeObject(forKey: "game_sessions")
         UserDefaults.standard.removeObject(forKey: "daily_records")

@@ -55,6 +55,30 @@ final class RemoteLeaderboardRepository {
         }
     }
 
+    // MARK: - 삭제
+
+    /// 내 공개 리더보드 기록을 지운다.
+    ///
+    /// 「데이터 초기화」가 로컬만 지우면 거짓이 된다. 별명과 점수는 글로벌
+    /// 리더보드에 올라가 다른 사용자에게 계속 보이기 때문이다.
+    ///
+    /// 완료를 기다리지 않는다. Firestore 는 오프라인에서도 삭제를 로컬 큐에
+    /// 영속으로 쌓아 두고 다음 연결에서 보내므로, 기다리지 않아도 유실되지
+    /// 않는다. 반대로 기다리면 비행기 모드에서 초기화가 멈춘 것처럼 보인다.
+    func deleteMyEntry() {
+        guard let userId = UserIdentityRepository.shared.userId else {
+            print("ℹ️ [RemoteLeaderboard] 로그인 전이라 지울 기록이 없다")
+            return
+        }
+        db.collection(collection).document(userId).delete { error in
+            if let error {
+                print("❌ [RemoteLeaderboard] 기록 삭제 실패: \(error.localizedDescription)")
+            } else {
+                print("✅ [RemoteLeaderboard] 공개 리더보드 기록 삭제 완료")
+            }
+        }
+    }
+
     // MARK: - 리더보드 조회
 
     /// 전체 또는 학년별 상위 50명 조회 (유저당 1개 문서)
