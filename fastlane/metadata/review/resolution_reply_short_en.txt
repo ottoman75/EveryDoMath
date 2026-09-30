@@ -1,0 +1,66 @@
+Thank you for the review. All six items are answered below, and the same
+information has been added to the Notes field of App Review Information.
+
+1. SCREEN RECORDING
+A recording made on a physical iPhone 16 Pro (iOS 27.0) is attached to App
+Review Information. It begins with launching the app and runs uncut.
+Timestamps: 0:00 launch from the Home screen; 0:05 nickname and grade (no
+login); 0:25 a full 20-problem session; 2:55 result; 3:05 leaderboard; 3:16
+long-press a row opens the moderation menu 신고하기 (Report) and 안 보이게 하기
+(Hide/block); 3:37 the blocked user disappears; 4:05 profile; 4:20 parent gate
+and Parent Dashboard; 4:55 family leaderboard; 5:07 the full report flow with
+its confirmation dialog.
+Not shown because they do not exist in this app: account registration, login
+and account deletion (there are no accounts), and paid content (no IAP).
+
+2. PURPOSE AND TARGET AUDIENCE
+Mental-arithmetic practice for elementary school children (grades 1-6) and
+their parents. A session is 20 problems generated on the device for the
+child's grade (G1-G2 add and subtract, G3 adds multiplication, G4 adds
+division, G5-G6 fractions and decimals). Problem solved: daily drilling is
+repetitive for the child and invisible to the parent, who cannot tell which
+operation the child is weak at. Value: a session takes about two minutes, the
+child gets immediate feedback and a score, and the parent dashboard shows
+accuracy per operation and the streak. All grades free; no ads, no IAP.
+
+3. SETUP AND ACCESS INSTRUCTIONS
+No login credentials or sample files are needed; the app has no account
+system. On first launch it signs in to Firebase Anonymous Authentication in
+the background, and the child only enters a nickname and picks a grade.
+The interface is Korean, so the exact button text is given:
+- Home: 시작하기 starts a session. At the bottom, 리더보드 (Leaderboard) and
+  가족 리더보드 (Family Leaderboard). Above them 부모 대시보드 (Parent
+  Dashboard), which is behind the gate.
+- Profile: the round PERSON ICON at the TOP-RIGHT of Home (icon only, no text
+  label). It contains 데이터 초기화 (Reset Data), which erases local records
+  and also deletes the public leaderboard entry and family-group membership.
+- Moderation: in 리더보드, press and hold about one second on a row that is
+  NOT your own. A menu opens with 신고하기 (Report) and 안 보이게 하기
+  (Hide/block). Your own row shows no menu, by design.
+- PARENT GATE: it shows a two-digit multiplication written in Korean words,
+  for example "십사 곱하기 십칠". Both numbers are between 11 and 19:
+  십일=11, 십이=12, 십삼=13, 십사=14, 십오=15, 십육=16, 십칠=17, 십팔=18,
+  십구=19. So that example is 14 x 17 = 238. Type the product and tap 확인.
+  A wrong answer simply generates a new question.
+
+4. EXTERNAL SERVICES
+Only two, both from Firebase: Anonymous Authentication (issues an anonymous id
+so the server can verify who writes a leaderboard record; no email, phone or
+social login) and Cloud Firestore (leaderboard entry, family group, nickname
+reports). Linked libraries are exactly FirebaseCore, FirebaseAuth and
+FirebaseFirestore. There is no analytics SDK, crash reporter, advertising SDK,
+payment processor, AI service or third-party data provider. Problems are
+generated on device, so play works offline; only the leaderboard and family
+group need a network.
+
+5. REGIONAL DIFFERENCES
+None. The app functions consistently across all regions: the same grades, the
+same problem generator, the same features and one shared global leaderboard.
+The UI is localized in Korean, English and Japanese following the device
+language; the arithmetic content is language-independent. Nothing is gated by
+country.
+
+6. REGULATED INDUSTRY OR PROTECTED THIRD-PARTY MATERIAL
+Neither applies, so no documentation or credentials are needed. Every problem
+is generated algorithmically at runtime, not taken from a textbook or question
+bank. The illustrations, icon and copy are the developer's original work.
