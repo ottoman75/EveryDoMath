@@ -57,27 +57,51 @@ Data removal is still available: Profile > "데이터 초기화" (Reset Data) er
 all local records and also deletes the user's public leaderboard entry and
 family-group membership on the server.
 
-How to reach each feature:
-  Home         The large start button begins a session. The Daily Challenge
-               card and the daily goal progress bar are on the same screen.
+How to reach each feature. The interface is in Korean, so the exact on-screen
+text is given below and can be matched visually without reading Korean.
+
+  Home         The large gradient button 시작하기 ("Start") begins a session.
+               The Daily Challenge card and the daily goal progress bar are on
+               the same screen. At the bottom, two buttons sit side by side:
+               리더보드 (Leaderboard) on the left and 가족 리더보드 (Family
+               Leaderboard) on the right. Neither is behind the parent gate.
+               Directly above them is 부모 대시보드 (Parent Dashboard), which
+               IS behind the gate.
+
+  Profile      Tap the round PERSON ICON in the TOP-RIGHT corner of the Home
+               screen. It is an icon only and carries no text label. Inside
+               are achievements, the streak, and 데이터 초기화 (Reset Data).
+
   Game         20 problems, on-screen number pad, per-problem timer ring.
+
   Result       Score, grade (S/A/B/C/D), max combo, and a shareable card.
-  Leaderboard  Home > 랭킹. Global top 50, filterable by grade.
-               To report or hide an entry, LONG-PRESS any row that is not your
-               own. A context menu appears with 신고 (report) and 차단 (hide).
-  Profile      Home > 프로필. Achievements, streak, and Reset Data.
-  Parent area  Home > 부모 대시보드, behind a parent gate (see below). Tabs:
-               dashboard (accuracy per operation), 목표 설정 (daily goal and
-               study reminder), 가족 랭킹 (family group joined by a
-               6-character invite code).
+
+  Leaderboard  Home > 리더보드. Global top 50, filterable by grade.
+               TO REPORT OR BLOCK: press and hold (long-press, about one
+               second) any row that is NOT your own. A context menu opens with
+               exactly two items:
+                   신고하기          = Report
+                   안 보이게 하기     = Hide (block)
+               Choosing 안 보이게 하기 removes that user from your leaderboard
+               immediately. Your own row deliberately shows no menu, since
+               there is nothing to report or block about yourself.
+
+  Parent area  Home > 부모 대시보드, behind the parent gate described below.
+               It has two tabs: 학습 현황 (accuracy per operation, streak and
+               chart) and 목표 설정 (daily goal and study reminder).
+
+  Family       Home > 가족 리더보드. Join an existing group with a
+               6-character invite code (초대 코드), or tap 새 그룹 만들기 to
+               create one. This screen is not behind the gate.
 
 PARENT GATE — please read before testing:
 The Parent Dashboard is behind a gate showing a two-digit multiplication written
 in Korean words, for example "십사 곱하기 십칠". Both numbers are between 11 and
 19. The Korean number words are: 십일=11, 십이=12, 십삼=13, 십사=14, 십오=15,
 십육=16, 십칠=17, 십팔=18, 십구=19.
-So "십사 곱하기 십칠" means 14 x 17 = 238. Type the product and tap 확인. A
-wrong answer simply generates a new question. The gate is deliberately harder
+So "십사 곱하기 십칠" means 14 x 17 = 238. The screen is titled 보호자 확인,
+the input placeholder reads 정답 ("answer"), and the confirm button is 확인.
+Type the product and tap 확인. A wrong answer simply generates a new question. The gate is deliberately harder
 than the app's own content, and written in words rather than digits, so that a
 child using the app cannot pass it by doing the arithmetic.
 
@@ -133,10 +157,10 @@ Nicknames chosen by users appear on the public leaderboard, so the app includes:
   - Filtering: nickname validation blocks banned words and strings that look
     like personal information (4 or more consecutive digits). The nickname
     screen warns users not to enter real names, school names or phone numbers.
-  - Reporting: any leaderboard entry can be reported (신고) as described in
-    item 3.
-  - Blocking: any leaderboard entry can be hidden (차단) from the same menu,
-    which takes effect immediately.
+  - Reporting: any leaderboard entry can be reported via 신고하기 in the
+    long-press menu described in item 3.
+  - Blocking: the same menu offers 안 보이게 하기, which hides that user from
+    the leaderboard immediately.
   - Server-side rules prevent a user from reporting themselves, impersonating
     another reporter, or reading the reports collection.
 

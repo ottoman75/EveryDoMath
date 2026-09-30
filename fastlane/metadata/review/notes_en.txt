@@ -3,63 +3,71 @@ EveryDoMath 1.0 — App Review Notes
 [PURPOSE / AUDIENCE]
 Mental-arithmetic drill app for elementary school children (grades 1-6) and
 their parents. A session is 20 problems generated on the device for the child's
-grade: G1 +/- within 20; G2 +/- within 100; G3 +,-,x (1-9 tables); G4 +,-,x,
-division without remainder; G5 fraction and decimal +/-; G6 fraction and decimal
-x and division. A session takes ~2 minutes; the parent dashboard shows accuracy
-per operation and the streak. All grades free. No ads, no IAP, no subscription.
+grade: G1/G2 add and subtract, G3 adds multiplication, G4 adds division, G5/G6
+fractions and decimals. A session takes about two minutes. All grades are free;
+no ads, no in-app purchase.
 
 [NO ACCOUNT, NO LOGIN, NO DEMO CREDENTIALS NEEDED]
 Nothing is registered. On first launch the app signs in to Firebase Anonymous
 Authentication in the background; the child types a nickname (2-12 chars) and
-picks a grade. Since there is no account creation, there is no account deletion
-flow. Profile > 데이터 초기화 (Reset Data) erases all local records and also
-deletes the user's public leaderboard entry and family-group membership.
+picks a grade. With no account creation there is no account deletion flow.
+데이터 초기화 (Reset Data) in Profile erases all local records and also deletes
+the public leaderboard entry and family-group membership.
 
-[HOW TO REACH EACH FEATURE]
-Home: large start button plays a session; Daily Challenge card and goal bar are
-on the same screen. Game: 20 problems, number pad, timer ring. Result: score,
-grade S/A/B/C/D, max combo, shareable card. Leaderboard (Home > 랭킹): global
-top 50, filter by grade; LONG-PRESS any row that is not your own to get 신고
-(report) and 차단 (hide). Profile (Home > 프로필): achievements, streak, Reset
-Data. Parent (Home > 부모 대시보드, behind the gate below): dashboard, 목표 설정
-(daily goal, study reminder), 가족 랭킹 (family group via 6-char invite code).
+[HOW TO REACH EACH FEATURE — exact on-screen labels]
+The UI is Korean; exact button text is given so it can be matched visually.
+Home: the large gradient button 시작하기 ("Start") plays a session; the Daily
+Challenge card and goal bar are on the same screen. Two buttons sit side by side
+at the bottom: 리더보드 (Leaderboard) and 가족 리더보드 (Family Leaderboard),
+neither gated. Above them is 부모 대시보드 (Parent Dashboard), which IS gated.
+Profile: tap the round PERSON ICON at the TOP-RIGHT of Home (no text label).
+Inside: achievements, streak, and 데이터 초기화 (Reset Data).
+Game: 20 problems, on-screen number pad, per-problem timer ring.
+Result: score, grade S/A/B/C/D, max combo, shareable card.
+Leaderboard (Home > 리더보드): global top 50, filter by grade. To moderate,
+LONG-PRESS (press and hold ~1s) any row that is NOT your own. A context menu
+opens with two items: 신고하기 (Report) and 안 보이게 하기 (Hide / block).
+Your own row shows no menu, by design.
+Parent Dashboard (Home > 부모 대시보드, gated): two tabs — 학습 현황 (accuracy
+per operation, streak, chart) and 목표 설정 (daily goal, study reminder).
+Family Leaderboard (Home > 가족 리더보드): join with a 6-character code
+(초대 코드) or 새 그룹 만들기 to create a group.
 
 [PARENT GATE — PLEASE READ BEFORE TESTING]
 The gate shows a two-digit multiplication written in Korean words, e.g. "십사
 곱하기 십칠". Both numbers are 11-19. 십일=11, 십이=12, 십삼=13, 십사=14,
 십오=15, 십육=16, 십칠=17, 십팔=18, 십구=19. So "십사 곱하기 십칠" = 14 x 17 =
-238. Type the product and tap 확인. A wrong answer generates a new question.
+238. The screen title is 보호자 확인, the input placeholder is 정답, and the
+button is 확인. A wrong answer generates a new question.
 
 [EXTERNAL SERVICES]
 Only Firebase Anonymous Authentication (anonymous user id so the server can
 verify who writes a leaderboard record; no email, phone or social login) and
 Cloud Firestore (leaderboard entry, family group, nickname reports). Linked
 libraries are exactly FirebaseCore, FirebaseAuth, FirebaseFirestore. No
-analytics, no crash reporter, no ad SDK, no payment processor, no AI service, no
-third-party data provider. Problems are generated on device, so play works
-offline; only leaderboard and family group need network.
+analytics, crash reporter, ad SDK, payment processor, AI service or third-party
+data provider. Play works offline; only leaderboard and family group need
+network.
 
 [REGIONAL DIFFERENCES]
 None. Identical features and content in every region, one shared global
-leaderboard. UI localized in Korean, English and Japanese, following device
-language; the arithmetic itself is language-independent. Nothing is gated by
-country.
+leaderboard. UI localized in Korean, English and Japanese following device
+language; the arithmetic is language-independent. Nothing is gated by country.
 
 [REGULATED INDUSTRY / THIRD-PARTY MATERIAL]
-Neither applies. Every problem is generated algorithmically at runtime, not
-taken from a textbook or question bank. Illustrations, icon and copy are the
-developer's original work. No third-party trademarks or curricula are used.
+Neither applies. Every problem is generated algorithmically at runtime, not from
+a textbook or question bank. Illustrations, icon and copy are original work.
 
 [USER-GENERATED CONTENT — GUIDELINE 1.2]
 Nicknames appear on the leaderboard. Validation blocks banned words and strings
-that look like personal information (4+ consecutive digits), and the nickname
-screen warns against real names, school names and phone numbers. Any entry can
-be reported or hidden as described above. Firestore rules stop users reporting
-themselves, impersonating a reporter, or reading the reports collection.
+that look like personal information (4+ consecutive digits); the nickname screen
+warns against real names, school names and phone numbers. Any entry can
+be reported (신고하기) or hidden (안 보이게 하기) as described above. Server
+rules stop users reporting themselves, impersonating a reporter, or reading
+the reports.
 
 [NOTIFICATIONS]
-Not requested on first launch. Permission is asked only when a parent enables
-학습 알림 in 목표 설정; if denied, the toggle returns to off.
+Not requested on first launch. Asked only when a parent enables 학습 알림 in
+목표 설정; if denied, the toggle returns to off.
 
-[SCOPE]
-iPhone only; iPad layout is not supported in 1.0.
+[SCOPE] iPhone only; iPad layout is not supported in 1.0.
