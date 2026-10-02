@@ -1,0 +1,40 @@
+Thank you for the detailed report. We reproduced the problem, found the cause,
+and fixed it. A new build has been uploaded.
+
+WHAT WAS WRONG
+The app's screens are all designed for portrait, but the build incorrectly
+declared support for landscape as well
+(UISupportedInterfaceOrientations_iPhone listed Portrait, LandscapeLeft and
+LandscapeRight). When the device was rotated, the content was laid out in a
+portrait-shaped area on the left half of the screen while the right half stayed
+black, and the primary button ("시작하기" / Start) moved off-screen entirely.
+In that state a user could not get past the first screen.
+
+This is almost certainly what you saw: the review was done on an iPad Air, and
+an iPad is commonly held in landscape. We reproduced it exactly on an iPad Air
+11-inch simulator and captured the broken frames.
+
+WHAT WE CHANGED
+The app is now locked to portrait. It is a one-handed app driven by an
+on-screen number pad, so landscape serves no purpose here; the problem was that
+the build claimed to support an orientation the app was never designed for, not
+that a needed orientation was missing.
+
+HOW WE VERIFIED IT
+We added an automated UI regression test that rotates the device to
+landscapeLeft and landscapeRight and then asserts (a) the primary button is
+still hittable, not merely present, and (b) the app window keeps a portrait
+aspect ratio. The test passes on iPhone 18 Pro and on iPad Air 11-inch, the
+same device family used for the review. It would have failed on the build you
+reviewed, where the window measured 2622x1206.
+
+We also checked the smallest supported iPhone screen to confirm nothing is
+clipped there.
+
+SCOPE OF THE APP
+The app is iPhone-only (TARGETED_DEVICE_FAMILY = 1) and portrait-only. On an
+iPad it runs in iPhone compatibility mode, and with this fix it stays portrait
+and is fully usable there, which we verified on the iPad Air simulator.
+
+Please let us know if anything still looks wrong and we will address it right
+away.

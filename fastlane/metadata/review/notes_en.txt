@@ -2,7 +2,7 @@ EveryDoMath 1.0 — App Review Notes
 
 [PURPOSE / AUDIENCE]
 Mental-arithmetic drill app for elementary school children (grades 1-6) and
-their parents. A session is 20 problems generated on the device for the child's
+their parents. A session is 20 problems generated on device for the child's
 grade: G1/G2 add and subtract, G3 adds multiplication, G4 adds division, G5/G6
 fractions and decimals. A session takes about two minutes. All grades are free;
 no ads, no in-app purchase.
@@ -43,8 +43,8 @@ button is 확인. A wrong answer generates a new question.
 [EXTERNAL SERVICES]
 Only Firebase Anonymous Authentication (anonymous user id so the server can
 verify who writes a leaderboard record; no email, phone or social login) and
-Cloud Firestore (leaderboard entry, family group, nickname reports). Linked
-libraries are exactly FirebaseCore, FirebaseAuth, FirebaseFirestore. No
+Cloud Firestore (leaderboard entry, family group, reports). Linked libraries
+are exactly FirebaseCore, FirebaseAuth, FirebaseFirestore. No
 analytics, crash reporter, ad SDK, payment processor, AI service or third-party
 data provider. Play works offline; only leaderboard and family group need
 network.
@@ -56,7 +56,7 @@ language; the arithmetic is language-independent. Nothing is gated by country.
 
 [REGULATED INDUSTRY / THIRD-PARTY MATERIAL]
 Neither applies. Every problem is generated algorithmically at runtime, not from
-a textbook or question bank. Illustrations, icon and copy are original work.
+a textbook or question bank. Art and copy are original work.
 
 [USER-GENERATED CONTENT — GUIDELINE 1.2]
 Nicknames appear on the leaderboard. Validation blocks banned words and strings
@@ -70,4 +70,5 @@ the reports.
 Not requested on first launch. Asked only when a parent enables 학습 알림 in
 목표 설정; if denied, the toggle returns to off.
 
-[SCOPE] iPhone only; iPad layout is not supported in 1.0.
+[SCOPE] iPhone only and portrait only. On iPad it runs in iPhone
+compatibility mode; there is no separate iPad layout in 1.0.
