@@ -1,0 +1,50 @@
+Thank you for keeping the submission open. Our previous fix addressed a real
+bug but not the one you were seeing, and we are sorry for the extra round. We
+have now found the actual cause and made the app a true iPad app.
+
+WHAT WAS ACTUALLY WRONG
+The app was built for iPhone only (TARGETED_DEVICE_FAMILY = 1). On your review
+device it therefore ran in iPhone compatibility mode, and the accessibility
+tree confirmed what that meant in practice: the app window measured exactly
+375 x 667 points on an iPad Air. The whole interface was being drawn on an
+iPhone 8 canvas and then scaled up to fill the iPad. That is why text looked
+soft, the grade selector was clipped so "6학년" could not be seen, and a large
+band of empty space sat between the grade row and the Start button. It matches
+your wording precisely: not optimized for all screen sizes OR RESOLUTIONS.
+
+Our previous change (locking iPhone to portrait) fixed a genuine defect in
+landscape, but it could not fix this, because the canvas size was the problem.
+
+WHAT WE CHANGED
+1. The app is now a universal app. TARGETED_DEVICE_FAMILY is "1,2", so on iPad
+   it receives the native iPad canvas and renders at native resolution instead
+   of being upscaled.
+2. iPad supports all four orientations. iPadOS lets the user resize the window
+   freely, so the layout is built to tolerate arbitrary sizes rather than
+   relying on a fixed one.
+3. Layout work for large canvases. Content is capped to a readable width and
+   centred instead of stretching edge to edge, and on screens taller than the
+   content the layout is centred vertically rather than pinned to the top. The
+   grade selector now shows all six grades without clipping.
+4. iPhone layout is deliberately untouched. The width cap applies only to the
+   regular size class; we verified that the iPhone screens are unchanged.
+
+HOW WE VERIFIED IT
+- Automated UI tests on iPhone 18 Pro, iPad Pro 13-inch and iPad Air 11-inch,
+  the same family as your review device. All pass.
+- One of those tests asserts specifically that the app window on iPad is NOT
+  375 x 667, so the compatibility-canvas regression cannot come back unnoticed.
+- The rotation test asserts that the primary button is hittable, not merely
+  present, after rotating in both landscape directions.
+- The full screenshot walkthrough (setup, home, game, result, leaderboard,
+  parent dashboard) now runs to completion on iPad Pro 13-inch as well as on
+  iPhone.
+- Unit tests: 14 passed, 0 failures.
+
+WHAT IS IN THIS SUBMISSION
+A new build, and new iPad screenshots taken on iPad Pro 13-inch at
+2064 x 2752 showing the real iPad layout. The iPhone screenshots were retaken
+from the same build.
+
+If anything still looks wrong on your device, please tell us what you see and
+we will fix it right away.

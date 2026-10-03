@@ -60,8 +60,8 @@ a textbook or question bank. Art and copy are original work.
 
 [USER-GENERATED CONTENT — GUIDELINE 1.2]
 Nicknames appear on the leaderboard. Validation blocks banned words and strings
-that look like personal information (4+ consecutive digits); the nickname screen
-warns against real names, school names and phone numbers. Any entry can
+that look like personal information (4+ consecutive digits); the screen warns
+against real names, school names and phone numbers. Any entry can
 be reported (신고하기) or hidden (안 보이게 하기) as described above. Server
 rules stop users reporting themselves, impersonating a reporter, or reading
 the reports.
@@ -71,4 +71,4 @@ Not requested on first launch. Asked only when a parent enables 학습 알림 in
 목표 설정; if denied, the toggle returns to off.
 
 [SCOPE] Universal: iPhone (portrait) and iPad (all orientations). On iPad the
-content is capped to a readable width and centred rather than stretched.
+content is capped to a readable width and centred, not stretched.

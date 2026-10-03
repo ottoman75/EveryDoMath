@@ -39,6 +39,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 아카이브해서 TestFlight 에 올린다
 
+### ios signing
+
+```sh
+[bundle exec] fastlane ios signing
+```
+
+ASC API 키로 배포 인증서와 프로비저닝 프로파일을 발급한다
+
 ### ios release
 
 ```sh
