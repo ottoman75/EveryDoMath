@@ -42,6 +42,7 @@ struct ResultView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 40)
+                .readableWidth()
             }
         }
         .navigationBarBackButtonHidden(true)

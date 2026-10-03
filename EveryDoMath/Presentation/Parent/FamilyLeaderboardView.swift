@@ -31,6 +31,7 @@ struct FamilyLeaderboardView: View {
                 }
             }
             .padding(20)
+            .readableWidth()
         }
     }
 

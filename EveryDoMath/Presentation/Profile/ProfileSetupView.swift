@@ -12,7 +12,10 @@ struct ProfileSetupView: View {
             Color.appBackground.ignoresSafeArea()
 
             VStack(spacing: 40) {
-                Spacer()
+                // 큰 화면에서 여백이 무한정 벌어지지 않게 묶는다.
+                // 폰에서는 공간이 빠듯해 어차피 0 으로 줄어들므로 영향이 없고,
+                // iPad 에서는 내용이 가운데 덩어리로 모인다.
+                Spacer().frame(maxHeight: 100)
 
                 VStack(spacing: 12) {
                     ZStack {
@@ -86,7 +89,7 @@ struct ProfileSetupView: View {
                     GradeSelectorView(selectedGrade: $selectedGrade)
                 }
 
-                Spacer()
+                Spacer().frame(maxHeight: 100)
 
                 Button {
                     saveAndStart()
@@ -117,6 +120,7 @@ struct ProfileSetupView: View {
                 .padding(.horizontal, 24)
                 .padding(.bottom, 40)
             }
+            .readableWidth()
         }
         .onTapGesture { isFocused = false }
     }

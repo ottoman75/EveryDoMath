@@ -17,6 +17,7 @@ struct ProfileView: View {
                     resetButton
                 }
                 .padding(.vertical, 16)
+                .readableWidth()
             }
         }
         .navigationTitle("profile.title")

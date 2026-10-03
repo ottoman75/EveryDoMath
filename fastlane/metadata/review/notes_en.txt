@@ -70,5 +70,5 @@ the reports.
 Not requested on first launch. Asked only when a parent enables 학습 알림 in
 목표 설정; if denied, the toggle returns to off.
 
-[SCOPE] iPhone only and portrait only. On iPad it runs in iPhone
-compatibility mode; there is no separate iPad layout in 1.0.
+[SCOPE] Universal: iPhone (portrait) and iPad (all orientations). On iPad the
+content is capped to a readable width and centred rather than stretched.
