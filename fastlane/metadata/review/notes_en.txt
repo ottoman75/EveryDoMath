@@ -4,15 +4,14 @@ EveryDoMath 1.0 — App Review Notes
 Mental-arithmetic drill app for elementary school children (grades 1-6) and
 their parents. A session is 20 problems generated on device for the child's
 grade: G1/G2 add and subtract, G3 adds multiplication, G4 adds division, G5/G6
-fractions and decimals. A session takes about two minutes. All grades are free;
-no ads, no in-app purchase.
+fractions and decimals. All grades free; no ads, no in-app purchase.
 
 [NO ACCOUNT, NO LOGIN, NO DEMO CREDENTIALS NEEDED]
 Nothing is registered. On first launch the app signs in to Firebase Anonymous
 Authentication in the background; the child types a nickname (2-12 chars) and
 picks a grade. With no account creation there is no account deletion flow.
-데이터 초기화 (Reset Data) in Profile erases all local records and also deletes
-the public leaderboard entry and family-group membership.
+데이터 초기화 (Reset Data) in Profile erases local records and also deletes the
+public leaderboard entry and family-group membership.
 
 [HOW TO REACH EACH FEATURE — exact on-screen labels]
 The UI is Korean; exact button text is given so it can be matched visually.
@@ -22,7 +21,7 @@ at the bottom: 리더보드 (Leaderboard) and 가족 리더보드 (Family Leader
 neither gated. Above them is 부모 대시보드 (Parent Dashboard), which IS gated.
 Profile: tap the round PERSON ICON at the TOP-RIGHT of Home (no text label).
 Inside: achievements, streak, and 데이터 초기화 (Reset Data).
-Game: 20 problems, on-screen number pad, per-problem timer ring.
+Game: 20 problems, number pad, per-problem timer ring.
 Result: score, grade S/A/B/C/D, max combo, shareable card.
 Leaderboard (Home > 리더보드): global top 50, filter by grade. To moderate,
 LONG-PRESS (press and hold ~1s) any row that is NOT your own. A context menu
@@ -41,22 +40,23 @@ The gate shows a two-digit multiplication written in Korean words, e.g. "십사
 button is 확인. A wrong answer generates a new question.
 
 [EXTERNAL SERVICES]
-Only Firebase Anonymous Authentication (anonymous user id so the server can
-verify who writes a leaderboard record; no email, phone or social login) and
-Cloud Firestore (leaderboard entry, family group, reports). Linked libraries
-are exactly FirebaseCore, FirebaseAuth, FirebaseFirestore. No
-analytics, crash reporter, ad SDK, payment processor, AI service or third-party
-data provider. Play works offline; only leaderboard and family group need
-network.
+Firebase only: Anonymous Authentication (anonymous id so the server can verify
+who writes a leaderboard record; no email, phone or social login), Cloud
+Firestore (leaderboard, family group, reports), Analytics (usage flow) and
+Crashlytics (crash reports). Linked libraries are exactly FirebaseCore,
+FirebaseAuth, FirebaseFirestore, FirebaseAnalytics, FirebaseCrashlytics.
+No ad SDK, payment processor, AI service or third-party data provider.
+**No IDFA** — FirebaseAnalyticsIdentitySupport is deliberately not linked,
+because children use this app. Play works offline.
 
 [REGIONAL DIFFERENCES]
 None. Identical features and content in every region, one shared global
 leaderboard. UI localized in Korean, English and Japanese following device
-language; the arithmetic is language-independent. Nothing is gated by country.
+language; the arithmetic is language-independent.
 
 [REGULATED INDUSTRY / THIRD-PARTY MATERIAL]
 Neither applies. Every problem is generated algorithmically at runtime, not from
-a textbook or question bank. Art and copy are original work.
+a textbook or question bank.
 
 [USER-GENERATED CONTENT — GUIDELINE 1.2]
 Nicknames appear on the leaderboard. Validation blocks banned words and strings
