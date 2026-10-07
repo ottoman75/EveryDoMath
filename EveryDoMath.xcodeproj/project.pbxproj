@@ -266,6 +266,7 @@
 				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
 				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
 				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(SRCROOT)/EveryDoMath/GoogleService-Info.plist",
 				"$(BUILT_PRODUCTS_DIR)/$(EXECUTABLE_PATH)",
 			);
 			name = "Crashlytics dSYM 업로드";
@@ -273,7 +274,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Crashlytics 가 심볼을 올려야 크래시 로그가 함수 이름으로 보인다.\n# dSYM 이 없는 빌드(시뮬레이터·디버그)에서는 건너뛴다. 돌려봐야 실패만 한다.\n# 입력 파일을 inputPaths 에 선언해 뒀다 — 선언하지 않으면 빌드 샌드박스가\n# GoogleService-Info.plist 읽기를 막아 \\\"Could not get GOOGLE_APP_ID\\\" 로 죽는다.\nDSYM=\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\nif [ ! -d \"$DSYM\" ]; then\n  echo \"note: dSYM 이 없어 Crashlytics 심볼 업로드를 건너뛴다\"\n  exit 0\nfi\nRUN=\"${BUILD_DIR%%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\nif [ -f \"$RUN\" ]; then\n  \"$RUN\"\nelse\n  echo \"warning: Crashlytics run 스크립트를 찾지 못했다: $RUN\"\nfi\n";
+			shellScript = "# Crashlytics 가 심볼을 올려야 크래시 로그가 함수 이름으로 보인다.\n# dSYM 이 없는 빌드(시뮬레이터·디버그)에서는 건너뛴다. 돌려봐야 실패만 한다.\n# 입력 파일을 inputPaths 에 선언해 뒀다 — 선언하지 않으면 빌드 샌드박스가\n# GoogleService-Info.plist 읽기를 막아 \\\"Could not get GOOGLE_APP_ID\\\" 로 죽는다.\nDSYM=\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\nif [ ! -d \"$DSYM\" ]; then\n  echo \"note: dSYM 이 없어 Crashlytics 심볼 업로드를 건너뛴다\"\n  exit 0\nfi\nRUN=\"${BUILD_DIR%%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\nif [ -f \"$RUN\" ]; then\n  # 산출물 경로는 아카이브/시뮬레이터에서 달라진다. 원본 plist 를 직접 넘긴다.\n  \"$RUN\" -gsp \"${SRCROOT}/EveryDoMath/GoogleService-Info.plist\" -p ios\nelse\n  echo \"warning: Crashlytics run 스크립트를 찾지 못했다: $RUN\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
