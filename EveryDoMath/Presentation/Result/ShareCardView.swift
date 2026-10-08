@@ -23,7 +23,11 @@ struct ShareCardView: View {
                     Image(systemName: "sum")
                         .font(.system(size: 20, weight: .bold))
                         .foregroundColor(.white.opacity(0.9))
-                    Text("EveryDoMath")
+                    // 공유 카드는 앱 밖으로 나가는 유일한 화면이다. 여기 적힌 이름으로
+                    // 받는 사람이 스토어를 검색하므로, 스토어 이름과 같아야 한다.
+                    // "EveryDoMath" 가 하드코딩돼 있었는데 한국 스토어 이름은
+                    // 「매일매일 수학」이라, 공유받은 사람이 검색해도 찾지 못했다.
+                    Text("app.title")
                         .font(.system(size: 18, weight: .bold, design: .rounded))
                         .foregroundColor(.white.opacity(0.9))
                     Spacer()
