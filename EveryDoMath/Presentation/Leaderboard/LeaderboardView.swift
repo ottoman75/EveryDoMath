@@ -40,6 +40,7 @@ struct LeaderboardView: View {
                     }
                 }
             }
+            .readableWidth()
         }
         .navigationTitle("leaderboard.title")
         .navigationBarTitleDisplayMode(.inline)

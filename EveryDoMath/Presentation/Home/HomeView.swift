@@ -4,12 +4,16 @@ struct HomeView: View {
     @Environment(AppState.self) private var appState
     @State private var viewModel = HomeViewModel()
     @State private var showParentGate = false
+    @Environment(\.horizontalSizeClass) private var hSizeClass
 
     var body: some View {
         ZStack {
             Color.appBackground.ignoresSafeArea()
 
-            ScrollView(showsIndicators: false) {
+            // iPad 처럼 세로로 긴 화면은 내용이 위에 몰려 아래가 비어 보인다.
+            // 화면보다 짧으면 가운데로 모은다. 좁은 화면(폰)에서는 걸지 않는다.
+            GeometryReader { proxy in
+              ScrollView(showsIndicators: false) {
                 // 간격 18 — 24 로 두면 콘텐츠가 한 화면을 넘어 하단
                 // 리더보드 버튼이 잘린다(6.9" 기준).
                 VStack(spacing: 18) {
@@ -44,6 +48,9 @@ struct HomeView: View {
                     leaderboardRow
                 }
                 .padding(.vertical, 12)
+                .readableWidth()
+                .frame(minHeight: hSizeClass == .regular ? proxy.size.height : 0)
+              }
             }
         }
         .navigationBarHidden(true)

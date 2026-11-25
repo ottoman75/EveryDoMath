@@ -44,6 +44,7 @@ struct GameView: View {
                 )
                 .padding(.bottom, 8)
             }
+            .readableWidth()
 
             if viewModel.showFeedback {
                 let correctAnswer: String = {

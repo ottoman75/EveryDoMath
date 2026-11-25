@@ -12,6 +12,9 @@ default_platform(:ios)
 
 APP_IDENTIFIER = "kr.co.ottocraft.EveryDoMath"
 SCHEME = "EveryDoMath"
+TEAM_ID = "GS7MKDFWW3"
+# fastlane signing 이 만드는 프로파일 이름
+PROFILE_NAME = "kr.co.ottocraft.EveryDoMath AppStore"
 
 platform :ios do
 
@@ -65,10 +68,27 @@ platform :ios do
     # 빌드 번호는 프로젝트 파일을 건드리지 않고 빌드 시점에만 덮어쓴다.
     build_number = Time.now.utc.strftime("%Y%m%d%H%M")
 
+    # 수동 서명으로 고정한다.
+    #
+    # 자동 서명은 Xcode Accounts 세션에 기대고, 그 세션이 만료될 때마다
+    # exportArchive 가 `No signing certificate "iOS Distribution" found` 로
+    # 죽었다(이 프로젝트에서 세 번). `fastlane signing` 이 API 키로 받아 둔
+    # 인증서와 프로파일을 쓰면 Xcode 로그인이 필요 없다.
+    #
+    # 프로파일이 없으면 `bundle exec fastlane signing` 을 먼저 돌린다.
     build_app(
       scheme: SCHEME,
       export_method: "app-store",
+      # 서명 설정은 xcargs 로 넘기지 않는다. xcargs 는 SPM 패키지 타깃까지
+      # 포함한 **모든** 타깃에 적용돼서, 프로파일을 지원하지 않는 nanopb·
+      # GoogleUtilities 같은 타깃이 "does not support provisioning profiles"
+      # 로 죽는다. 앱 타깃 Release 설정에 직접 넣어 둔다(project.pbxproj).
       xcargs: "CURRENT_PROJECT_VERSION=#{build_number}",
+      export_options: {
+        signingStyle: "manual",
+        teamID: TEAM_ID,
+        provisioningProfiles: { APP_IDENTIFIER => PROFILE_NAME }
+      },
       output_directory: "build",
       clean: true
     )
@@ -78,6 +98,28 @@ platform :ios do
       # 처리 완료까지 기다리지 않는다. 결과는 App Store Connect 에서 본다.
       skip_waiting_for_build_processing: true
     )
+  end
+
+  desc "ASC API 키로 배포 인증서와 프로비저닝 프로파일을 발급한다"
+  #
+  # Xcode Accounts 세션이 만료되면 exportArchive 가
+  # `No signing certificate "iOS Distribution" found` 로 죽는다. 배포 인증서가
+  # Cloud Managed 라 Xcode 가 Apple 에서 받아와야 하는데, 그 세션이 없으면
+  # 받아올 길이 없기 때문이다.
+  #
+  # 이 레인은 그 의존을 끊는다. API 키로 인증서를 직접 발급해 키체인에 넣고
+  # 프로파일을 내려받으므로 Xcode 로그인이 필요 없다.
+  #
+  # 주의: 배포 인증서는 계정당 3개 한도다. 이미 꽉 찼으면 cert 가 실패하므로
+  # 개발자 포털에서 쓰지 않는 것을 먼저 폐기해야 한다.
+  lane :signing do
+    key = lane_context[SharedValues::APP_STORE_CONNECT_API_KEY]
+    cert(api_key: key, output_path: "fastlane/signing")
+    sigh(api_key: key,
+         app_identifier: APP_IDENTIFIER,
+         output_path: "fastlane/signing")
+    UI.success("프로파일: #{lane_context[SharedValues::SIGH_PROFILE_PATH]}")
+    UI.success("프로파일 이름: #{lane_context[SharedValues::SIGH_NAME]}")
   end
 
   desc "앱 레코드를 확인하고 업로드한다"

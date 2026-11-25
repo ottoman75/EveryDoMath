@@ -2,7 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<!-- 광고 추적을 하지 않는다. 앱에 광고 SDK도 애널리틱스도 없다. -->
+	<!-- 광고 추적을 하지 않는다. 광고 SDK 가 없고, Analytics 도 IDFA 를 받지 않는다.
+	     최신 Firebase SDK 는 FirebaseAnalytics 자체가 IDFA 를 쓰지 않고,
+	     FirebaseAnalyticsIdentitySupport 를 **추가로** 넣어야만 켜진다.
+	     어린이가 쓰는 앱이라 그 제품은 넣지 않는다. -->
 	<key>NSPrivacyTracking</key>
 	<false/>
 	<key>NSPrivacyTrackingDomains</key>
@@ -21,7 +24,48 @@
 			<key>NSPrivacyCollectedDataTypePurposes</key>
 			<array>
 				<string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
-			</array>
+				<!-- ───────── 아래는 Firebase Analytics / Crashlytics 가 수집한다 ─────────
+		     1.0.1 에서 추가했다. SDK 들이 각자 PrivacyInfo 를 포함하지만,
+		     앱이 그것을 켜서 수집이 일어나므로 여기에도 적어 둔다.
+		     과소 신고보다 중복 신고가 낫다. -->
+
+		<!-- 어느 화면을 열었고 한 판을 끝냈는지 같은 이용 흐름. 기능 개선 판단에 쓴다. -->
+		<dict>
+			<key>NSPrivacyCollectedDataType</key>
+			<string>NSPrivacyCollectedDataTypeProductInteraction</string>
+			<key>NSPrivacyCollectedDataTypeLinked</key><false/>
+			<key>NSPrivacyCollectedDataTypeTracking</key><false/>
+			<key>NSPrivacyCollectedDataTypePurposes</key>
+			<array><string>NSPrivacyCollectedDataTypePurposeAnalytics</string></array>
+		</dict>
+		<!-- Firebase 앱 인스턴스 ID. 앱을 지우면 사라지고 사람과 연결되지 않는다. -->
+		<dict>
+			<key>NSPrivacyCollectedDataType</key>
+			<string>NSPrivacyCollectedDataTypeDeviceID</string>
+			<key>NSPrivacyCollectedDataTypeLinked</key><false/>
+			<key>NSPrivacyCollectedDataTypeTracking</key><false/>
+			<key>NSPrivacyCollectedDataTypePurposes</key>
+			<array><string>NSPrivacyCollectedDataTypePurposeAnalytics</string></array>
+		</dict>
+		<!-- 크래시 스택과 기기·OS 정보. 앱이 죽은 자리를 찾는 데만 쓴다. -->
+		<dict>
+			<key>NSPrivacyCollectedDataType</key>
+			<string>NSPrivacyCollectedDataTypeCrashData</string>
+			<key>NSPrivacyCollectedDataTypeLinked</key><false/>
+			<key>NSPrivacyCollectedDataTypeTracking</key><false/>
+			<key>NSPrivacyCollectedDataTypePurposes</key>
+			<array><string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string></array>
+		</dict>
+		<!-- 실행 시간 등 성능 지표. -->
+		<dict>
+			<key>NSPrivacyCollectedDataType</key>
+			<string>NSPrivacyCollectedDataTypePerformanceData</string>
+			<key>NSPrivacyCollectedDataTypeLinked</key><false/>
+			<key>NSPrivacyCollectedDataTypeTracking</key><false/>
+			<key>NSPrivacyCollectedDataTypePurposes</key>
+			<array><string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string></array>
+		</dict>
+	</array>
 		</dict>
 		<!-- 사용자가 지은 별명. 리더보드에 표시된다. -->
 		<dict>

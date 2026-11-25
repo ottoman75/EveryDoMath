@@ -24,6 +24,7 @@ struct ParentDashboardView: View {
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
             }
+            .readableWidth()
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {

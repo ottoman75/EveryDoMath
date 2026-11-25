@@ -1,0 +1,189 @@
+Thank you for the review. Answers to each of the six items are below, and the
+same information has been added to the Notes field of App Review Information in
+App Store Connect for future submissions.
+
+--------------------------------------------------------------------------
+1. SCREEN RECORDING
+--------------------------------------------------------------------------
+A screen recording captured on a physical iPhone 16 Pro running iOS 27.0 is
+attached to App Review Information. It starts with launching the app from the
+Home screen and follows the typical user flow, with no cuts.
+
+Timestamps, so the moderation controls are easy to find:
+  0:00  App launched from the iOS Home screen
+  0:05  Nickname entry and grade selection (no login, no registration)
+  0:20  Home screen
+  0:25  A full 20-problem session, played to completion (correct and
+        incorrect answers both occur)
+  2:55  Result screen: score, grade, max combo
+  3:05  Leaderboard
+  3:16  LONG-PRESS on another user's row opens the moderation menu, showing
+        신고하기 (Report) and 안 보이게 하기 (Hide / block)
+  3:37  Block confirmed; that user disappears from the leaderboard
+  4:05  Profile: achievements, streak, 데이터 초기화 (Reset Data)
+  4:20  Parent gate solved, then the Parent Dashboard (both tabs)
+  4:55  Family Leaderboard
+  5:07  REPORT FLOW: long-press, 신고하기, the confirmation dialog, and the
+        "report received" acknowledgement. The reported user is also hidden
+        immediately, which is why the row disappears.
+
+Please note which of the listed items do NOT exist in this app, so they do not
+appear in the recording:
+  - There is no account registration, login, or sign-in of any kind, so there
+    is no account deletion flow. See item 3 below.
+  - There is no paid content and no in-app purchase, so there is nothing to
+    unlock.
+User-generated content DOES exist (nicknames on the leaderboard), and the
+recording shows the report and block mechanisms for it.
+
+--------------------------------------------------------------------------
+2. PURPOSE AND TARGET AUDIENCE
+--------------------------------------------------------------------------
+EveryDoMath is a mental-arithmetic drill app for elementary school children in
+grades 1 through 6, and for the parents who practice with them.
+
+One session is 20 problems, generated on the device, scoped to the child's
+grade:
+  Grade 1  addition and subtraction within 20
+  Grade 2  addition and subtraction within 100
+  Grade 3  addition, subtraction, multiplication (1-9 times tables)
+  Grade 4  the four operations; 2-digit x 1-digit, division without remainder
+  Grade 5  fraction addition and subtraction, decimal addition and subtraction
+  Grade 6  fraction multiplication and division, decimal multiplication and
+           division
+
+The problem it solves: daily arithmetic practice is repetitive for the child and
+invisible to the parent, who cannot tell which operation the child is actually
+weak at. The value it provides: a session takes about two minutes, the child
+gets immediate per-problem feedback plus a score and grade, and the parent can
+open the Parent Dashboard to see accuracy broken down by operation along with
+the current practice streak. All six grades are free. There is no advertising,
+no in-app purchase and no subscription.
+
+--------------------------------------------------------------------------
+3. SETUP AND ACCESS INSTRUCTIONS
+--------------------------------------------------------------------------
+No login credentials or sample files are required. There is nothing to register
+and no demo account, because the app has no account system. On first launch it
+signs in to Firebase Anonymous Authentication in the background; the child only
+types a nickname (2-12 characters) and picks a grade. Since no account can be
+created, there is no account deletion flow to demonstrate.
+
+Data removal is still available: Profile > "데이터 초기화" (Reset Data) erases
+all local records and also deletes the user's public leaderboard entry and
+family-group membership on the server.
+
+How to reach each feature. The interface is in Korean, so the exact on-screen
+text is given below and can be matched visually without reading Korean.
+
+  Home         The large gradient button 시작하기 ("Start") begins a session.
+               The Daily Challenge card and the daily goal progress bar are on
+               the same screen. At the bottom, two buttons sit side by side:
+               리더보드 (Leaderboard) on the left and 가족 리더보드 (Family
+               Leaderboard) on the right. Neither is behind the parent gate.
+               Directly above them is 부모 대시보드 (Parent Dashboard), which
+               IS behind the gate.
+
+  Profile      Tap the round PERSON ICON in the TOP-RIGHT corner of the Home
+               screen. It is an icon only and carries no text label. Inside
+               are achievements, the streak, and 데이터 초기화 (Reset Data).
+
+  Game         20 problems, on-screen number pad, per-problem timer ring.
+
+  Result       Score, grade (S/A/B/C/D), max combo, and a shareable card.
+
+  Leaderboard  Home > 리더보드. Global top 50, filterable by grade.
+               TO REPORT OR BLOCK: press and hold (long-press, about one
+               second) any row that is NOT your own. A context menu opens with
+               exactly two items:
+                   신고하기          = Report
+                   안 보이게 하기     = Hide (block)
+               Choosing 안 보이게 하기 removes that user from your leaderboard
+               immediately. Your own row deliberately shows no menu, since
+               there is nothing to report or block about yourself.
+
+  Parent area  Home > 부모 대시보드, behind the parent gate described below.
+               It has two tabs: 학습 현황 (accuracy per operation, streak and
+               chart) and 목표 설정 (daily goal and study reminder).
+
+  Family       Home > 가족 리더보드. Join an existing group with a
+               6-character invite code (초대 코드), or tap 새 그룹 만들기 to
+               create one. This screen is not behind the gate.
+
+PARENT GATE — please read before testing:
+The Parent Dashboard is behind a gate showing a two-digit multiplication written
+in Korean words, for example "십사 곱하기 십칠". Both numbers are between 11 and
+19. The Korean number words are: 십일=11, 십이=12, 십삼=13, 십사=14, 십오=15,
+십육=16, 십칠=17, 십팔=18, 십구=19.
+So "십사 곱하기 십칠" means 14 x 17 = 238. The screen is titled 보호자 확인,
+the input placeholder reads 정답 ("answer"), and the confirm button is 확인.
+Type the product and tap 확인. A wrong answer simply generates a new question. The gate is deliberately harder
+than the app's own content, and written in words rather than digits, so that a
+child using the app cannot pass it by doing the arithmetic.
+
+--------------------------------------------------------------------------
+4. EXTERNAL SERVICES, TOOLS AND PLATFORMS
+--------------------------------------------------------------------------
+Exactly two services, both from Firebase (Google):
+
+  - Firebase Anonymous Authentication
+    Issues an anonymous user id so the server can verify who is writing a
+    leaderboard record. No email address, phone number, or social login is
+    involved, and no personal identifier is requested from the user.
+
+  - Cloud Firestore
+    Stores the public leaderboard entry (nickname, grade, score, correct
+    count), family-group membership, and nickname reports.
+
+The linked Firebase libraries are exactly FirebaseCore, FirebaseAuth and
+FirebaseFirestore. There is no analytics SDK, no crash reporter, no advertising
+SDK, no payment processor, no AI or machine-learning service, and no
+third-party data provider of any kind.
+
+All math problems are produced by on-device code, so solving problems works
+fully offline. Only the leaderboard and the family group require a network
+connection.
+
+--------------------------------------------------------------------------
+5. REGIONAL DIFFERENCES
+--------------------------------------------------------------------------
+The app functions consistently across all regions. There are no regional
+differences in features or content: the same six grades, the same problem
+generator, the same feature set, and a single shared global leaderboard
+everywhere. The interface is localized into Korean, English and Japanese and
+follows the device language, but the arithmetic content itself is
+language-independent. No feature, price or content is gated by country.
+
+--------------------------------------------------------------------------
+6. REGULATED INDUSTRY OR PROTECTED THIRD-PARTY MATERIAL
+--------------------------------------------------------------------------
+Neither applies, so no documentation or credentials are needed.
+
+The app does not operate in a regulated industry. It contains no licensed or
+protected third-party material: every math problem is generated algorithmically
+at runtime rather than taken from a textbook, question bank or any other
+source. The illustrations, app icon and all copy are original work by the
+developer. No trademarks, curricula or content owned by a school, publisher or
+institution are used.
+
+--------------------------------------------------------------------------
+ADDITIONAL CONTEXT — USER-GENERATED CONTENT (GUIDELINE 1.2)
+--------------------------------------------------------------------------
+Nicknames chosen by users appear on the public leaderboard, so the app includes:
+  - Filtering: nickname validation blocks banned words and strings that look
+    like personal information (4 or more consecutive digits). The nickname
+    screen warns users not to enter real names, school names or phone numbers.
+  - Reporting: any leaderboard entry can be reported via 신고하기 in the
+    long-press menu described in item 3.
+  - Blocking: the same menu offers 안 보이게 하기, which hides that user from
+    the leaderboard immediately.
+  - Server-side rules prevent a user from reporting themselves, impersonating
+    another reporter, or reading the reports collection.
+
+NOTIFICATIONS
+The app does not request notification permission on first launch. Permission is
+requested only when a parent enables 학습 알림 in Parent Dashboard > 목표 설정.
+If permission is denied, the toggle returns to off.
+
+SCOPE
+iPhone only; an iPad layout is not supported in version 1.0.
