@@ -94,34 +94,71 @@ service cloud.firestore {
           // 생성 시점에는 만든 사람 혼자다
           && d.memberIds is list && d.memberIds.size() == 1
           && d.memberIds[0] == d.createdBy
-          && d.memberNames is map && d.memberNames.size() == 1
-          && d.scores is map && d.scores.size() == 1;
+          && d.memberNames is map && d.memberNames.keys().hasOnly([d.createdBy])
+          && isSaneNickname(d.memberNames[d.createdBy])
+          // createGroup 은 0 으로 시작한다. 점수는 게임을 마친 뒤 updateScore 로만 오른다
+          && d.scores is map && d.scores.keys().hasOnly([d.createdBy])
+          && d.scores[d.createdBy] == 0;
       }
 
+      // 가족 리더보드 점수도 ScoreCalculator 상한(1000)을 넘을 수 없다
+      function isValidScore(v) {
+        return v is int && v >= 0 && v <= 1000;
+      }
+
+      // 앱의 쓰기 경로는 셋뿐이고, 모두 "요청한 사람 본인" 항목만 건드린다.
+      //   joinGroup   : memberIds 에 나를 추가, memberNames.나, scores.나 = 0
+      //   updateScore : scores.나 를 올린다
+      //   leaveGroup  : memberIds 에서 나를 빼고 memberNames.나, scores.나 삭제
+      // 따라서 남의 uid 가 걸린 항목이 바뀌는 쓰기는 정상 경로에 없다.
+      // (예전 규칙은 형태만 봐서, 그룹 ID 를 아는 누구나 멤버를 쫓아내거나
+      //  남의 별명·점수를 바꿀 수 있었다.)
       function isValidGroupUpdate() {
+        let me = request.auth.uid;
         let d = request.resource.data;
         let p = resource.data;
-        // 참여/점수갱신/탈퇴는 멤버 관련 필드만 건드린다. 나머지는 불변이다.
-        // 마지막 멤버가 탈퇴하면 맵이 비거나 사라질 수 있어 get(기본값) 으로 읽는다.
+        let ids = d.get('memberIds', []);
+        let oldIds = p.get('memberIds', []);
+        let names = d.get('memberNames', {});
+        let scores = d.get('scores', {});
+        let nameChanged = names.diff(p.get('memberNames', {})).affectedKeys();
+        let scoreChanged = scores.diff(p.get('scores', {})).affectedKeys();
         return isSignedIn()
           && d.keys().hasOnly(groupFields())
-          && d.id == p.id
-          && d.groupCode == p.groupCode
-          && d.createdAt == p.createdAt
-          && d.createdBy == p.createdBy
+          // 멤버 관련 필드만 바뀐다. id·groupCode·createdAt·createdBy 는 불변
+          && d.diff(p).affectedKeys().hasOnly(['memberIds', 'memberNames', 'scores'])
+          && ids is list && names is map && scores is map
+          // 다른 멤버는 그대로다 — 나를 뺀 목록이 순서까지 같아야 한다
+          && ids.removeAll([me]) == oldIds.removeAll([me])
+          && nameChanged.hasOnly([me])
+          && scoreChanged.hasOnly([me])
+          // 내 항목을 바꿨다면 값이 정상이어야 한다
+          && (!(me in nameChanged) || !(me in names) || isSaneNickname(names[me]))
+          && (!(me in scoreChanged) || !(me in scores) || isValidScore(scores[me]))
+          // 멤버가 아니면 별명·점수를 남길 수 없다 (탈퇴 시 둘 다 지운다)
+          && (me in ids || (!(me in names) && !(me in scores)))
+          // 새로 참여할 때는 별명을 남기고 점수는 0 에서 시작한다
+          && (me in oldIds || !(me in ids)
+                || (me in names && scores.get(me, -1) == 0))
           // 가족 단위를 넘어서는 팽창을 막는다
-          && d.get('memberIds', []).size() <= 20
-          && d.get('memberNames', {}).size() <= 20
-          && d.get('scores', {}).size() <= 20;
+          && ids.size() <= 20
+          && names.size() <= 20
+          && scores.size() <= 20;
       }
 
       // 문서 ID 는 Firestore 자동 생성(20자)이라 추측할 수 없다.
-      // fetchLeaderboard(groupId:) 가 쓰는 단건 조회만 허용한다.
+      // fetchLeaderboard(groupId:) 가 쓰는 단건 조회다. (아래 list 경로로
+      // ID 가 새어 나갈 수 있어, 멤버 한정으로 좁혀도 지금은 효과가 없다)
       allow get: if isSignedIn();
 
       // 앱이 날리는 목록 쿼리는 joinGroup 의
       // whereField("groupCode", ==).limit(to: 1) 하나뿐이다.
-      // limit 을 1로 묶어 컬렉션 전체 나열(덤프)을 막는다.
+      //
+      // ⚠️ 이 규칙은 덤프를 막지 못한다. 규칙은 쿼리의 where 조건을 볼 수 없어,
+      // 필터 없이 limit(1) + startAfter 커서로 한 건씩 넘기면 전체 그룹
+      // (초대 코드·멤버 별명 포함)을 읽을 수 있다. limit 은 속도를 늦출 뿐이다.
+      // 막으려면 코드로 문서를 바로 찾는 구조(get 만 허용)로 앱을 바꿔야 한다.
+      // 출시된 앱이 이 쿼리를 쓰므로 규칙만으로는 닫을 수 없다.
       allow list: if isSignedIn() && request.query.limit <= 1;
 
       allow create: if isValidNewGroup();

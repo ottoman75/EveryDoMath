@@ -38,3 +38,7 @@ build/
 *.p8
 fastlane/.env*
 fastlane/signing/
+
+# Firestore 규칙 테스트 (firestore-tests/)
+node_modules/
+firestore-debug.log
